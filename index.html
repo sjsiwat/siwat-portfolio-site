@@ -1,106 +1,321 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Siwat | Data & Cloud Portfolio</title>
-    <link rel="stylesheet" href="style.css">
+  <!-- ════════════════════════════════════════════
+       META & TITLE
+  ════════════════════════════════════════════ -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Siwat Jankam | Data & Cloud Portfolio</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
 </head>
 
 <body>
 
-    <div class="container">
+  <!-- ════════════════════════════════════════════
+       TOPBAR  —  Dark Mode Toggle + Visitor Counter
+  ════════════════════════════════════════════ -->
+  <div class="topbar">
 
-        <img src="images/test.png" class="profile-image" alt="Siwat profile image">
-
-        <h1>Siwat Jankam</h1>
-
-        <p class="tagline">
-            Aspiring Data & Cloud Professional
-        </p>
-
-        <p class="intro">
-            Building hands-on projects with AWS, GitHub, HTML/CSS, and data analytics.
-        </p>
-
-        <div class="button-group">
-            <a href="https://www.linkedin.com/in/siwat-jankam-9a340016a" target="_blank">
-                <button class="main-button">LinkedIn</button>
-            </a>
-
-            <a href="https://github.com/sjsiwat" target="_blank">
-                <button class="main-button secondary-button">GitHub</button>
-            </a>
-        </div>
-
-        <section class="section">
-            <h2>About Me</h2>
-            <p>
-                I have experience in operations, sales supervision, hospitality, and customer service,
-                with a strong interest in data analytics and cloud technologies.
-                I am currently transitioning into data analytics and cloud computing by building practical projects
-                with AWS, GitHub, and web technologies.
-            </p>
-        </section>
-
-        <section class="section">
-            <h2>Skills</h2>
-
-            <div class="skills-list">
-                <span>AWS S3</span>
-                <span>EC2</span>
-                <span>Linux</span>
-                <span>GitHub</span>
-                <span>HTML</span>
-                <span>CSS</span>
-                <span>Data Analytics</span>
-                <span>Dashboard Basics</span>
-                <span>Customer Service</span>
-                <span>Operations Background</span>
-            </div>
-        </section>
-
-        <section class="section">
-            <h2>Projects</h2>
-
-            <div class="project-card">
-                <h3>AWS S3 Static Website</h3>
-                <p>
-                    Hosted a static website using Amazon S3, bucket policy, static website hosting,
-                    and AWS CLI sync deployment.
-                </p>
-                <a href="https://github.com/sjsiwat/aws-static-website" target="_blank">
-                    View Project
-                </a>
-            <img src="project-images/s3-project.png" class="project-preview">
-            </div>  
-    
-
-            <div class="project-card">
-                <h3>AWS EC2 Nginx Website</h3>
-                <p>
-                    Deployed a static website on an Ubuntu EC2 instance using Linux, SSH, SCP, Nginx,
-                    AWS Security Groups, and Linux file permissions.
-                </p>
-                <a href="https://github.com/sjsiwat/AWS-EC2-nginx-website" target="_blank">
-                    View Project
-                </a>
-            
-            <img src="project-images/ec2-project.png" class="project-preview">
-            </div>    
-    
-            </section>
-
-            <section class="section">
-                <h2>Contact</h2>
-                <p>Email: sj.siwat@gmail.com</p>
-            </section>
-        </section>
-
+    <!-- Visitor counter (left) -->
+    <div class="visitor-badge">
+      <span class="visitor-icon">👁</span>
+      <span>Visitors: </span>
+      <span id="visitor-count" class="visitor-count">—</span>
     </div>
 
+    <!-- Dark mode toggle (right) -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+      <span class="toggle-icon" id="toggleIcon">🌙</span>
+      <span id="toggleLabel">Dark Mode</span>
+    </button>
+
+  </div><!-- /topbar -->
+
+
+  <!-- ════════════════════════════════════════════
+       MAIN CONTAINER
+  ════════════════════════════════════════════ -->
+  <div class="container">
+
+
+    <!-- ──────────────────────────────────────────
+         HERO SECTION  —  Photo + Name + CTA
+    ────────────────────────────────────────── -->
+    <div class="hero">
+
+      <!-- Profile photo (circle) -->
+      <img
+        src="images/propic.png"
+        class="profile-image"
+        alt="Siwat Jankam profile photo"
+      />
+
+      <!-- Name -->
+      <h1>Siwat Jankam</h1>
+
+      <!-- Role tagline -->
+      <p class="tagline">Aspiring Data & Cloud Professional</p>
+
+      <!-- Short intro -->
+      <p class="intro">
+        Building hands-on projects with AWS, GitHub, HTML/CSS, and data analytics.
+      </p>
+
+      <!-- CTA Buttons -->
+      <div class="button-group">
+        <a href="https://www.linkedin.com/in/siwat-jankam-9a340016a" target="_blank" class="main-button">
+          <!-- LinkedIn icon -->
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.37V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.59 0 4.26 2.37 4.26 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zm1.78 13.02H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45C23.2 24 24 23.23 24 22.27V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+          LinkedIn
+        </a>
+        <a href="https://github.com/sjsiwat" target="_blank" class="main-button secondary-button">
+          <!-- GitHub icon -->
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.08-.73.08-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .3z"/></svg>
+          GitHub
+        </a>
+      </div>
+
+    </div><!-- /hero -->
+
+
+    <!-- ──────────────────────────────────────────
+         ABOUT ME SECTION
+    ────────────────────────────────────────── -->
+    <section class="section">
+      <h2>About Me</h2>
+      <p>
+        I have experience in operations, sales supervision, hospitality, and customer service,
+        with a strong interest in data analytics and cloud technologies.
+        I am currently transitioning into data analytics and cloud computing by building
+        practical projects with AWS, GitHub, and web technologies.
+      </p>
+    </section>
+
+
+    <!-- ──────────────────────────────────────────
+         TECH STACK SECTION  —  Badges with icons
+    ────────────────────────────────────────── -->
+    <section class="section">
+      <h2>Tech Stack</h2>
+
+      <div class="tech-grid">
+
+        <!-- Cloud -->
+        <div class="tech-group">
+          <span class="tech-group-label">Cloud</span>
+          <div class="skills-list">
+            <span class="skill-badge badge-aws">
+              <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/amazonaws.svg" class="badge-icon" alt="" /> AWS S3
+            </span>
+            <span class="skill-badge badge-aws">
+              <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/amazonaws.svg" class="badge-icon" alt="" /> EC2
+            </span>
+          </div>
+        </div>
+
+        <!-- DevOps -->
+        <div class="tech-group">
+          <span class="tech-group-label">DevOps & OS</span>
+          <div class="skills-list">
+            <span class="skill-badge badge-linux">
+              <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/linux.svg" class="badge-icon" alt="" /> Linux
+            </span>
+            <span class="skill-badge badge-nginx">
+              <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/nginx.svg" class="badge-icon" alt="" /> Nginx
+            </span>
+            <span class="skill-badge badge-github">
+              <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/github.svg" class="badge-icon" alt="" /> GitHub
+            </span>
+          </div>
+        </div>
+
+        <!-- Web -->
+        <div class="tech-group">
+          <span class="tech-group-label">Web & Data</span>
+          <div class="skills-list">
+            <span class="skill-badge badge-html">
+              <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/html5.svg" class="badge-icon" alt="" /> HTML
+            </span>
+            <span class="skill-badge badge-css">
+              <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/css3.svg" class="badge-icon" alt="" /> CSS
+            </span>
+            <span class="skill-badge badge-data">
+              📊 Data Analytics
+            </span>
+          </div>
+        </div>
+
+        <!-- Soft skills -->
+        <div class="tech-group">
+          <span class="tech-group-label">Background</span>
+          <div class="skills-list">
+            <span class="skill-badge badge-soft">🤝 Customer Service</span>
+            <span class="skill-badge badge-soft">⚙️ Operations</span>
+            <span class="skill-badge badge-soft">📈 Dashboard Basics</span>
+          </div>
+        </div>
+
+      </div><!-- /tech-grid -->
+    </section>
+
+
+    <!-- ──────────────────────────────────────────
+         PROJECTS SECTION
+    ────────────────────────────────────────── -->
+    <section class="section">
+      <h2>Projects</h2>
+
+      <!-- Project 1 -->
+      <div class="project-card">
+
+        <!-- Header row: title + GitHub stars badge -->
+        <div class="project-header">
+          <h3>AWS S3 Static Website</h3>
+          <a href="https://github.com/sjsiwat/aws-static-website" target="_blank" class="gh-badge">
+            <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.08-.73.08-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .3z"/></svg>
+            GitHub
+          </a>
+        </div>
+
+        <!-- Tech tags -->
+        <div class="project-tags">
+          <span>Amazon S3</span><span>AWS CLI</span><span>Bucket Policy</span><span>Static Hosting</span>
+        </div>
+
+        <!-- Description -->
+        <p>
+          Hosted a static website using Amazon S3, bucket policy, static website hosting,
+          and AWS CLI sync deployment.
+        </p>
+
+        <!-- Project preview image -->
+        <img src="project-images/s3-project.png" class="project-preview" alt="S3 project screenshot" />
+
+        <a href="https://github.com/sjsiwat/aws-static-website" target="_blank" class="view-link">
+          View Project
+        </a>
+      </div><!-- /project-card -->
+
+
+      <!-- Project 2 -->
+      <div class="project-card">
+
+        <div class="project-header">
+          <h3>AWS EC2 Nginx Website</h3>
+          <a href="https://github.com/sjsiwat/AWS-EC2-nginx-website" target="_blank" class="gh-badge">
+            <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.08-.73.08-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .3z"/></svg>
+            GitHub
+          </a>
+        </div>
+
+        <div class="project-tags">
+          <span>EC2</span><span>Ubuntu</span><span>Nginx</span><span>SSH</span><span>Security Groups</span>
+        </div>
+
+        <p>
+          Deployed a static website on an Ubuntu EC2 instance using Linux, SSH, SCP, Nginx,
+          AWS Security Groups, and Linux file permissions.
+        </p>
+
+        <img src="project-images/ec2-project.png" class="project-preview" alt="EC2 project screenshot" />
+
+        <a href="https://github.com/sjsiwat/AWS-EC2-nginx-website" target="_blank" class="view-link">
+          View Project
+        </a>
+      </div><!-- /project-card -->
+
+    </section><!-- /projects -->
+
+
+    <!-- ──────────────────────────────────────────
+         CONTACT SECTION
+    ────────────────────────────────────────── -->
+    <section class="section section-contact">
+      <h2>Contact</h2>
+      <p>
+        <a href="mailto:sj.siwat@gmail.com" class="contact-link">
+          📧 sj.siwat@gmail.com
+        </a>
+      </p>
+    </section>
+
+
+  </div><!-- /container -->
+
+
+  <!-- ════════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════════ -->
+  <footer>
+    <p>Built with HTML · CSS · AWS S3 · EC2 · Nginx · GitHub</p>
+    <p class="footer-year">© 2026 Siwat Jankam</p>
+  </footer>
+
+
+  <!-- ════════════════════════════════════════════
+       JAVASCRIPT  —  Dark Mode + Visitor Counter
+  ════════════════════════════════════════════ -->
+  <script>
+  /* ── Dark Mode Toggle ──────────────────────── */
+  const html        = document.documentElement;
+  const toggleBtn   = document.getElementById('themeToggle');
+  const toggleIcon  = document.getElementById('toggleIcon');
+  const toggleLabel = document.getElementById('toggleLabel');
+
+  const saved = localStorage.getItem('theme') || 'light';
+  html.setAttribute('data-theme', saved);
+  updateToggleUI(saved);
+
+  toggleBtn.addEventListener('click', () => {
+    const current = html.getAttribute('data-theme');
+    const next    = current === 'light' ? 'dark' : 'light';
+
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+
+    updateToggleUI(next);
+  });
+
+  function updateToggleUI(theme) {
+    if (theme === 'dark') {
+      toggleIcon.textContent  = '☀️';
+      toggleLabel.textContent = 'Light Mode';
+    } else {
+      toggleIcon.textContent  = '🌙';
+      toggleLabel.textContent = 'Dark Mode';
+    }
+  }
+
+  /* ── REAL Visitor Counter (AWS Lambda API) ── */
+  async function updateVisitorCount() {
+    try {
+
+      const response = await fetch(
+        "https://uo6aukmsbg.execute-api.ap-southeast-7.amazonaws.com/default/portfolio-visitor-counter"
+      );
+
+      const data = await response.json();
+
+      document.getElementById("visitor-count").textContent =
+        data.visits.toLocaleString();
+
+    } catch (error) {
+
+      console.error("Visitor counter error:", error);
+
+      document.getElementById("visitor-count").textContent = "—";
+    }
+  }
+
+  updateVisitorCount();
+</script>
+
 </body>
-<footer>
-    Built with HTML, CSS, AWS S3, EC2, and GitHub
-</footer>
 </html>
