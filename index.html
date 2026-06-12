@@ -175,7 +175,7 @@
       <!-- Project 1 -->
       <div class="project-card">
 
-        <!-- Header row: title + GitHub stars badge -->
+        <!-- Header row: title + GitHub badge -->
         <div class="project-header">
           <h3>AWS S3 Static Website</h3>
           <a href="https://github.com/sjsiwat/aws-static-website" target="_blank" class="gh-badge">
@@ -199,7 +199,7 @@
         <img src="project-images/s3-project.png" class="project-preview" alt="S3 project screenshot" />
 
         <a href="https://github.com/sjsiwat/aws-static-website" target="_blank" class="view-link">
-          View Project
+          View Project →
         </a>
       </div><!-- /project-card -->
 
@@ -227,7 +227,7 @@
         <img src="project-images/ec2-project.png" class="project-preview" alt="EC2 project screenshot" />
 
         <a href="https://github.com/sjsiwat/AWS-EC2-nginx-website" target="_blank" class="view-link">
-          View Project
+          View Project →
         </a>
       </div><!-- /project-card -->
 
@@ -254,7 +254,7 @@
        FOOTER
   ════════════════════════════════════════════ -->
   <footer>
-    <p>Built with HTML · CSS · AWS S3 · EC2 · Nginx · GitHub</p>
+    <p>Built with HTML · CSS · Cloudflare Pages · Workers · GitHub</p>
     <p class="footer-year">© 2026 Siwat Jankam</p>
   </footer>
 
@@ -263,59 +263,53 @@
        JAVASCRIPT  —  Dark Mode + Visitor Counter
   ════════════════════════════════════════════ -->
   <script>
-  /* ── Dark Mode Toggle ──────────────────────── */
-  const html        = document.documentElement;
-  const toggleBtn   = document.getElementById('themeToggle');
-  const toggleIcon  = document.getElementById('toggleIcon');
-  const toggleLabel = document.getElementById('toggleLabel');
 
-  const saved = localStorage.getItem('theme') || 'light';
-  html.setAttribute('data-theme', saved);
-  updateToggleUI(saved);
+    /* ── Dark Mode Toggle ──────────────────────── */
+    const html        = document.documentElement;
+    const toggleBtn   = document.getElementById('themeToggle');
+    const toggleIcon  = document.getElementById('toggleIcon');
+    const toggleLabel = document.getElementById('toggleLabel');
 
-  toggleBtn.addEventListener('click', () => {
-    const current = html.getAttribute('data-theme');
-    const next    = current === 'light' ? 'dark' : 'light';
+    const saved = localStorage.getItem('theme') || 'light';
+    html.setAttribute('data-theme', saved);
+    updateToggleUI(saved);
 
-    html.setAttribute('data-theme', next);
-    localStorage.setItem('theme', next);
+    toggleBtn.addEventListener('click', () => {
+      const current = html.getAttribute('data-theme');
+      const next    = current === 'light' ? 'dark' : 'light';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      updateToggleUI(next);
+    });
 
-    updateToggleUI(next);
-  });
-
-  function updateToggleUI(theme) {
-    if (theme === 'dark') {
-      toggleIcon.textContent  = '☀️';
-      toggleLabel.textContent = 'Light Mode';
-    } else {
-      toggleIcon.textContent  = '🌙';
-      toggleLabel.textContent = 'Dark Mode';
+    function updateToggleUI(theme) {
+      if (theme === 'dark') {
+        toggleIcon.textContent  = '☀️';
+        toggleLabel.textContent = 'Light Mode';
+      } else {
+        toggleIcon.textContent  = '🌙';
+        toggleLabel.textContent = 'Dark Mode';
+      }
     }
-  }
 
-  /* ── REAL Visitor Counter (AWS Lambda API) ── */
-  async function updateVisitorCount() {
-    try {
+    /* ── Visitor Counter (Cloudflare Workers + D1) ── */
+    const VISITOR_API = "https://visitor-counter.sj-siwat.workers.dev";
 
-      const response = await fetch(
-        "https://uo6aukmsbg.execute-api.ap-southeast-7.amazonaws.com/default/portfolio-visitor-counter"
-      );
-
-      const data = await response.json();
-
-      document.getElementById("visitor-count").textContent =
-        data.visits.toLocaleString();
-
-    } catch (error) {
-
-      console.error("Visitor counter error:", error);
-
-      document.getElementById("visitor-count").textContent = "—";
+    async function updateVisitorCount() {
+      try {
+        const response = await fetch(VISITOR_API);
+        const data     = await response.json();
+        document.getElementById("visitor-count").textContent =
+          data.count.toLocaleString();
+      } catch (error) {
+        console.error("Visitor counter error:", error);
+        document.getElementById("visitor-count").textContent = "—";
+      }
     }
-  }
 
-  updateVisitorCount();
-</script>
+    updateVisitorCount();
+
+  </script>
 
 </body>
 </html>
