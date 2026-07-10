@@ -343,6 +343,15 @@ h1 {
 .badge-css    { background: rgba(38,77,228,0.09);  color: #1a3a9e; border-color: rgba(38,77,228,0.22); }
 .badge-data   { background: rgba(128,0,200,0.08);  color: #620090; border-color: rgba(128,0,200,0.2); }
 .badge-soft   { background: rgba(181,97,26,0.07);  color: var(--accent2); border-color: rgba(181,97,26,0.18); }
+.badge-cloudflare  { background: rgba(243,128,32,0.1);  color: #b35a10; border-color: rgba(243,128,32,0.25); }
+.badge-js          { background: rgba(231,201,0,0.12);  color: #7a6a00; border-color: rgba(231,201,0,0.3); }
+.badge-line        { background: rgba(6,199,85,0.1);    color: #027a38; border-color: rgba(6,199,85,0.25); }
+.badge-google      { background: rgba(66,133,244,0.1);  color: #1a56c4; border-color: rgba(66,133,244,0.25); }
+.badge-supabase    { background: rgba(62,207,142,0.1);  color: #1f7a52; border-color: rgba(62,207,142,0.25); }
+.badge-gemini      { background: rgba(138,92,246,0.1);  color: #6c2bd9; border-color: rgba(138,92,246,0.25); }
+.badge-automation  { background: rgba(234,75,113,0.1);  color: #b3204a; border-color: rgba(234,75,113,0.25); }
+.badge-mongodb     { background: rgba(71,162,72,0.1);   color: #2c6b2f; border-color: rgba(71,162,72,0.25); }
+.badge-sql         { background: rgba(90,110,140,0.1);  color: #3a5068; border-color: rgba(90,110,140,0.25); }
 
 [data-theme="dark"] .badge-aws    { color: #ffb84d; }
 [data-theme="dark"] .badge-linux  { color: #f5c842; }
@@ -352,6 +361,15 @@ h1 {
 [data-theme="dark"] .badge-css    { color: #7fa8ff; }
 [data-theme="dark"] .badge-data   { color: #c57eff; }
 [data-theme="dark"] .badge-soft   { color: var(--accent2); }
+[data-theme="dark"] .badge-cloudflare { color: #ffa552; }
+[data-theme="dark"] .badge-js         { color: #f0db4f; }
+[data-theme="dark"] .badge-line       { color: #2ee6a0; }
+[data-theme="dark"] .badge-google     { color: #7aa7ff; }
+[data-theme="dark"] .badge-supabase   { color: #6ee7b7; }
+[data-theme="dark"] .badge-gemini     { color: #c19bff; }
+[data-theme="dark"] .badge-automation { color: #ff7a9c; }
+[data-theme="dark"] .badge-mongodb    { color: #6fcf73; }
+[data-theme="dark"] .badge-sql        { color: #9fb8d9; }
 
 
 /* ════════════════════════════════════════════════
