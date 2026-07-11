@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 
 <head>
   <!-- ════════════════════════════════════════════
@@ -13,400 +13,442 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
 </head>
 
 <body>
 
   <!-- ════════════════════════════════════════════
-       TOPBAR  —  Dark Mode Toggle + Visitor Counter
+       BACKGROUND LAYERS  —  Starfield + Scanlines + Cursor glow
   ════════════════════════════════════════════ -->
-  <div class="topbar">
+  <canvas id="starfield"></canvas>
+  <div class="scanlines"></div>
+  <div class="cursor-glow" id="cursorGlow"></div>
 
-    <!-- Visitor counter (left) -->
-    <div class="visitor-badge">
-      <span class="visitor-icon">👁</span>
-      <span>Visitors: </span>
-      <span id="visitor-count" class="visitor-count">—</span>
-    </div>
-
-    <!-- Dark mode toggle (right) -->
-    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
-      <span class="toggle-icon" id="toggleIcon">🌙</span>
-      <span id="toggleLabel">Dark Mode</span>
-    </button>
-
-  </div><!-- /topbar -->
+  <!-- Scroll progress bar -->
+  <div class="scroll-progress"><div class="scroll-progress__bar" id="progressBar"></div></div>
 
 
   <!-- ════════════════════════════════════════════
-       MAIN CONTAINER
+       NAV
   ════════════════════════════════════════════ -->
-  <div class="container">
+  <nav class="nav" id="nav">
+    <div class="nav__inner">
+      <span class="nav__logo">&lt;siwat /&gt;</span>
 
-
-    <!-- ──────────────────────────────────────────
-         HERO SECTION  —  Photo + Name + CTA
-    ────────────────────────────────────────── -->
-    <div class="hero">
-
-      <!-- Profile photo (circle) -->
-      <img
-        src="images/propic.png"
-        class="profile-image"
-        alt="Siwat Jankam profile photo"
-      />
-
-      <!-- Name -->
-      <h1>Siwat Jankam</h1>
-
-      <!-- Role tagline -->
-      <p class="tagline">Aspiring Full Stack Developer</p>
-
-      <!-- Short intro -->
-      <p class="intro">
-        Training as a Junior Software Developer through a full stack bootcamp — building
-        projects with JavaScript, cloud platforms, and automation tools along the way.
-      </p>
-
-      <!-- CTA Buttons -->
-      <div class="button-group">
-        <a href="https://www.linkedin.com/in/siwat-jankam-9a340016a" target="_blank" class="main-button">
-          <!-- LinkedIn icon -->
-          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.37V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.59 0 4.26 2.37 4.26 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zm1.78 13.02H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45C23.2 24 24 23.23 24 22.27V1.73C24 .77 23.2 0 22.22 0z"/></svg>
-          LinkedIn
-        </a>
-        <a href="https://github.com/sjsiwat" target="_blank" class="main-button secondary-button">
-          <!-- GitHub icon -->
-          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.08-.73.08-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .3z"/></svg>
-          GitHub
+      <div class="nav__links">
+        <button class="nav__link" onclick="scrollToSection('about')">About</button>
+        <button class="nav__link" onclick="scrollToSection('skills')">Skills</button>
+        <button class="nav__link" onclick="scrollToSection('projects')">Projects</button>
+        <button class="nav__link" onclick="scrollToSection('contact')">Contact</button>
+        <a href="https://github.com/sjsiwat" target="_blank" rel="noopener" class="nav__github">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.08-.73.08-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .3z"/></svg>
+          GITHUB
         </a>
       </div>
 
-    </div><!-- /hero -->
+      <button class="nav__burger" id="burger" aria-label="Toggle menu">
+        <svg id="iconMenu" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+        <svg id="iconClose" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24" style="display:none"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+      </button>
+    </div>
+
+    <div class="nav__mobile" id="mobileMenu">
+      <button onclick="scrollToSection('about')">About</button>
+      <button onclick="scrollToSection('skills')">Skills</button>
+      <button onclick="scrollToSection('projects')">Projects</button>
+      <button onclick="scrollToSection('contact')">Contact</button>
+    </div>
+  </nav>
 
 
-    <!-- ──────────────────────────────────────────
-         ABOUT ME SECTION
-    ────────────────────────────────────────── -->
-    <section class="section">
-      <h2>About Me</h2>
-      <p>
-        My background is in operations, sales supervision, hospitality, and customer service —
-        work that built a strong sense of ownership, problem-solving, and dealing with people
-        under pressure. I'm now transitioning into software development, currently training as a
-        Junior Software Developer through a full stack coding bootcamp. Alongside coursework,
-        I build side projects — from cloud deployments on AWS and Cloudflare to automation and
-        AI workflows with n8n — to turn what I learn into real, working software.
-      </p>
+  <main>
+
+    <!-- ════════════════════════════════════════════
+         HERO
+    ════════════════════════════════════════════ -->
+    <section class="hero" id="home">
+      <div class="wrap hero__inner">
+
+        <!-- Left: text -->
+        <div class="hero__text">
+          <p class="hero__kicker">
+            <span class="line"></span>
+            Full Stack · Cloud · Automation
+            <span class="line"></span>
+          </p>
+
+          <h1 class="hero__name">
+            <span class="glitch" data-text="Siwat">Siwat</span><br />
+            <span class="outline">Jankam</span>
+          </h1>
+
+          <div class="hero__typing">
+            <span class="lead">I'm an aspiring</span>
+            <span class="typed"><span id="typedText"></span><span class="caret">|</span></span>
+          </div>
+
+          <p class="hero__intro">
+            Training as a Junior Software Developer through a full stack bootcamp — building
+            projects with JavaScript, cloud platforms, and automation tools along the way.
+          </p>
+
+          <div class="hero__actions">
+            <button class="btn-primary" onclick="scrollToSection('projects')">
+              View Projects
+              <span class="chev"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></span>
+            </button>
+            <button class="btn-ghost" onclick="scrollToSection('contact')">Get in Touch</button>
+
+            <div class="hero__socials">
+              <a href="https://github.com/sjsiwat" target="_blank" rel="noopener" aria-label="GitHub">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.08-.73.08-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .3z"/></svg>
+              </a>
+              <a href="https://www.linkedin.com/in/siwat-jankam-9a340016a" target="_blank" rel="noopener" aria-label="LinkedIn">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.37V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.59 0 4.26 2.37 4.26 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zm1.78 13.02H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45C23.2 24 24 23.23 24 22.27V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+              </a>
+              <a href="mailto:sj.siwat@gmail.com" aria-label="Email">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Stat cards -->
+          <div class="stats">
+            <div class="stat">
+              <div class="stat__value" data-count="4">0</div>
+              <div class="stat__label">Projects</div>
+            </div>
+            <div class="stat">
+              <div class="stat__value" data-count="20" data-suffix="+">0</div>
+              <div class="stat__label">Technologies</div>
+            </div>
+            <div class="stat">
+              <div class="stat__value" data-count="3">0</div>
+              <div class="stat__label">Cloud Platforms</div>
+            </div>
+            <div class="stat">
+              <div class="stat__value" id="visitor-count">—</div>
+              <div class="stat__label">Visitors</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: profile photo -->
+        <div class="hero__photo">
+          <div class="profile">
+            <div class="profile__ring"><div class="profile__ring-inner"></div></div>
+            <div class="profile__ring2"></div>
+            <div class="profile__orbit"></div>
+            <div class="profile__img">
+              <img src="images/propic.png" alt="Siwat Jankam profile photo" />
+            </div>
+            <div class="profile__badge">
+              <span class="dot"></span>
+              <span>available</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </section>
 
 
-    <!-- ──────────────────────────────────────────
-         TECH STACK SECTION  —  Badges with icons
-    ────────────────────────────────────────── -->
-    <section class="section">
-      <h2>Tech Stack</h2>
-
-      <div class="tech-grid">
-
-        <!-- Cloud -->
-        <div class="tech-group">
-          <span class="tech-group-label">Cloud</span>
-          <div class="skills-list">
-            <span class="skill-badge badge-aws">
-              <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/amazonaws.svg" class="badge-icon" alt="" /> AWS S3
-            </span>
-            <span class="skill-badge badge-aws">
-              <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/amazonaws.svg" class="badge-icon" alt="" /> EC2
-            </span>
-            <span class="skill-badge badge-cloudflare">
-              <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/cloudflare.svg" class="badge-icon" alt="" /> Cloudflare
-            </span>
-          </div>
+    <!-- ════════════════════════════════════════════
+         ABOUT
+    ════════════════════════════════════════════ -->
+    <section class="section" id="about">
+      <div class="wrap">
+        <div class="section-label">
+          <span class="line"></span><span>About</span><span class="line"></span>
         </div>
+        <h2 class="section-title">Who I am</h2>
 
-        <!-- DevOps -->
-        <div class="tech-group">
-          <span class="tech-group-label">DevOps & OS</span>
-          <div class="skills-list">
-            <span class="skill-badge badge-linux">
-              <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/linux.svg" class="badge-icon" alt="" /> Linux
-            </span>
-            <span class="skill-badge badge-nginx">
-              <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/nginx.svg" class="badge-icon" alt="" /> Nginx
-            </span>
-            <span class="skill-badge badge-github">
-              <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/github.svg" class="badge-icon" alt="" /> GitHub
-            </span>
-          </div>
+        <div class="about-card reveal">
+          <p>
+            My background is in <strong>operations, sales supervision, hospitality, and customer
+            service</strong> — work that built a strong sense of ownership, problem-solving, and
+            dealing with people under pressure.
+          </p>
+          <p>
+            I'm now transitioning into software development, currently training as a
+            <strong>Junior Software Developer</strong> through a full stack coding bootcamp.
+            Alongside coursework, I build side projects — from cloud deployments on AWS and
+            Cloudflare to automation and AI workflows with n8n — to turn what I learn into real,
+            working software.
+          </p>
         </div>
-
-        <!-- Web -->
-        <div class="tech-group">
-          <span class="tech-group-label">Web & Data</span>
-          <div class="skills-list">
-            <span class="skill-badge badge-html">
-              <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/html5.svg" class="badge-icon" alt="" /> HTML
-            </span>
-            <span class="skill-badge badge-css">
-              <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/css3.svg" class="badge-icon" alt="" /> CSS
-            </span>
-            <span class="skill-badge badge-js">
-              <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/javascript.svg" class="badge-icon" alt="" /> JavaScript
-            </span>
-            <span class="skill-badge badge-mongodb">
-              <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/mongodb.svg" class="badge-icon" alt="" /> MongoDB
-            </span>
-            <span class="skill-badge badge-sql">🗄️ SQL</span>
-            <span class="skill-badge badge-data">
-              📊 Data Analytics
-            </span>
-          </div>
-        </div>
-
-        <!-- APIs & Backend -->
-        <div class="tech-group">
-          <span class="tech-group-label">APIs & Backend</span>
-          <div class="skills-list">
-            <span class="skill-badge badge-line">
-              <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/line.svg" class="badge-icon" alt="" /> LINE API
-            </span>
-            <span class="skill-badge badge-google">
-              <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/googledrive.svg" class="badge-icon" alt="" /> Google Drive API
-            </span>
-            <span class="skill-badge badge-supabase">
-              <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/supabase.svg" class="badge-icon" alt="" /> Supabase
-            </span>
-            <span class="skill-badge badge-soft">🔐 OAuth 2.0</span>
-          </div>
-        </div>
-
-        <!-- Automation & AI -->
-        <div class="tech-group">
-          <span class="tech-group-label">Automation & AI</span>
-          <div class="skills-list">
-            <span class="skill-badge badge-automation">⚙️ n8n</span>
-            <span class="skill-badge badge-gemini">
-              <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/googlegemini.svg" class="badge-icon" alt="" /> Gemini AI
-            </span>
-          </div>
-        </div>
-
-        <!-- Soft skills -->
-        <div class="tech-group">
-          <span class="tech-group-label">Background</span>
-          <div class="skills-list">
-            <span class="skill-badge badge-soft">🤝 Customer Service</span>
-            <span class="skill-badge badge-soft">⚙️ Operations</span>
-            <span class="skill-badge badge-soft">📈 Dashboard Basics</span>
-          </div>
-        </div>
-
-      </div><!-- /tech-grid -->
+      </div>
     </section>
 
 
-    <!-- ──────────────────────────────────────────
-         PROJECTS SECTION
-    ────────────────────────────────────────── -->
-    <section class="section">
-      <h2>Projects</h2>
-
-      <!-- Project 1 -->
-      <div class="project-card">
-
-        <!-- Header row: title + GitHub badge -->
-        <div class="project-header">
-          <h3>AWS S3 Static Website</h3>
-          <a href="https://github.com/sjsiwat/aws-static-website" target="_blank" class="gh-badge">
-            <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.08-.73.08-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .3z"/></svg>
-            GitHub
-          </a>
+    <!-- ════════════════════════════════════════════
+         SKILLS / TECH STACK
+    ════════════════════════════════════════════ -->
+    <section class="section" id="skills">
+      <div class="wrap">
+        <div class="section-label">
+          <span class="line"></span><span>Skills &amp; Stack</span><span class="line"></span>
         </div>
+        <h2 class="section-title">Tools of the trade</h2>
 
-        <!-- Tech tags -->
-        <div class="project-tags">
-          <span>Amazon S3</span><span>AWS CLI</span><span>Bucket Policy</span><span>Static Hosting</span>
+        <div class="skills-grid">
+
+          <!-- Cloud -->
+          <div class="skill-card reveal" style="--delay: 0s">
+            <div class="skill-card__head">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
+              <span>Cloud</span>
+            </div>
+            <div class="skill-card__tags">
+              <span>AWS S3</span><span>EC2</span><span>Cloudflare</span>
+            </div>
+          </div>
+
+          <!-- DevOps & OS -->
+          <div class="skill-card reveal" style="--delay: 0.1s">
+            <div class="skill-card__head">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+              <span>DevOps &amp; OS</span>
+            </div>
+            <div class="skill-card__tags">
+              <span>Linux</span><span>Nginx</span><span>GitHub</span>
+            </div>
+          </div>
+
+          <!-- Web & Data -->
+          <div class="skill-card reveal" style="--delay: 0.2s">
+            <div class="skill-card__head">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              <span>Web &amp; Data</span>
+            </div>
+            <div class="skill-card__tags">
+              <span>HTML</span><span>CSS</span><span>JavaScript</span><span>MongoDB</span><span>SQL</span><span>Data Analytics</span>
+            </div>
+          </div>
+
+          <!-- APIs & Backend -->
+          <div class="skill-card reveal" style="--delay: 0s">
+            <div class="skill-card__head">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg>
+              <span>APIs &amp; Backend</span>
+            </div>
+            <div class="skill-card__tags">
+              <span>LINE API</span><span>Google Drive API</span><span>Supabase</span><span>OAuth 2.0</span>
+            </div>
+          </div>
+
+          <!-- Automation & AI -->
+          <div class="skill-card reveal" style="--delay: 0.1s">
+            <div class="skill-card__head">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              <span>Automation &amp; AI</span>
+            </div>
+            <div class="skill-card__tags">
+              <span>n8n</span><span>Gemini AI</span>
+            </div>
+          </div>
+
+          <!-- Background -->
+          <div class="skill-card reveal" style="--delay: 0.2s">
+            <div class="skill-card__head">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              <span>Background</span>
+            </div>
+            <div class="skill-card__tags">
+              <span>Customer Service</span><span>Operations</span><span>Dashboard Basics</span>
+            </div>
+          </div>
+
         </div>
-
-        <!-- Description -->
-        <p>
-          Hosted a static website using Amazon S3, bucket policy, static website hosting,
-          and AWS CLI sync deployment.
-        </p>
-
-        <!-- Project preview image -->
-        <img src="project-images/s3-project.png" class="project-preview" alt="S3 project screenshot" />
-
-        <a href="https://github.com/sjsiwat/aws-static-website" target="_blank" class="view-link">
-          View Project →
-        </a>
-      </div><!-- /project-card -->
-
-
-      <!-- Project 2 -->
-      <div class="project-card">
-
-        <div class="project-header">
-          <h3>AWS EC2 Nginx Website</h3>
-          <a href="https://github.com/sjsiwat/AWS-EC2-nginx-website" target="_blank" class="gh-badge">
-            <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.08-.73.08-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .3z"/></svg>
-            GitHub
-          </a>
-        </div>
-
-        <div class="project-tags">
-          <span>EC2</span><span>Ubuntu</span><span>Nginx</span><span>SSH</span><span>Security Groups</span>
-        </div>
-
-        <p>
-          Deployed a static website on an Ubuntu EC2 instance using Linux, SSH, SCP, Nginx,
-          AWS Security Groups, and Linux file permissions.
-        </p>
-
-        <img src="project-images/ec2-project.png" class="project-preview" alt="EC2 project screenshot" />
-
-        <a href="https://github.com/sjsiwat/AWS-EC2-nginx-website" target="_blank" class="view-link">
-          View Project →
-        </a>
-      </div><!-- /project-card -->
-
-
-      <!-- Project 3 -->
-      <div class="project-card">
-
-        <div class="project-header">
-          <h3>Johny Memo</h3>
-          <a href="https://github.com/sjsiwat/Little-Johny" target="_blank" class="gh-badge">
-            <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.08-.73.08-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .3z"/></svg>
-            GitHub
-          </a>
-        </div>
-
-        <div class="project-tags">
-          <span>Vanilla JS</span><span>Supabase</span><span>PWA</span><span>Cloudflare Pages</span><span>LINE API</span>
-        </div>
-
-        <p>
-          A kawaii-themed productivity PWA for tasks, notes, and expense tracking, built with
-          vanilla JavaScript and Supabase, hosted on Cloudflare Pages with LINE login integration.
-        </p>
-
-        <img src="project-images/little-johny-project.png" class="project-preview" alt="Johny Memo app screenshot" />
-
-        <a href="https://johny.siwat.me" target="_blank" class="view-link">
-          View Project →
-        </a>
-      </div><!-- /project-card -->
-
-
-      <!-- Project 4 -->
-      <div class="project-card">
-
-        <div class="project-header">
-          <h3>MDflow</h3>
-          <a href="https://github.com/sjsiwat/MDflow" target="_blank" class="gh-badge">
-            <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.08-.73.08-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .3z"/></svg>
-            GitHub
-          </a>
-        </div>
-
-        <div class="project-tags">
-          <span>n8n</span><span>Automation</span><span>Gemini AI</span><span>Google Drive API</span><span>Obsidian</span>
-        </div>
-
-        <p>
-          An n8n workflow that watches a Google Drive inbox for new PDFs, uses Gemini to OCR and
-          reorganize them into structured Markdown, and auto-files each note into an Obsidian vault.
-        </p>
-
-        <img src="project-images/n8nnode.png" class="project-preview" alt="MDflow n8n workflow diagram" />
-
-        <a href="https://github.com/sjsiwat/MDflow" target="_blank" class="view-link">
-          View Project →
-        </a>
-      </div><!-- /project-card -->
-
-    </section><!-- /projects -->
-
-
-    <!-- ──────────────────────────────────────────
-         CONTACT SECTION
-    ────────────────────────────────────────── -->
-    <section class="section section-contact">
-      <h2>Contact</h2>
-      <p>
-        <a href="mailto:sj.siwat@gmail.com" class="contact-link">
-          📧 sj.siwat@gmail.com
-        </a>
-      </p>
+      </div>
     </section>
 
 
-  </div><!-- /container -->
+    <!-- ════════════════════════════════════════════
+         PROJECTS
+    ════════════════════════════════════════════ -->
+    <section class="section" id="projects">
+      <div class="wrap">
+        <div class="section-label">
+          <span class="line"></span><span>Projects</span><span class="line"></span>
+        </div>
+        <h2 class="section-title">Selected work</h2>
+
+        <div class="projects-grid">
+
+          <!-- Project 1: AWS S3 -->
+          <div class="project-card reveal" style="--accent: #00c8ff; --delay: 0s">
+            <div class="project-card__corner"></div>
+            <div class="project-card__head">
+              <span class="project-card__icon">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
+              </span>
+              <a href="https://github.com/sjsiwat/aws-static-website" target="_blank" rel="noopener" class="project-card__ext" aria-label="Open project">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+              </a>
+            </div>
+            <h3>AWS S3 Static Website</h3>
+            <p class="project-card__desc">
+              Hosted a static website using Amazon S3, bucket policy, static website hosting,
+              and AWS CLI sync deployment.
+            </p>
+            <div class="project-card__tags">
+              <span>Amazon S3</span><span>AWS CLI</span><span>Bucket Policy</span><span>Static Hosting</span>
+            </div>
+            <div class="project-card__preview">
+              <img src="project-images/s3-project.png" alt="S3 project screenshot" loading="lazy" />
+            </div>
+            <div class="project-card__links">
+              <a href="https://github.com/sjsiwat/aws-static-website" target="_blank" rel="noopener">
+                <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.08-.73.08-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .3z"/></svg>
+                GitHub →
+              </a>
+            </div>
+          </div>
+
+          <!-- Project 2: EC2 Nginx -->
+          <div class="project-card reveal" style="--accent: #10b981; --delay: 0.08s">
+            <div class="project-card__corner"></div>
+            <div class="project-card__head">
+              <span class="project-card__icon">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+              </span>
+              <a href="https://github.com/sjsiwat/AWS-EC2-nginx-website" target="_blank" rel="noopener" class="project-card__ext" aria-label="Open project">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+              </a>
+            </div>
+            <h3>AWS EC2 Nginx Website</h3>
+            <p class="project-card__desc">
+              Deployed a static website on an Ubuntu EC2 instance using Linux, SSH, SCP, Nginx,
+              AWS Security Groups, and Linux file permissions.
+            </p>
+            <div class="project-card__tags">
+              <span>EC2</span><span>Ubuntu</span><span>Nginx</span><span>SSH</span><span>Security Groups</span>
+            </div>
+            <div class="project-card__preview">
+              <img src="project-images/ec2-project.png" alt="EC2 project screenshot" loading="lazy" />
+            </div>
+            <div class="project-card__links">
+              <a href="https://github.com/sjsiwat/AWS-EC2-nginx-website" target="_blank" rel="noopener">
+                <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.08-.73.08-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .3z"/></svg>
+                GitHub →
+              </a>
+            </div>
+          </div>
+
+          <!-- Project 3: Johny Memo -->
+          <div class="project-card reveal" style="--accent: #a855f7; --delay: 0.16s">
+            <div class="project-card__corner"></div>
+            <div class="project-card__head">
+              <span class="project-card__icon">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              </span>
+              <a href="https://johny.siwat.me" target="_blank" rel="noopener" class="project-card__ext" aria-label="Open project">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+              </a>
+            </div>
+            <h3>Johny Memo</h3>
+            <p class="project-card__desc">
+              A kawaii-themed productivity PWA for tasks, notes, and expense tracking, built with
+              vanilla JavaScript and Supabase, hosted on Cloudflare Pages with LINE login integration.
+            </p>
+            <div class="project-card__tags">
+              <span>Vanilla JS</span><span>Supabase</span><span>PWA</span><span>Cloudflare Pages</span><span>LINE API</span>
+            </div>
+            <div class="project-card__preview">
+              <img src="project-images/little-johny-project.png" alt="Johny Memo app screenshot" loading="lazy" />
+            </div>
+            <div class="project-card__links">
+              <a href="https://github.com/sjsiwat/Little-Johny" target="_blank" rel="noopener">
+                <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.08-.73.08-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .3z"/></svg>
+                GitHub
+              </a>
+              <a href="https://johny.siwat.me" target="_blank" rel="noopener">Live Demo →</a>
+            </div>
+          </div>
+
+          <!-- Project 4: MDflow -->
+          <div class="project-card reveal" style="--accent: #f59e0b; --delay: 0.24s">
+            <div class="project-card__corner"></div>
+            <div class="project-card__head">
+              <span class="project-card__icon">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              </span>
+              <a href="https://github.com/sjsiwat/MDflow" target="_blank" rel="noopener" class="project-card__ext" aria-label="Open project">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+              </a>
+            </div>
+            <h3>MDflow</h3>
+            <p class="project-card__desc">
+              An n8n workflow that watches a Google Drive inbox for new PDFs, uses Gemini to OCR and
+              reorganize them into structured Markdown, and auto-files each note into an Obsidian vault.
+            </p>
+            <div class="project-card__tags">
+              <span>n8n</span><span>Automation</span><span>Gemini AI</span><span>Google Drive API</span><span>Obsidian</span>
+            </div>
+            <div class="project-card__preview">
+              <img src="project-images/n8nnode.png" alt="MDflow n8n workflow diagram" loading="lazy" />
+            </div>
+            <div class="project-card__links">
+              <a href="https://github.com/sjsiwat/MDflow" target="_blank" rel="noopener">
+                <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.08-.73.08-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .3z"/></svg>
+                GitHub →
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════
+         CONTACT
+    ════════════════════════════════════════════ -->
+    <section class="section contact" id="contact">
+      <div class="wrap">
+        <div class="contact__inner reveal">
+          <div class="section-label centered">
+            <span class="line"></span><span>Contact</span><span class="line"></span>
+          </div>
+          <h2 class="contact__title">
+            Let's build something <span class="gradient">remarkable</span>
+          </h2>
+          <p class="contact__sub">Open to junior roles, internships, and interesting collaborations.</p>
+          <a href="mailto:sj.siwat@gmail.com" class="contact__cta">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            sj.siwat@gmail.com
+          </a>
+          <div class="contact__socials">
+            <a href="https://github.com/sjsiwat" target="_blank" rel="noopener">
+              <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.08-.73.08-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .3z"/></svg>
+              GitHub
+            </a>
+            <a href="https://www.linkedin.com/in/siwat-jankam-9a340016a" target="_blank" rel="noopener">
+              <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.37V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.59 0 4.26 2.37 4.26 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zm1.78 13.02H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45C23.2 24 24 23.23 24 22.27V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+              LinkedIn
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
 
 
   <!-- ════════════════════════════════════════════
        FOOTER
   ════════════════════════════════════════════ -->
   <footer>
-    <p>Built with HTML · CSS · Cloudflare Pages · Workers · GitHub</p>
-    <p class="footer-year">© 2026 Siwat Jankam</p>
+    <div class="footer__inner">
+      <span class="mono">// Siwat Jankam · 2026</span>
+      <span>Built with HTML · CSS · JavaScript · Cloudflare Pages · Workers</span>
+    </div>
   </footer>
 
 
-  <!-- ════════════════════════════════════════════
-       JAVASCRIPT  —  Dark Mode + Visitor Counter
-  ════════════════════════════════════════════ -->
-  <script>
-
-    /* ── Dark Mode Toggle ──────────────────────── */
-    const html        = document.documentElement;
-    const toggleBtn   = document.getElementById('themeToggle');
-    const toggleIcon  = document.getElementById('toggleIcon');
-    const toggleLabel = document.getElementById('toggleLabel');
-
-    const saved = localStorage.getItem('theme') || 'light';
-    html.setAttribute('data-theme', saved);
-    updateToggleUI(saved);
-
-    toggleBtn.addEventListener('click', () => {
-      const current = html.getAttribute('data-theme');
-      const next    = current === 'light' ? 'dark' : 'light';
-      html.setAttribute('data-theme', next);
-      localStorage.setItem('theme', next);
-      updateToggleUI(next);
-    });
-
-    function updateToggleUI(theme) {
-      if (theme === 'dark') {
-        toggleIcon.textContent  = '☀️';
-        toggleLabel.textContent = 'Light Mode';
-      } else {
-        toggleIcon.textContent  = '🌙';
-        toggleLabel.textContent = 'Dark Mode';
-      }
-    }
-
-    /* ── Visitor Counter (Cloudflare Workers + D1) ── */
-    const VISITOR_API = "https://visitor-counter.sj-siwat.workers.dev";
-
-    async function updateVisitorCount() {
-      try {
-        const response = await fetch(VISITOR_API);
-        const data     = await response.json();
-        document.getElementById("visitor-count").textContent =
-          data.count.toLocaleString();
-      } catch (error) {
-        console.error("Visitor counter error:", error);
-        document.getElementById("visitor-count").textContent = "—";
-      }
-    }
-
-    updateVisitorCount();
-
-  </script>
+  <script src="script.js"></script>
 
 </body>
 </html>
