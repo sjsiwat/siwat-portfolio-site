@@ -1060,11 +1060,7 @@ main { position: relative; z-index: 10; }
   .carousel__track > .project-card > .project-card__preview {
     grid-area: media;
     margin-top: 0;
-    align-self: stretch;
-  }
-  .carousel__track > .project-card > .project-card__preview img {
-    height: 100%;
-    aspect-ratio: auto;
+    align-self: center;   /* frame hugs the image instead of stretching it */
   }
 }
 
@@ -1159,11 +1155,11 @@ main { position: relative; z-index: 10; }
   border: 1px solid var(--border);
   overflow: hidden;
 }
+/* Screenshots keep their own proportions — the previews run from 1.7:1 to
+   2.5:1, so a fixed 16/9 crop was cutting the sides off. */
 .project-card__preview img {
   width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-  object-position: top;
+  height: auto;
   transition: transform 0.4s ease;
 }
 .project-card:hover .project-card__preview img { transform: scale(1.03); }
@@ -1463,6 +1459,15 @@ main { position: relative; z-index: 10; }
   color: var(--muted-fg);
   font-size: 1.125rem;
   margin-bottom: 2.5rem;
+}
+.contact__sub-line {
+  display: block;
+  margin-top: 0.375rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.75;
 }
 .contact__cta {
   display: inline-flex;
