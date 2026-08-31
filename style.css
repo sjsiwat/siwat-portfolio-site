@@ -1679,6 +1679,26 @@ footer {
 }
 .case-figure img { width: 100%; height: 100%; object-fit: contain; }
 
+/* ── Gallery — a few more screenshots, two to a row ─────────── */
+.case-gallery {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--gap);
+  margin-top: clamp(28px, 4vh, 44px);
+}
+@media (min-width: 768px) {
+  .case-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.case-gallery .case-figure { margin-top: 0; }
+.case-gallery figcaption {
+  margin-top: 0.6rem;
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mute);
+}
+
 /* ── Decisions — the same numbered rhythm as Skills ─────────── */
 .decision-list { border-top: 1px solid var(--line); }
 .decision {
