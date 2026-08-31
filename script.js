@@ -19,6 +19,37 @@ const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matc
   onScroll();
 })();
 
+/* ── The lamp — light and dark ─────────────────────────────────
+   The head sets the attribute before first paint; this only keeps the
+   control honest and remembers the choice. With no choice stored the page
+   follows the system, and keeps following it. */
+(function lamp() {
+  const btn = document.getElementById("lamp");
+  if (!btn) return;
+  const root = document.documentElement;
+  const system = window.matchMedia("(prefers-color-scheme: dark)");
+
+  const stored = () => { try { return localStorage.getItem("theme"); } catch (e) { return null; } };
+  const current = () =>
+    root.getAttribute("data-theme") || (system.matches ? "dark" : "light");
+
+  function show(theme) {
+    const dark = theme === "dark";
+    btn.setAttribute("aria-pressed", String(dark));
+    btn.setAttribute("aria-label", dark ? "Turn the lights up" : "Turn the lights down");
+  }
+  show(current());
+
+  btn.addEventListener("click", () => {
+    const next = current() === "dark" ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem("theme", next); } catch (e) {}
+    show(next);
+  });
+
+  system.addEventListener("change", () => { if (!stored()) show(current()); });
+})();
+
 /* ── Wordmark — the nickname while the hero holds the name ─────
    The hero prints SIWAT JANKAM at 139px, so a second copy of it in the bar
    above is saying nothing. It carries YOK instead, and rubs that out and

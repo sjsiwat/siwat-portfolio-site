@@ -32,6 +32,10 @@
      indistinguishable, but only one of them is readable. */
   --vermilion-ink: #C4441F;
   --grid-line: color-mix(in srgb, var(--ink) 6%, transparent);
+  /* The status light, and what rides on top of a cobalt surface. Both flip
+     with the theme, so neither can live on the component any more. */
+  --live:    #12A150;
+  --on-accent: #FFFFFF;
 
   /* Type */
   --display: "Archivo", "Inter", system-ui, sans-serif;
@@ -61,7 +65,48 @@
   --maxw: 1440px;
   --pad:  clamp(24px, 5vw, 80px);
   --section-gap: clamp(120px, 18vh, 220px);
+}
 
+/* ── Dark ──────────────────────────────────────────────────────
+   Two blocks, identical on purpose: the media query answers a system
+   setting, the attribute answers the lamp. Whichever is edited, edit both.
+   The ground is a warm charcoal rather than black — the same warmth the
+   paper has, turned over. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    /* Ground and ink swap; the two accents swap roles with them. Cobalt
+       has to lighten or it reads 3.43:1 on this ground, and the orange goes
+       the other way — the bright one is the readable one down here, so
+       --vermilion-ink lightens rather than darkens. */
+    --paper:   #171612;
+    --surface: #1F1E19;
+    --ink:     #F2F0EA;   /* 15.89:1 */
+    --dim:     #B5B1A8;   /*  8.47:1 */
+    --mute:    #8F8B82;   /*  5.33:1 */
+    --line:    #33312B;
+    --cobalt:  #8CA0FF;   /*  7.40:1 */
+    --vermilion: #E4572E; /*  4.92:1 — same value, and it passes here */
+    --vermilion-ink: #F0784E;  /* 6.47:1 */
+    --live:    #3FBF77;   /*  7.70:1 */
+    --on-accent: #171612; /* what sits on a cobalt surface */
+  }
+}
+:root[data-theme="dark"] {
+  /* Ground and ink swap; the two accents swap roles with them. Cobalt
+     has to lighten or it reads 3.43:1 on this ground, and the orange goes
+     the other way — the bright one is the readable one down here, so
+     --vermilion-ink lightens rather than darkens. */
+  --paper:   #171612;
+  --surface: #1F1E19;
+  --ink:     #F2F0EA;   /* 15.89:1 */
+  --dim:     #B5B1A8;   /*  8.47:1 */
+  --mute:    #8F8B82;   /*  5.33:1 */
+  --line:    #33312B;
+  --cobalt:  #8CA0FF;   /*  7.40:1 */
+  --vermilion: #E4572E; /*  4.92:1 — same value, and it passes here */
+  --vermilion-ink: #F0784E;  /* 6.47:1 */
+  --live:    #3FBF77;   /*  7.70:1 */
+  --on-accent: #171612; /* what sits on a cobalt surface */
 }
 
 /* ── Reset / base ──────────────────────────────────────────── */
@@ -373,10 +418,12 @@ main { position: relative; z-index: 10; flex: 1; }
   height: 72px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: var(--gap);
 }
 .nav__logo {
+  /* Pushes every control to the right edge, so the lamp keeps its place
+     whether or not the link row is showing. */
+  margin-right: auto;
   display: inline-flex;
   align-items: center;
   font-family: var(--mono);
@@ -405,6 +452,62 @@ main { position: relative; z-index: 10; flex: 1; }
   opacity: 1;
   animation: caret-blink 1.2s steps(1) infinite;
 }
+/* ── The lamp ──────────────────────────────────────────────────
+   Lit while the page is on paper, out while it is on charcoal — the
+   control shows the room's state, not the state it would switch to. */
+.lamp {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-right: -8px;   /* optical: the glyph is inset in its own box */
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--ink);
+  cursor: pointer;
+  transition: color var(--dur-quick) var(--ease);
+}
+.lamp:hover { color: var(--cobalt); }
+.lamp:focus-visible { outline: 1px solid var(--cobalt); outline-offset: 2px; }
+.lamp__shade {
+  fill: color-mix(in srgb, currentColor 10%, transparent);
+  transition: fill var(--dur-quick) var(--ease);
+}
+.lamp__bulb {
+  /* At 22px the filament is the whole signal, so it is not faint about it */
+  fill: color-mix(in srgb, var(--vermilion) 88%, transparent);
+  stroke: currentColor;
+  transition: fill var(--dur-quick) var(--ease);
+}
+.lamp__rays {
+  opacity: 1;
+  transform-origin: 12px 14px;
+  transition: opacity var(--dur-quick) var(--ease),
+              transform var(--dur-quick) var(--ease);
+}
+/* Lights out: the filament goes cold and the rays retract into the shade */
+[data-theme="dark"] .lamp__bulb,
+.lamp[aria-pressed="true"] .lamp__bulb { fill: none; }
+[data-theme="dark"] .lamp__rays,
+.lamp[aria-pressed="true"] .lamp__rays {
+  opacity: 0;
+  transform: scale(0.6);
+}
+/* System dark with no choice stored: no attribute is set and the script has
+   not run yet, so the media query has to put the lamp out on its own. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .lamp__bulb { fill: none; }
+  :root:not([data-theme="light"]) .lamp__rays { opacity: 0; transform: scale(0.6); }
+  /* The drawing is ink on white. Turned over, it is white on ink. */
+  :root:not([data-theme="light"]) .portrait .portrait__art {
+    filter: contrast(1.12) invert(1);
+  }
+}
+[data-theme="dark"] .portrait .portrait__art { filter: contrast(1.12) invert(1); }
+
 .nav__links {
   display: none;
   align-items: center;
@@ -755,7 +858,6 @@ main { position: relative; z-index: 10; flex: 1; }
 /* The one green on the page. Small enough to read as a signal
    rather than as a third accent colour. */
 .status {
-  --live: #12A150;
   display: inline-flex;
   align-items: baseline;
   gap: 0.5rem;
@@ -1038,7 +1140,7 @@ main { position: relative; z-index: 10; flex: 1; }
 .carousel__btn:focus-visible {
   background: var(--cobalt);
   border-color: var(--cobalt);
-  color: #fff;
+  color: var(--on-accent);
 }
 
 /* No JS, no controls — the track still scrolls on its own. */
@@ -1392,7 +1494,7 @@ main { position: relative; z-index: 10; flex: 1; }
 .contact__action:hover,
 .contact__action:focus-visible {
   background-color: var(--cobalt);
-  color: #fff;
+  color: var(--on-accent);
 }
 .contact__action-label {
   font-family: var(--mono);
