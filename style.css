@@ -1856,11 +1856,16 @@ footer {
 
 .projects__more { margin-top: clamp(40px, 5vh, 56px); }
 .projects__more .btn {
-  font-size: 15px;
-  letter-spacing: 0.1em;
-  padding-bottom: 0.65rem;
+  /* --vermilion-ink, not --vermilion: at this size (under the 24px/18.66px-
+     bold "large text" threshold) only the darker value clears 4.5:1. */
+  color: var(--vermilion-ink);
+  border-bottom-color: color-mix(in srgb, var(--vermilion-ink) 40%, transparent);
+  font-size: 19px;
+  letter-spacing: 0.06em;
+  padding-bottom: 0.7rem;
 }
-.projects__more .btn__arrow { font-size: 15px; }
+.projects__more .btn:hover { color: var(--vermilion-ink); border-bottom-color: var(--vermilion-ink); }
+.projects__more .btn__arrow { font-size: 19px; }
 
 /* ── Motion preferences ────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
