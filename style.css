@@ -589,7 +589,9 @@ main { position: relative; z-index: 10; flex: 1; }
   position: relative;
   aspect-ratio: 4 / 5;
   background: var(--surface);
-  border: 1px solid var(--line);
+  /* A shade firmer than --line: the drawing's own ground is close enough
+     to the paper that the default hairline all but disappears. */
+  border: 1px solid color-mix(in srgb, var(--ink) 26%, transparent);
 }
 .profile__img img {
   width: 100%;
@@ -604,18 +606,16 @@ main { position: relative; z-index: 10; flex: 1; }
 .portrait .portrait__art {
   opacity: 1;
   /* The drawing traces this exact photograph, frame for frame, so the two
-     layers need no nudging — the face dissolves in place. The ink is only
-     firmed up a little to hold its own against a night photograph. */
-  filter: contrast(1.22) brightness(0.98);
-  /* Outbids .img-reveal img, which would otherwise drop the opacity leg. */
+     layers need no nudging — the face dissolves in place. No contrast
+     filter: this version is inked dark enough already, and pushing it
+     would clip its ground to white and lose the faint construction lines.
+     Outbids .img-reveal img, which would otherwise drop the opacity leg. */
   transition: opacity 520ms var(--ease), transform 1100ms var(--ease);
 }
 
 .portrait:hover .portrait__art,
-.portrait:focus-visible .portrait__art,
+.portrait.is-peeking .portrait__art,
 .portrait.is-unmasked .portrait__art { opacity: 0; }
-
-.portrait:focus-visible { outline: 1px solid var(--cobalt); outline-offset: 3px; }
 
 /* No illustration on disk, no two-layer frame — fall back to the photograph. */
 .portrait.is-photo-only .portrait__art { display: none; }
@@ -627,7 +627,59 @@ main { position: relative; z-index: 10; flex: 1; }
   justify-content: space-between;
   gap: 1rem;
   margin-top: 0.75rem;
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1.4;
   color: var(--mute);
+}
+
+/* The only cue that the frame has a second picture under it. Cobalt,
+   because on this page cobalt is what you can act on. */
+.portrait__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+  padding: 0;
+  background: none;
+  border: 0;
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cobalt);
+  cursor: pointer;
+}
+.portrait__toggle-arrow {
+  display: inline-block;
+  line-height: 1;
+  transition: transform var(--dur-quick) var(--ease);
+}
+.portrait__toggle:hover .portrait__toggle-arrow,
+.portrait__toggle:focus-visible .portrait__toggle-arrow { transform: translate(4px, -4px); }
+.portrait__toggle:focus-visible { outline: 1px solid var(--cobalt); outline-offset: 4px; }
+
+/* Underline draws left to right under the words only, never the arrow —
+   the same interaction idiom as the contact CTA, at the same tempo. */
+.portrait__toggle-label { position: relative; }
+.portrait__toggle-label::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -0.3em;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform var(--dur-quick) var(--ease);
+}
+.portrait__toggle:hover .portrait__toggle-label::after,
+.portrait__toggle:focus-visible .portrait__toggle-label::after,
+.portrait__toggle[aria-pressed="true"] .portrait__toggle-label::after {
+  transform: scaleX(1);
+  transform-origin: left center;
 }
 
 /* The one green on the page. Small enough to read as a signal

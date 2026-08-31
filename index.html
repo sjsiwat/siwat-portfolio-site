@@ -136,8 +136,7 @@
         <!-- Right: profile photo -->
         <div class="hero__photo">
           <div class="profile">
-            <div class="profile__img img-reveal portrait" tabindex="0"
-                 aria-label="Portrait of Siwat Jankam — hover or tap to see the photograph">
+            <div class="profile__img img-reveal portrait">
               <img class="portrait__real" src="images/propic.webp" alt="Siwat Jankam" />
               <img class="portrait__art" src="images/portrait-line.webp" alt=""
                    aria-hidden="true" data-portrait-art />
@@ -146,6 +145,11 @@
               <span>Chiang Mai, TH</span>
               <span class="status"><i class="status__dot" aria-hidden="true"></i>Available</span>
             </p>
+            <button class="portrait__toggle" type="button" aria-pressed="false"
+                    data-portrait-toggle hidden>
+              <span class="portrait__toggle-label">View reality</span>
+              <span class="portrait__toggle-arrow" aria-hidden="true">&#8599;</span>
+            </button>
           </div>
         </div>
 

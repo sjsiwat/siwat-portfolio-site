@@ -206,25 +206,45 @@ const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matc
 /* ── Portrait — the drawing gives way to the photograph ────── */
 (function portrait() {
   const frame = document.querySelector(".portrait");
-  if (!frame) return;
+  const toggle = document.querySelector("[data-portrait-toggle]");
+  if (!frame || !toggle) return;
   const art = frame.querySelector("[data-portrait-art]");
   if (!art) return;
 
-  // If the illustration never arrives, drop the layer rather than leave a
-  // broken frame sitting over the photograph.
-  const drop = () => frame.classList.add("is-photo-only");
-  if (art.complete && art.naturalWidth === 0) drop();
+  // If the illustration never arrives there is nothing to look past, so the
+  // layer goes and the control never appears.
+  const drop = () => {
+    frame.classList.add("is-photo-only");
+    toggle.hidden = true;
+  };
+  const offer = () => { toggle.hidden = false; };
+
+  if (art.complete) { art.naturalWidth === 0 ? drop() : offer(); }
+  art.addEventListener("load", offer);
   art.addEventListener("error", drop);
 
-  // A pointer that cannot hover gets a tap instead, so the photograph is
-  // reachable on a phone too.
-  if (window.matchMedia("(hover: none)").matches) {
-    frame.addEventListener("click", () => {
-      if (!frame.classList.contains("is-photo-only")) {
-        frame.classList.toggle("is-unmasked");
-      }
-    });
-  }
+  // Hovering the control previews, the same as hovering the frame does;
+  // clicking pins it, which is the only route open on a touch screen.
+  const peek = (on) => {
+    if (!frame.classList.contains("is-unmasked")) {
+      frame.classList.toggle("is-peeking", on);
+    }
+  };
+  toggle.addEventListener("pointerenter", () => peek(true));
+  toggle.addEventListener("pointerleave", () => peek(false));
+  toggle.addEventListener("focus", () => peek(true));
+  toggle.addEventListener("blur", () => peek(false));
+
+  const pin = () => {
+    const on = !frame.classList.contains("is-unmasked");
+    frame.classList.toggle("is-unmasked", on);
+    frame.classList.remove("is-peeking");
+    toggle.setAttribute("aria-pressed", String(on));
+  };
+  toggle.addEventListener("click", pin);
+  frame.addEventListener("click", () => {
+    if (!frame.classList.contains("is-photo-only")) pin();
+  });
 })();
 
 /* ── Reveal on scroll ──────────────────────────────────────── */
