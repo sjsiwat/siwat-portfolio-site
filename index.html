@@ -40,6 +40,7 @@
         <button class="nav__link u-line" onclick="scrollToSection('about')">About</button>
         <button class="nav__link u-line" onclick="scrollToSection('skills')">Skills</button>
         <button class="nav__link u-line" onclick="scrollToSection('projects')">Projects</button>
+        <button class="nav__link u-line" onclick="scrollToSection('activity')">Activity</button>
         <button class="nav__link u-line" onclick="scrollToSection('experience')">Experience</button>
         <button class="nav__link u-line" onclick="scrollToSection('contact')">Contact</button>
         <a href="https://github.com/sjsiwat" target="_blank" rel="noopener" class="nav__github">
@@ -58,6 +59,7 @@
       <button onclick="scrollToSection('about')">About</button>
       <button onclick="scrollToSection('skills')">Skills</button>
       <button onclick="scrollToSection('projects')">Projects</button>
+      <button onclick="scrollToSection('activity')">Activity</button>
       <button onclick="scrollToSection('experience')">Experience</button>
       <button onclick="scrollToSection('contact')">Contact</button>
     </div>
@@ -390,6 +392,71 @@
               </article>
 
             </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════
+         ACTIVITY  —  GitHub contribution calendar
+    ════════════════════════════════════════════ -->
+    <section class="section" id="activity" hidden>
+      <div class="wrap">
+        <div class="section-label">
+          <span>Activity</span>
+        </div>
+        <div class="section__body">
+          <h2 class="section-title">The last <span class="accent">twelve months</span></h2>
+
+          <div class="disclosure">
+            <button class="disclosure__btn" aria-expanded="true" aria-controls="panel-activity" data-noun="activity">
+              <span class="disclosure__label">Hide activity</span>
+              <span class="disclosure__chev" aria-hidden="true"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+            </button>
+            <span class="disclosure__hint" id="ghRange">Pulled from GitHub</span>
+          </div>
+
+          <div class="disclosure__panel is-open" id="panel-activity">
+            <div class="disclosure__inner">
+
+              <div class="gh reveal">
+                <div class="gh__figures">
+                  <div class="gh__figure">
+                    <span class="gh__value" id="ghTotal">—</span>
+                    <span class="gh__label">Contributions</span>
+                  </div>
+                  <div class="gh__figure">
+                    <span class="gh__value" id="ghStreak">—</span>
+                    <span class="gh__label">Longest streak</span>
+                  </div>
+                  <div class="gh__figure">
+                    <span class="gh__value" id="ghActive">—</span>
+                    <span class="gh__label">Days shipped</span>
+                  </div>
+                </div>
+
+                <div class="gh__chart">
+                  <div class="gh__scroll">
+                    <div class="gh__months" id="ghMonths" aria-hidden="true"></div>
+                    <div class="gh__plot">
+                      <div class="gh__weekdays" aria-hidden="true"><span>Mon</span><span>Wed</span><span>Fri</span></div>
+                      <div class="gh__grid" id="ghGrid" role="img" aria-label="GitHub contribution calendar for the last twelve months"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gh__foot">
+                  <a class="btn btn--quiet" href="https://github.com/sjsiwat" target="_blank" rel="noopener">github.com/sjsiwat <span class="btn__arrow">&#8594;</span></a>
+                  <p class="gh__legend" aria-hidden="true">
+                    <span>Less</span>
+                    <i data-level="0"></i><i data-level="1"></i><i data-level="2"></i><i data-level="3"></i><i data-level="4"></i>
+                    <span>More</span>
+                  </p>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>

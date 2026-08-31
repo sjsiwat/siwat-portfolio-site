@@ -305,6 +305,94 @@ function scrollToSection(id) {
   document.getElementById(id)?.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth" });
 }
 
+/* ── GitHub contribution calendar ──────────────────────────────
+   Data comes from a Worker that holds the GitHub token; see
+   workers/github-contributions. The section ships hidden and only
+   reveals itself once real data lands, so a Worker that is down or
+   not yet deployed leaves no empty grid behind. */
+(async function contributions() {
+  const GITHUB_API = "https://github-contributions.sj-siwat.workers.dev";
+  const section = document.getElementById("activity");
+  const grid = document.getElementById("ghGrid");
+  const months = document.getElementById("ghMonths");
+  if (!section || !grid) return;
+
+  const MONTH = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+  try {
+    const res = await fetch(GITHUB_API);
+    if (!res.ok) throw new Error("status " + res.status);
+    const data = await res.json();
+    if (!Array.isArray(data.days) || !data.days.length) throw new Error("no days");
+
+    // Cells are placed by week and weekday, so a partial first or last
+    // week leaves its gap rather than shifting everything along.
+    const frag = document.createDocumentFragment();
+    let active = 0, streak = 0, best = 0;
+
+    data.days.forEach(([week, weekday, count, level]) => {
+      const cell = document.createElement("i");
+      cell.dataset.level = level;
+      cell.style.gridColumn = week + 1;
+      cell.style.gridRow = weekday + 1;
+      frag.appendChild(cell);
+
+      if (count > 0) { active++; streak++; if (streak > best) best = streak; }
+      else streak = 0;
+    });
+    grid.appendChild(frag);
+    grid.style.gridTemplateColumns = `repeat(${data.weeks}, var(--gh-cell))`;
+
+    // A month label sits over the first week that starts in it.
+    if (months) {
+      months.style.gridTemplateColumns = `repeat(${data.weeks}, var(--gh-cell))`;
+      const seen = new Set();
+      let lastCol = -99;
+      data.days.forEach(([week, weekday]) => {
+        if (weekday !== 0) return;
+        const date = new Date(data.from);
+        date.setDate(date.getDate() + week * 7);
+        const key = date.getMonth();
+        if (seen.has(key)) return;
+        seen.add(key);
+        // A month that only clips the edge of the calendar has no room for
+        // its name — skip it rather than letting two labels collide.
+        if (week - lastCol < 3) return;
+        lastCol = week;
+        const label = document.createElement("span");
+        label.textContent = MONTH[key];
+        label.style.gridColumn = week + 1;
+        months.appendChild(label);
+      });
+    }
+
+    const set = (id, value) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    };
+    set("ghTotal", data.total.toLocaleString());
+    set("ghStreak", best + (best === 1 ? " day" : " days"));
+    set("ghActive", active.toLocaleString());
+
+    const range = document.getElementById("ghRange");
+    if (range && data.from && data.to) {
+      const fmt = (d) => {
+        const dt = new Date(d);
+        return MONTH[dt.getMonth()] + " " + dt.getFullYear();
+      };
+      range.textContent = fmt(data.from) + " \u2192 " + fmt(data.to);
+    }
+
+    section.hidden = false;
+  } catch (error) {
+    console.error("Contribution calendar unavailable:", error);
+    // Take the nav entries with it — a link to a section that is not
+    // there is worse than no link.
+    document.querySelectorAll('[onclick*="\'activity\'"]').forEach((b) => b.remove());
+    section.remove();
+  }
+})();
+
 /* ── Visitor counter (Cloudflare Workers + D1) ─────────────── */
 (async function visitorCounter() {
   const VISITOR_API = "https://visitor-counter.sj-siwat.workers.dev";

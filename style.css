@@ -777,6 +777,135 @@ main { position: relative; z-index: 10; flex: 1; }
 }
 .project__links .btn:hover { color: var(--cobalt); border-bottom-color: var(--cobalt); }
 
+/* ── Activity — the GitHub calendar, redrawn in the page's own language ──
+   No green, no rounded chrome: an ink ramp on paper, with the accent kept
+   for the busiest quartile so the colour still means something. */
+.gh__figures {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(24px, 3vw, 48px);
+  padding-bottom: clamp(40px, 5vh, 64px);
+  border-bottom: 1px solid var(--line);
+}
+.gh__value {
+  display: block;
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: clamp(2rem, 3.6vw, 3rem);
+  letter-spacing: -0.045em;
+  line-height: 1;
+  color: var(--cobalt);
+  margin-bottom: 0.75rem;
+}
+.gh__label {
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mute);
+}
+
+.gh__chart { padding-top: clamp(32px, 4vh, 56px); }
+/* The calendar is 53 weeks wide and will not fold — it scrolls in place
+   rather than forcing the page sideways. */
+.gh__scroll {
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+.gh {
+  /* Sized so 53 weeks fill the content column at full width, and fall back
+     to a legible minimum that scrolls once the column gets narrow. */
+  --gh-cell: clamp(9px, 1.02vw, 14px);
+  --gh-gap: 3px;
+  --gh-rail: 34px;
+}
+
+.gh__months {
+  display: grid;
+  grid-template-columns: repeat(53, var(--gh-cell));
+  gap: var(--gh-gap);
+  margin-left: var(--gh-rail);
+  margin-bottom: 0.6rem;
+  min-width: max-content;
+}
+.gh__months span {
+  grid-row: 1;
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mute);
+  white-space: nowrap;
+}
+
+.gh__plot { display: flex; gap: 0; min-width: max-content; }
+.gh__weekdays {
+  width: var(--gh-rail);
+  display: grid;
+  grid-template-rows: repeat(7, var(--gh-cell));
+  gap: var(--gh-gap);
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mute);
+}
+.gh__weekdays span:nth-child(1) { grid-row: 2; }
+.gh__weekdays span:nth-child(2) { grid-row: 4; }
+.gh__weekdays span:nth-child(3) { grid-row: 6; }
+
+.gh__grid {
+  display: grid;
+  grid-template-columns: repeat(53, var(--gh-cell));
+  grid-template-rows: repeat(7, var(--gh-cell));
+  gap: var(--gh-gap);
+}
+.gh__grid i,
+.gh__legend i {
+  display: block;
+  width: var(--gh-cell);
+  height: var(--gh-cell);
+  border-radius: 2px;
+  background: var(--gh-0);
+}
+.gh__legend i { width: 11px; height: 11px; }
+.gh {
+  --gh-0: color-mix(in srgb, var(--ink) 7%, transparent);
+  --gh-1: color-mix(in srgb, var(--ink) 20%, transparent);
+  --gh-2: color-mix(in srgb, var(--ink) 40%, transparent);
+  --gh-3: color-mix(in srgb, var(--ink) 68%, transparent);
+  --gh-4: var(--cobalt);
+}
+.gh__grid i[data-level="1"], .gh__legend i[data-level="1"] { background: var(--gh-1); }
+.gh__grid i[data-level="2"], .gh__legend i[data-level="2"] { background: var(--gh-2); }
+.gh__grid i[data-level="3"], .gh__legend i[data-level="3"] { background: var(--gh-3); }
+.gh__grid i[data-level="4"], .gh__legend i[data-level="4"] { background: var(--gh-4); }
+
+.gh__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem 2rem;
+  margin-top: clamp(28px, 3.5vh, 44px);
+}
+.gh__legend {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mute);
+}
+.gh__legend span:first-child { margin-right: 0.3rem; }
+.gh__legend span:last-child  { margin-left: 0.3rem; }
+
+@media (max-width: 639px) {
+  .gh__figures { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 32px; }
+}
+
 /* ── Experience — a rule down the page, years in the left column ── */
 /* ── Disclosure ────────────────────────────────────────────────
    Every section folds away. The control is the heaviest mono on the
