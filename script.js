@@ -164,7 +164,7 @@ const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matc
    survives a resize — and an .accent word stays inside its own line
    rather than animating on a beat of its own. */
 (function headingReveal() {
-  const SELECTOR = ".hero__name, .hero__tagline, .section-title, .contact__title";
+  const SELECTOR = ".hero__name, .hero__tagline, .section-title, .contact__title, .case-title";
   const heads = [...document.querySelectorAll(SELECTOR)];
   if (!heads.length) return;
 
@@ -617,6 +617,7 @@ function scrollToSection(id) {
 (async function visitorCounter() {
   const VISITOR_API = "https://visitor-counter.sj-siwat.workers.dev";
   const el = document.getElementById("visitor-count");
+  if (!el) return;
   try {
     const response = await fetch(VISITOR_API);
     const data = await response.json();

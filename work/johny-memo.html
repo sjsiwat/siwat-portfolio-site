@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Johny Memo — Case Study | Siwat Jankam</title>
+  <meta name="description" content="How Johny Memo — a private workspace for tasks, notes and expenses — got built: the constraints, the architecture decisions, and what I'd do differently." />
+  <link rel="stylesheet" href="../style.css" />
+  <script>
+    try {
+      var t = localStorage.getItem("theme");
+      if (t === "dark" || t === "light") {
+        document.documentElement.setAttribute("data-theme", t);
+      }
+    } catch (e) {}
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+
+  <div class="grid-lines" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <div class="scroll-progress"><div class="scroll-progress__bar" id="progressBar"></div></div>
+
+
+  <!-- ════════════════════════════════════════════
+       NAV
+  ════════════════════════════════════════════ -->
+  <nav class="nav" id="nav">
+    <div class="nav__inner">
+      <a class="nav__logo" href="../index.html">Siwat Jankam</a>
+
+      <div class="nav__links">
+        <a class="nav__link u-line" href="../index.html#about">About</a>
+        <a class="nav__link u-line" href="../index.html#skills">Skills</a>
+        <a class="nav__link u-line" href="../index.html#projects">Projects</a>
+        <a class="nav__link u-line" href="../index.html#experience">Experience</a>
+        <a class="nav__link u-line" href="../index.html#contact">Contact</a>
+        <a href="https://github.com/sjsiwat" target="_blank" rel="noopener" class="nav__github">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.08-.73.08-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .3z"/></svg>
+          GITHUB
+        </a>
+      </div>
+
+      <button class="lamp" id="lamp" type="button" aria-pressed="false"
+              aria-label="Turn the lights down">
+        <svg class="lamp__svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+             stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 1.6V4.9" />
+          <path class="lamp__shade" d="M3.2 13.8C3.2 8.9 7.1 4.9 12 4.9s8.8 4 8.8 8.9Z" />
+          <circle class="lamp__bulb" cx="12" cy="16.7" r="2.4" />
+          <g class="lamp__rays">
+            <path d="M6.4 18.4 4.1 22.0" />
+            <path d="M12 20.5V23.4" />
+            <path d="M17.6 18.4 19.9 22.0" />
+          </g>
+        </svg>
+      </button>
+      <button class="nav__burger" id="burger" aria-label="Toggle menu">
+        <svg id="iconMenu" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+        <svg id="iconClose" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24" style="display:none"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+      </button>
+    </div>
+
+    <div class="nav__mobile" id="mobileMenu">
+      <a href="../index.html#about">About</a>
+      <a href="../index.html#skills">Skills</a>
+      <a href="../index.html#projects">Projects</a>
+      <a href="../index.html#experience">Experience</a>
+      <a href="../index.html#contact">Contact</a>
+    </div>
+  </nav>
+
+
+  <main>
+
+    <!-- ════════════════════════════════════════════
+         CASE STUDY HERO
+    ════════════════════════════════════════════ -->
+    <header class="case-hero">
+      <div class="wrap">
+        <div class="section__body" style="grid-column: 1 / -1;">
+          <a class="case-back u-line" href="../index.html#projects">&larr; Selected work</a>
+
+          <p class="hero__kicker">Case Study</p>
+          <h1 class="section-title case-title">Johny Memo <span class="accent">— a personal OS</span></h1>
+          <p class="t-lead case-dek">
+            Tasks, notes and expenses in one private place. I designed the interface first, then
+            built the API, the database and the auth underneath it.
+          </p>
+          <p class="project__meta case-meta">
+            <span>Design + full-stack</span><span>Solo</span><span>2026</span><span>Live in production</span>
+          </p>
+          <div class="project__links">
+            <a class="btn" href="https://johny.siwat.me" target="_blank" rel="noopener">Live site <span class="btn__arrow">&#8599;</span></a>
+            <a class="btn btn--quiet" href="https://github.com/sjsiwat/Little-Johny" target="_blank" rel="noopener">GitHub <span class="btn__arrow">&#8599;</span></a>
+          </div>
+
+          <div class="case-figure img-reveal reveal">
+            <img src="../project-images/johny_memo.png" alt="Johny Memo — the sign-in page and workspace" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </header>
+
+
+    <!-- ════════════════════════════════════════════
+         CONTEXT
+    ════════════════════════════════════════════ -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-label"><span>Context</span></div>
+        <div class="section__body">
+          <h2 class="section-title">What it's <span class="accent">for</span></h2>
+          <div class="reveal">
+            <p class="t-body">
+              I wanted one place for the three lists I was keeping separately — tasks, notes, and
+              money going in and out — and I wanted it to feel like mine: fast, private, and not a
+              repurposed spreadsheet. Johny Memo is that place.
+            </p>
+            <p class="t-body" style="margin-top: 1.5rem;">
+              It's a solo project, in every sense: I drew the interface and the flows first, in a
+              design tool, before writing a line of the backend. Everything it's built with — the
+              sync, the auth, the database policies — exists to serve that interface, not the other
+              way around.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════
+         CONSTRAINTS
+    ════════════════════════════════════════════ -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-label"><span>Constraints</span></div>
+        <div class="section__body">
+          <h2 class="section-title">What it had <span class="accent">to survive</span></h2>
+          <div class="reveal">
+            <p class="t-body">
+              Four things shaped every decision below more than any single feature request did:
+            </p>
+            <ul class="tl-list" style="margin-top: 1.5rem;">
+              <li><strong>One person.</strong> No team to review a decision — every trade-off had to be one I could live with alone.</li>
+              <li><strong>Free-tier infrastructure.</strong> Supabase and Cloudflare Pages, not a budget for anything heavier.</li>
+              <li><strong>A daily driver, on a phone.</strong> It had to stay usable on a slow or dropped connection, because that's when I actually reach for it.</li>
+              <li><strong>Real data.</strong> My own tasks, notes and finances — not a demo dataset — so privacy had to be structural, not just promised in a privacy policy nobody reads.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════
+         DECISIONS
+    ════════════════════════════════════════════ -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-label"><span>Decisions</span></div>
+        <div class="section__body">
+          <h2 class="section-title">Four calls, and <span class="accent">what they cost</span></h2>
+
+          <div class="decision-list reveal">
+
+            <div class="decision">
+              <span class="decision__num t-micro">01</span>
+              <div>
+                <h3 class="decision__title">Magic-link sign-in, not a password</h3>
+                <p class="decision__why t-body">
+                  One less thing to build and one less thing to leak. No password-reset flow, no
+                  hashing to get right on day one — Supabase Auth handles the email round-trip.
+                </p>
+                <p class="decision__tradeoff"><span>Trade-off</span>Every sign-in needs a live inbox. There's no offline-first login, and a slow email provider is a slow login.</p>
+              </div>
+            </div>
+
+            <div class="decision">
+              <span class="decision__num t-micro">02</span>
+              <div>
+                <h3 class="decision__title">Row Level Security in Postgres, not an <code>if</code> in the API</h3>
+                <p class="decision__why t-body">
+                  Data isolation lives at the database layer, so a bug in my application code can't
+                  leak one person's tasks into another's response — the database refuses the query
+                  before it gets that far.
+                </p>
+                <p class="decision__tradeoff"><span>Trade-off</span>Every table needs its policy written and tested up front. A missing policy fails closed — it returns nothing, not an error — which reads exactly like an empty state.</p>
+              </div>
+            </div>
+
+            <div class="decision">
+              <span class="decision__num t-micro">03</span>
+              <div>
+                <h3 class="decision__title">Optimistic UI with undo, not a confirm dialog</h3>
+                <p class="decision__why t-body">
+                  Checking a task or deleting a note lands immediately, and only rolls back if the
+                  server disagrees. A confirm dialog protects against the same rare mistake on every
+                  single delete; undo pays that cost once, only when it's actually needed.
+                </p>
+                <p class="decision__tradeoff"><span>Trade-off</span>The UI can show a state the server hasn't accepted yet. Rolling back a rejected write without it feeling like a glitch took more care than a confirm dialog would have.</p>
+              </div>
+            </div>
+
+            <div class="decision">
+              <span class="decision__num t-micro">04</span>
+              <div>
+                <h3 class="decision__title">A PWA, not a native app</h3>
+                <p class="decision__why t-body">
+                  One codebase, installable straight from the browser, no app-store review cycle to
+                  ship a fix. For a tool only I use, that loop matters more than native APIs I'm not
+                  reaching for anyway.
+                </p>
+                <p class="decision__tradeoff"><span>Trade-off</span>No home-screen presence unless I remember to add it, and background sync is weaker than what a native app gets for free.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════
+         WHAT BROKE
+    ════════════════════════════════════════════ -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-label"><span>What breaks</span></div>
+        <div class="section__body">
+          <h2 class="section-title">Where this design is <span class="accent">honest about failure</span></h2>
+
+          <div class="reveal">
+            <div class="incident">
+              <span class="incident__label">Silent by default</span>
+              <p class="t-body">
+                A missing RLS policy doesn't error — it returns nothing. If I add a table and
+                forget to write its policy, the query comes back empty, and an empty query result
+                looks exactly like an empty state. That's the wrong lesson for the interface to
+                teach, and the only defence is testing every policy on the way in, not noticing its
+                absence later.
+              </p>
+            </div>
+            <div class="incident">
+              <span class="incident__label">Rolling back cleanly</span>
+              <p class="t-body">
+                The UI shows a change before the server has confirmed it. If the server rejects the
+                write, the row has to snap back without reading as "it was there, now it's gone" —
+                which is a harder animation problem than it sounds, and the reason undo took longer
+                to get right than the confirm dialog it replaced would have.
+              </p>
+            </div>
+          </div>
+
+          <div class="case-draft reveal">
+            <span class="case-draft__label">Draft — replace before sharing</span>
+            <p>
+              This is the spot for the real incident: a specific policy you actually forgot, a sync
+              conflict you actually hit, a bug a real interviewer can ask you to walk through.
+            </p>
+            <p>
+              What broke, how did you notice, and what did you change because of it?
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════
+         RESULT
+    ════════════════════════════════════════════ -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-label"><span>Result</span></div>
+        <div class="section__body">
+          <h2 class="section-title">Where it <span class="accent">landed</span></h2>
+          <div class="reveal">
+            <p class="t-body">
+              Johny Memo is live and in daily use — it's where my own tasks, notes and expense
+              tracking actually live now, not a demo dataset built for a portfolio. It's deployed on
+              Cloudflare Pages with Supabase behind it, and it's the featured project on this site.
+            </p>
+            <p class="case-status">
+              <span class="status"><i class="status__dot" aria-hidden="true"></i>Live at johny.siwat.me</span>
+            </p>
+          </div>
+
+          <div class="case-draft reveal">
+            <span class="case-draft__label">Draft — optional</span>
+            <p>Any real numbers worth adding? Weeks in daily use, tasks logged, uptime — only if they're true and you can say them out loud in an interview.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════
+         WHAT I'D DO DIFFERENTLY
+    ════════════════════════════════════════════ -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-label"><span>Next time</span></div>
+        <div class="section__body">
+          <h2 class="section-title">What I'd do <span class="accent">differently</span></h2>
+          <div class="reveal">
+            <ul class="tl-list">
+              <li>Write the RLS policies and their tests before the first UI screen, not after — a failure that returns nothing instead of an error is a hard shape of bug to notice by eye.</li>
+              <li>Add a lightweight way to see what's still queued for sync — the optimistic UI is honest about local state, but not yet about what's still in flight to the server.</li>
+              <li>Keep notes like this one as I build, instead of reconstructing the reasoning after the fact.</li>
+            </ul>
+          </div>
+
+          <div class="case-close reveal" style="margin-top: clamp(56px, 8vh, 88px); padding-top: clamp(32px, 4vh, 56px); border-top: 1px solid var(--line);">
+            <a class="case-back u-line" href="../index.html#projects">&larr; Back to selected work</a>
+            <a class="contact__action" href="mailto:sj.siwat@gmail.com">
+              <span class="contact__action-label">Get in touch</span>
+              <span class="contact__action-arrow" aria-hidden="true">&#8599;</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- ════════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════════ -->
+  <footer>
+    <div class="footer__inner">
+      <nav class="footer__links" aria-label="Elsewhere">
+        <a class="footer__link" href="https://github.com/sjsiwat" target="_blank" rel="noopener">
+          GitHub <span class="footer__arrow" aria-hidden="true">&#8599;</span>
+        </a>
+        <a class="footer__link" href="https://www.linkedin.com/in/siwat-jankam-9a340016a" target="_blank" rel="noopener">
+          LinkedIn <span class="footer__arrow" aria-hidden="true">&#8599;</span>
+        </a>
+        <a class="footer__link" href="https://www.instagram.com/yoksiwat/" target="_blank" rel="noopener">
+          Instagram <span class="footer__arrow" aria-hidden="true">&#8599;</span>
+        </a>
+      </nav>
+
+      <div class="footer__sign">
+        <span class="footer__mark">Siwat Jankam</span>
+        <span class="footer__year">&copy; 2026</span>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="../script.js"></script>
+
+</body>
+</html>

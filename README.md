@@ -60,6 +60,8 @@ style.css                     tokens → typography → layout → motion → co
 script.js                     scroll, typing, line reveals, disclosures, API calls
 images/                       portrait photograph and line illustration
 project-images/               project screenshots
+work/                         case studies — Context → Constraints → Decisions →
+                               What broke → Result → What I'd do differently
 workers/
   github-contributions/       Cloudflare Worker — see its own README
 ```
@@ -82,8 +84,8 @@ this repo.
 |---|---|---|
 | 01 | [AWS S3 Static Website](https://github.com/sjsiwat/aws-static-website) | S3, CloudFront, ACM, AWS CLI |
 | 02 | [AWS EC2 Nginx Website](https://github.com/sjsiwat/AWS-EC2-nginx-website) | EC2, Ubuntu, Nginx, SSH |
-| 03 | [Johny Memo](https://github.com/sjsiwat/Little-Johny) — [live](https://johny.siwat.me) | Supabase, PostgreSQL RLS, magic-link auth, PWA |
-| 04 | [MDflow](https://github.com/sjsiwat/MDflow) | n8n, Docker, Gemini, Google Drive API v3 |
+| 03 | [Johny Memo](https://github.com/sjsiwat/Little-Johny) — [live](https://johny.siwat.me) · [case study](work/johny-memo.html) | Supabase, PostgreSQL RLS, magic-link auth, PWA |
+| 04 | [MDflow](https://github.com/sjsiwat/MDflow) — [case study](work/mdflow.html) | n8n, Docker, Gemini, Google Drive API v3 |
 
 ---
 

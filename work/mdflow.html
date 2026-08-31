@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MDflow — Case Study | Siwat Jankam</title>
+  <meta name="description" content="How MDflow — a PDF-to-Markdown pipeline built on n8n and Gemini — got built, what broke when the packaged Drive node failed, and the fix." />
+  <link rel="stylesheet" href="../style.css" />
+  <script>
+    try {
+      var t = localStorage.getItem("theme");
+      if (t === "dark" || t === "light") {
+        document.documentElement.setAttribute("data-theme", t);
+      }
+    } catch (e) {}
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+
+  <div class="grid-lines" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <div class="scroll-progress"><div class="scroll-progress__bar" id="progressBar"></div></div>
+
+
+  <!-- ════════════════════════════════════════════
+       NAV
+  ════════════════════════════════════════════ -->
+  <nav class="nav" id="nav">
+    <div class="nav__inner">
+      <a class="nav__logo" href="../index.html">Siwat Jankam</a>
+
+      <div class="nav__links">
+        <a class="nav__link u-line" href="../index.html#about">About</a>
+        <a class="nav__link u-line" href="../index.html#skills">Skills</a>
+        <a class="nav__link u-line" href="../index.html#projects">Projects</a>
+        <a class="nav__link u-line" href="../index.html#experience">Experience</a>
+        <a class="nav__link u-line" href="../index.html#contact">Contact</a>
+        <a href="https://github.com/sjsiwat" target="_blank" rel="noopener" class="nav__github">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.08-.73.08-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .3z"/></svg>
+          GITHUB
+        </a>
+      </div>
+
+      <button class="lamp" id="lamp" type="button" aria-pressed="false"
+              aria-label="Turn the lights down">
+        <svg class="lamp__svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+             stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 1.6V4.9" />
+          <path class="lamp__shade" d="M3.2 13.8C3.2 8.9 7.1 4.9 12 4.9s8.8 4 8.8 8.9Z" />
+          <circle class="lamp__bulb" cx="12" cy="16.7" r="2.4" />
+          <g class="lamp__rays">
+            <path d="M6.4 18.4 4.1 22.0" />
+            <path d="M12 20.5V23.4" />
+            <path d="M17.6 18.4 19.9 22.0" />
+          </g>
+        </svg>
+      </button>
+      <button class="nav__burger" id="burger" aria-label="Toggle menu">
+        <svg id="iconMenu" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+        <svg id="iconClose" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24" style="display:none"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+      </button>
+    </div>
+
+    <div class="nav__mobile" id="mobileMenu">
+      <a href="../index.html#about">About</a>
+      <a href="../index.html#skills">Skills</a>
+      <a href="../index.html#projects">Projects</a>
+      <a href="../index.html#experience">Experience</a>
+      <a href="../index.html#contact">Contact</a>
+    </div>
+  </nav>
+
+
+  <main>
+
+    <!-- ════════════════════════════════════════════
+         CASE STUDY HERO
+    ════════════════════════════════════════════ -->
+    <header class="case-hero">
+      <div class="wrap">
+        <div class="section__body" style="grid-column: 1 / -1;">
+          <a class="case-back u-line" href="../index.html#projects">&larr; Selected work</a>
+
+          <p class="hero__kicker">Case Study</p>
+          <h1 class="section-title case-title">MDflow <span class="accent">— a pipeline that files itself</span></h1>
+          <p class="t-lead case-dek">
+            Drop a PDF in a folder; get clean, filed Markdown back. Built on n8n and Gemini — and
+            what happened when the packaged Drive node wasn't enough.
+          </p>
+          <p class="project__meta case-meta">
+            <span>Automation + backend</span><span>Solo</span><span>2026</span><span>Live in production</span>
+          </p>
+          <div class="project__links">
+            <a class="btn btn--quiet" href="https://github.com/sjsiwat/MDflow" target="_blank" rel="noopener">GitHub <span class="btn__arrow">&#8599;</span></a>
+          </div>
+
+          <div class="case-figure img-reveal reveal">
+            <img src="../project-images/n8nnode.png" alt="MDflow — the n8n workflow diagram" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </header>
+
+
+    <!-- ════════════════════════════════════════════
+         CONTEXT
+    ════════════════════════════════════════════ -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-label"><span>Context</span></div>
+        <div class="section__body">
+          <h2 class="section-title">What it's <span class="accent">for</span></h2>
+          <div class="reveal">
+            <p class="t-body">
+              My notes live in Obsidian, but a lot of source material arrives as PDFs — scanned
+              handouts, exported documents — that I'd otherwise retype or reformat by hand before
+              they were actually useful. MDflow is the pipeline that does that instead: drop a PDF
+              into a Drive folder, and it comes out the other side as clean Markdown, filed straight
+              into the vault.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════
+         CONSTRAINTS
+    ════════════════════════════════════════════ -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-label"><span>Constraints</span></div>
+        <div class="section__body">
+          <h2 class="section-title">What it had <span class="accent">to do</span></h2>
+          <div class="reveal">
+            <ul class="tl-list">
+              <li><strong>Low-code where reasonable, but reliable enough to run unattended.</strong> This is a background task, not something I want to babysit.</li>
+              <li><strong>Droppable from anywhere.</strong> The source PDF is often something I only have on my phone — a local watch folder wasn't an option.</li>
+              <li><strong>Structure, not just text.</strong> Plain OCR gives back a wall of characters; the output needed real headings and lists to be worth filing at all.</li>
+              <li><strong>Self-hosted and pay-as-you-go.</strong> Docker plus metered API calls, not a subscription pipeline tool.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════
+         DECISIONS
+    ════════════════════════════════════════════ -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-label"><span>Decisions</span></div>
+        <div class="section__body">
+          <h2 class="section-title">Four calls, and <span class="accent">what they cost</span></h2>
+
+          <div class="decision-list reveal">
+
+            <div class="decision">
+              <span class="decision__num t-micro">01</span>
+              <div>
+                <h3 class="decision__title">n8n on Docker, not a hand-rolled script</h3>
+                <p class="decision__why t-body">
+                  A visual workflow I can see and edit later, self-hosted, with no vendor lock-in on
+                  the automation layer itself.
+                </p>
+                <p class="decision__tradeoff"><span>Trade-off</span>Debugging happens inside someone else's node abstraction instead of my own stack trace — which is exactly what cost time below.</p>
+              </div>
+            </div>
+
+            <div class="decision">
+              <span class="decision__num t-micro">02</span>
+              <div>
+                <h3 class="decision__title">Gemini for OCR and restructuring, not a plain OCR library</h3>
+                <p class="decision__why t-body">
+                  Plain OCR gives back text; Gemini gives back structure — it can tell a heading from
+                  a bullet from a caption, which is what "clean Markdown" actually requires.
+                </p>
+                <p class="decision__tradeoff"><span>Trade-off</span>Output quality depends on a model call I don't fully control, and it puts an external API in the middle of a pipeline that would otherwise run entirely offline.</p>
+              </div>
+            </div>
+
+            <div class="decision">
+              <span class="decision__num t-micro">03</span>
+              <div>
+                <h3 class="decision__title">Google Drive as the inbox, not a local watch folder</h3>
+                <p class="decision__why t-body">
+                  I can drop a PDF in from my phone the moment I have it, not just from the machine
+                  running the workflow.
+                </p>
+                <p class="decision__tradeoff"><span>Trade-off</span>Talking to Drive means OAuth, scopes and a token to keep alive — which is where the pipeline actually broke.</p>
+              </div>
+            </div>
+
+            <div class="decision">
+              <span class="decision__num t-micro">04</span>
+              <div>
+                <h3 class="decision__title">Auto-file into the vault, not a review queue</h3>
+                <p class="decision__why t-body">
+                  The point was removing a manual step, not adding a checkpoint I'd skip half the
+                  time anyway.
+                </p>
+                <p class="decision__tradeoff"><span>Trade-off</span>A bad OCR pass files itself just as confidently as a good one — there's no human gate before it lands in the vault.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════
+         WHAT BROKE
+    ════════════════════════════════════════════ -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-label"><span>What broke</span></div>
+        <div class="section__body">
+          <h2 class="section-title">The node that was supposed to <span class="accent">make this easy</span></h2>
+
+          <div class="reveal">
+            <div class="incident">
+              <span class="incident__label">The break</span>
+              <p class="t-body">
+                n8n's built-in Google Drive node — the one meant to make this the easy part —
+                didn't handle the case this workflow needed and failed partway through, without a
+                clear error pointing at why. Fighting a packaged node's internals from the outside,
+                with no visibility into the request it was actually sending, wasn't going anywhere.
+              </p>
+            </div>
+            <div class="incident">
+              <span class="incident__label">The fix</span>
+              <p class="t-body">
+                I dropped down a level: an HTTP Request node calling the Drive API v3 directly, with
+                OAuth 2.0 credentials configured by hand instead of through the packaged
+                integration. More setup up front, but I could see exactly what request was going
+                out, read the response, and fix the actual problem instead of guessing at what the
+                node was doing internally.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════
+         RESULT
+    ════════════════════════════════════════════ -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-label"><span>Result</span></div>
+        <div class="section__body">
+          <h2 class="section-title">Where it <span class="accent">landed</span></h2>
+          <div class="reveal">
+            <p class="t-body">
+              The pipeline runs in production against my own Drive inbox: a dropped PDF comes back
+              as filed, formatted Markdown in the vault without me touching it in between.
+            </p>
+            <p class="case-status">
+              <span class="status"><i class="status__dot" aria-hidden="true"></i>Running in production</span>
+            </p>
+          </div>
+
+          <div class="case-draft reveal">
+            <span class="case-draft__label">Draft — optional</span>
+            <p>Worth adding if you have them: documents processed, time saved per document, how long it's been running unattended.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════
+         WHAT I'D DO DIFFERENTLY
+    ════════════════════════════════════════════ -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-label"><span>Next time</span></div>
+        <div class="section__body">
+          <h2 class="section-title">What I'd do <span class="accent">differently</span></h2>
+          <div class="reveal">
+            <ul class="tl-list">
+              <li>Reach for the direct API call first for anything touching auth or OAuth — the packaged node saved a few minutes of setup and cost an afternoon of debugging.</li>
+              <li>Add a fallback path for a low-confidence OCR pass — right now a bad scan files itself as confidently as a good one, with nothing flagging the difference.</li>
+              <li>Log each run's source file somewhere queryable, so "did it process this yet" isn't a manual check through the vault.</li>
+            </ul>
+          </div>
+
+          <div class="case-close reveal" style="margin-top: clamp(56px, 8vh, 88px); padding-top: clamp(32px, 4vh, 56px); border-top: 1px solid var(--line);">
+            <a class="case-back u-line" href="../index.html#projects">&larr; Back to selected work</a>
+            <a class="contact__action" href="mailto:sj.siwat@gmail.com">
+              <span class="contact__action-label">Get in touch</span>
+              <span class="contact__action-arrow" aria-hidden="true">&#8599;</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- ════════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════════ -->
+  <footer>
+    <div class="footer__inner">
+      <nav class="footer__links" aria-label="Elsewhere">
+        <a class="footer__link" href="https://github.com/sjsiwat" target="_blank" rel="noopener">
+          GitHub <span class="footer__arrow" aria-hidden="true">&#8599;</span>
+        </a>
+        <a class="footer__link" href="https://www.linkedin.com/in/siwat-jankam-9a340016a" target="_blank" rel="noopener">
+          LinkedIn <span class="footer__arrow" aria-hidden="true">&#8599;</span>
+        </a>
+        <a class="footer__link" href="https://www.instagram.com/yoksiwat/" target="_blank" rel="noopener">
+          Instagram <span class="footer__arrow" aria-hidden="true">&#8599;</span>
+        </a>
+      </nav>
+
+      <div class="footer__sign">
+        <span class="footer__mark">Siwat Jankam</span>
+        <span class="footer__year">&copy; 2026</span>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="../script.js"></script>
+
+</body>
+</html>
