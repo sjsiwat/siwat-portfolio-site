@@ -507,11 +507,14 @@ main { position: relative; z-index: 10; flex: 1; }
   color: var(--dim);
   white-space: nowrap;
 }
+/* The line that types itself is the hero's one moving part — it carries
+   the accent, and keeps it across every phrase so the colour never blinks
+   as the words cycle. */
 .hero__typing .typed {
   font-family: var(--sans);
   font-size: var(--fs-lead);
   letter-spacing: -0.015em;
-  color: var(--ink);
+  color: var(--cobalt);
   min-width: 0;
 }
 .hero__typing .typed.is-role {
@@ -524,7 +527,7 @@ main { position: relative; z-index: 10; flex: 1; }
   display: inline-block;
   width: 1px;
   height: 1.05em;
-  background: var(--ink);
+  background: var(--cobalt);
   vertical-align: -0.14em;
   animation: caret-blink 1.2s steps(1) infinite;
 }
