@@ -1737,25 +1737,6 @@ footer {
 .incident p { max-width: 62ch; }
 .incident p + p { margin-top: 0.75rem; }
 
-/* ── Draft marker — a build-time note, never meant to ship ──── */
-.case-draft {
-  margin-top: clamp(24px, 3vh, 32px);
-  padding: clamp(16px, 2.5vh, 24px);
-  border: 1px dashed color-mix(in srgb, var(--vermilion-ink) 55%, transparent);
-}
-.case-draft__label {
-  display: block;
-  font-family: var(--mono);
-  font-size: var(--fs-micro);
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--vermilion-ink);
-  margin-bottom: 0.6rem;
-}
-.case-draft p { max-width: 62ch; color: var(--dim); }
-.case-draft p + p { margin-top: 0.5rem; }
-
 /* Reuses .status (the live dot) to mark a result as running, not a demo */
 .case-status { margin-top: clamp(20px, 3vh, 28px); }
 
