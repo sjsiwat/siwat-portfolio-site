@@ -19,6 +19,66 @@ const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matc
   onScroll();
 })();
 
+/* ── Wordmark — the nickname while the hero holds the name ─────
+   The hero prints SIWAT JANKAM at 139px, so a second copy of it in the bar
+   above is saying nothing. It carries YOK instead, and rubs that out and
+   writes the full name at the moment the big one leaves the screen — which
+   is the moment the bar has to start saying whose site this is. */
+(function wordmark() {
+  const el = document.querySelector(".nav__logo");
+  const anchor = document.querySelector(".hero__name");
+  if (!el || !anchor) return;
+
+  const SHORT = "Yok";
+  const FULL = "Siwat Jankam";
+
+  // The name it reports never changes, whatever it happens to be showing.
+  el.setAttribute("aria-label", FULL);
+  const ink = document.createElement("span");
+  ink.setAttribute("aria-hidden", "true");
+  el.textContent = "";
+  el.appendChild(ink);
+
+  let shown = SHORT;
+  let timer = 0;
+  let first = true;
+  ink.textContent = SHORT;
+
+  function write(target) {
+    if (shown === target) return;
+    shown = target;
+    clearTimeout(timer);
+
+    if (reducedMotion || first) {
+      ink.textContent = target;
+      return;
+    }
+    el.classList.add("is-typing");
+    const step = () => {
+      const now = ink.textContent;
+      if (now.length && !target.startsWith(now)) {
+        // Rub out only what does not belong to the new word.
+        ink.textContent = now.slice(0, -1);
+        timer = setTimeout(step, 32);
+      } else if (now.length < target.length) {
+        ink.textContent = target.slice(0, now.length + 1);
+        timer = setTimeout(step, 54);
+      } else {
+        el.classList.remove("is-typing");
+      }
+    };
+    step();
+  }
+
+  // The trigger is the big name itself passing under the bar, not a timer
+  // and not a pixel count — so it stays right at any type size.
+  const io = new IntersectionObserver(
+    ([e]) => { write(e.isIntersecting ? SHORT : FULL); first = false; },
+    { rootMargin: "-72px 0px 0px 0px" }
+  );
+  io.observe(anchor);
+})();
+
 /* ── Typing effect ─────────────────────────────────────────── */
 (function typing() {
   const el = document.getElementById("typedText");

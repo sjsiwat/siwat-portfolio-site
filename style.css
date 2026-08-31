@@ -378,11 +378,33 @@ main { position: relative; z-index: 10; flex: 1; }
   gap: var(--gap);
 }
 .nav__logo {
+  display: inline-flex;
+  align-items: center;
   font-family: var(--mono);
   font-size: var(--fs-micro);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--ink);
+  /* Reserves the full name and its caret, so the box never moves while the
+     word is being rubbed out and rewritten. 12ch alone falls 18.5px short —
+     ch measures the glyph, not the 0.14em riding after each one — and the
+     caret adds a pixel and a margin of its own. */
+  min-width: calc(12ch + 13 * 0.14em + 1px);
+}
+/* The caret shows only while the word is being changed — it is the evidence
+   that something is writing, not a permanent blinking cursor. */
+.nav__logo::after {
+  content: "";
+  width: 1px;
+  height: 1.05em;
+  margin-left: 0.14em;
+  background: var(--cobalt);
+  opacity: 0;
+  transition: opacity var(--dur-quick) var(--ease);
+}
+.nav__logo.is-typing::after {
+  opacity: 1;
+  animation: caret-blink 1.2s steps(1) infinite;
 }
 .nav__links {
   display: none;
