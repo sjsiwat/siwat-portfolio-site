@@ -33,7 +33,7 @@
   --mono:    "JetBrains Mono", ui-monospace, monospace;
 
   /* Type scale — two poles, almost no middle */
-  --fs-hero:    clamp(3.5rem, 13vw, 11rem);
+  --fs-hero:    clamp(2.8rem, 10.4vw, 8.8rem);   /* 20% down from 3.5/13/11 */
   --fs-display: clamp(3rem, 11vw, 9rem);
   --fs-deck:    clamp(2rem, 5.5vw, 4.25rem);
   --fs-lead:    clamp(1.25rem, 2.2vw, 1.75rem);
@@ -695,22 +695,38 @@ main { position: relative; z-index: 10; flex: 1; }
 }
 .project:last-child { border-bottom: 1px solid var(--line); }
 
+/* Stacked on a phone: number and title, picture, then the words */
+.project__head   { grid-column: 1 / -1; }
 .project__figure { grid-column: 1 / -1; }
-.project__body   { grid-column: 1 / -1; }
+.project__text   { grid-column: 1 / -1; }
 
-/* Four rhythms, then it repeats — nothing lines up twice */
+/* Four rhythms, then it repeats — nothing lines up twice. The number and
+   title hold a row of their own so the picture can start on the second
+   row, level with the description rather than with the index. */
 @media (min-width: 900px) {
-  .project:nth-child(4n + 1) .project__figure { grid-column: 1 / span 5; }
-  .project:nth-child(4n + 1) .project__body   { grid-column: 6 / -1; }
+  .project__head   { grid-row: 1; }
+  .project__figure { grid-row: 2; }
+  .project__text   { grid-row: 2; }
 
-  .project:nth-child(4n + 2) .project__figure { grid-column: 4 / -1; order: 2; }
-  .project:nth-child(4n + 2) .project__body   { grid-column: 1 / span 3; order: 1; }
+  .project:nth-child(4n + 1) .project__figure { grid-column: 1 / span 5; }
+  .project:nth-child(4n + 1) .project__head,
+  .project:nth-child(4n + 1) .project__text   { grid-column: 6 / -1; }
+
+  .project:nth-child(4n + 2) .project__figure { grid-column: 4 / -1; }
+  .project:nth-child(4n + 2) .project__head,
+  .project:nth-child(4n + 2) .project__text   { grid-column: 1 / span 3; }
 
   .project:nth-child(4n + 3) .project__figure { grid-column: 1 / span 6; }
-  .project:nth-child(4n + 3) .project__body   { grid-column: 7 / -1; }
+  .project:nth-child(4n + 3) .project__head,
+  .project:nth-child(4n + 3) .project__text   { grid-column: 7 / -1; }
 
-  .project:nth-child(4n + 4) .project__figure { grid-column: 3 / -1; order: 2; }
-  .project:nth-child(4n + 4) .project__body   { grid-column: 1 / span 2; order: 1; }
+  .project:nth-child(4n + 4) .project__figure { grid-column: 3 / -1; }
+  .project:nth-child(4n + 4) .project__head,
+  .project:nth-child(4n + 4) .project__text   { grid-column: 1 / span 2; }
+
+  /* Drop the picture to the cap of the description's first line —
+     half-leading plus the ascender gap, in units of the body size. */
+  .project__figure { margin-top: calc(var(--fs-body) * 0.46); }
 }
 
 /* Screenshots keep their own proportions — never cropped to fit a frame.
