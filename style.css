@@ -493,6 +493,21 @@ main { position: relative; z-index: 10; flex: 1; }
   color: var(--cobalt);
 }
 .hero__name { margin-bottom: clamp(28px, 4vh, 56px); }
+
+/* Each letter is its own span so the cursor can pick one out. They stay
+   inline: inline-block would let them move, but it also costs Archivo its
+   kerning pairs — 3px on "Jankam" at this size — and the line masks would
+   clip anything that moved anyway. So colour is the whole effect.
+
+   It arrives fast and leaves slowly, which leaves a short trail of cobalt
+   behind the cursor as it crosses the name rather than a hard on and off. */
+@media (hover: hover) {
+  .hero__name .ch { transition: color 520ms var(--ease); }
+  .hero__name .ch:hover {
+    color: var(--cobalt);
+    transition-duration: 120ms;
+  }
+}
 .hero__tagline {
   font-size: var(--fs-deck);
   max-width: 26ch;      /* the deck breaks on its own <br>, not on width */

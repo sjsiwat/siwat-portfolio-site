@@ -98,6 +98,7 @@ const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matc
   }
 
   function split(el) {
+    const letters = el.hasAttribute("data-letters");
     el.innerHTML = el.dataset.source;
     const tokens = tokenise(el);
 
@@ -137,13 +138,22 @@ const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matc
       inner.style.setProperty("--ln-delay", i * 70 + "ms");
       words.forEach((t, j) => {
         if (j) inner.appendChild(document.createTextNode(" "));
+        let host = inner;
         if (t.accent) {
-          const a = document.createElement("span");
-          a.className = "accent";
-          a.textContent = t.word;
-          inner.appendChild(a);
+          host = document.createElement("span");
+          host.className = "accent";
+          inner.appendChild(host);
+        }
+        if (letters) {
+          // One span to a character, so a hover can pick out just that one.
+          for (const ch of t.word) {
+            const c = document.createElement("span");
+            c.className = "ch";
+            c.textContent = ch;
+            host.appendChild(c);
+          }
         } else {
-          inner.appendChild(document.createTextNode(t.word));
+          host.appendChild(document.createTextNode(t.word));
         }
       });
       mask.appendChild(inner);
