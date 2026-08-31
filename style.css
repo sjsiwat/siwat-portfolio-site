@@ -791,6 +791,16 @@ main { position: relative; z-index: 10; flex: 1; }
 }
 .portrait.is-unmasked .portrait__real { opacity: 1; }
 
+/* Colour by day, the graded black-and-white by night — same crop, two
+   prints stacked in the frame, only one ever rendered. */
+.portrait__real--bw { display: none; }
+[data-theme="dark"] .portrait__real--color { display: none; }
+[data-theme="dark"] .portrait__real--bw { display: block; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .portrait__real--color { display: none; }
+  :root:not([data-theme="light"]) .portrait__real--bw { display: block; }
+}
+
 /* The frame states its own condition, the way a dev tool prints the rule
    that's hiding an element — gone the instant the picture actually is. */
 .portrait__code {
