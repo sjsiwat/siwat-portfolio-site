@@ -1205,15 +1205,32 @@ main { position: relative; z-index: 10; flex: 1; }
 /* ── Contact — the closing statement, not an info box ───────── */
 .contact__inner { text-align: left; }
 .contact__title { margin: clamp(24px, 3vh, 40px) 0 0; }
-/* The serif runs larger here than anywhere else: last word on the page */
+/* The serif runs larger here than anywhere else: last words on the page */
 .contact__title .accent { font-size: 1.14em; }
+/* The question is asked, then a beat, then the answer. The <br> before the
+   accent guarantees it is the closing line, so spacing it is enough. */
+.contact__title .ln:last-child {
+  /* Adds to .ln's own -0.14em compensation rather than replacing it, so the
+     beat is the clamp and nothing else. */
+  margin-top: calc(-0.14em + clamp(12px, 1.6vh, 24px));
+}
+
+/* Three thoughts, one to a line of its own, set small against a headline
+   that big. The space between them is the point — it is how the reading
+   slows down before the address. */
+.contact__note {
+  max-width: 34ch;
+  margin-top: clamp(48px, 7vh, 88px);
+}
+.contact__note p + p { margin-top: clamp(20px, 2.6vh, 32px); }
+.contact__note p:last-child { color: var(--ink); }
 
 .contact__panel {
   display: grid;
   grid-template-columns: repeat(9, minmax(0, 1fr));
   column-gap: var(--gap);
   row-gap: clamp(40px, 6vh, 64px);
-  margin-top: clamp(64px, 10vh, 128px);
+  margin-top: clamp(48px, 7vh, 88px);
   padding-top: clamp(32px, 4vh, 56px);
   border-top: 1px solid var(--line);
 }
@@ -1224,6 +1241,9 @@ main { position: relative; z-index: 10; flex: 1; }
   .contact__availability { grid-column: 1 / span 4; }
   .contact__reach        { grid-column: 6 / -1; }
 }
+
+/* Keeps "full-stack" off a line break at its own hyphen */
+.u-nowrap { white-space: nowrap; }
 
 .contact__status {
   font-family: var(--mono);
