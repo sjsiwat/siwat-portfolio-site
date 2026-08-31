@@ -35,6 +35,7 @@
   /* Motion — expo-out everywhere, slow and unhurried */
   --ease: cubic-bezier(.16, 1, .3, 1);
   --dur:  700ms;
+  --dur-quick: 260ms;   /* contact interactions only */
 
   /* Grid */
   --gap:  24px;
@@ -160,7 +161,6 @@ strong { font-weight: 500; color: var(--ink); }
 .hero__intro,
 .about-card p,
 .stack__note,
-.contact__sub,
 .tl-list {
   font-family: var(--sans);
   font-size: var(--fs-body);
@@ -835,66 +835,189 @@ main { position: relative; z-index: 10; flex: 1; }
 }
 
 /* ── Contact ───────────────────────────────────────────────── */
+/* ── Contact — the closing statement, not an info box ───────── */
 .contact__inner { text-align: left; }
-.contact__title { margin: clamp(24px, 3vh, 40px) 0; }
-.contact__sub { margin-bottom: clamp(40px, 6vh, 72px); }
-.contact__sub-line {
-  display: block;
-  margin-top: 0.75rem;
+.contact__title { margin: clamp(24px, 3vh, 40px) 0 0; }
+/* The serif runs larger here than anywhere else: last word on the page */
+.contact__title .accent { font-size: 1.14em; }
+
+.contact__panel {
+  display: grid;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  column-gap: var(--gap);
+  row-gap: clamp(40px, 6vh, 64px);
+  margin-top: clamp(64px, 10vh, 128px);
+  padding-top: clamp(32px, 4vh, 56px);
+  border-top: 1px solid var(--line);
+}
+.contact__availability { grid-column: 1 / -1; }
+.contact__reach        { grid-column: 1 / -1; }
+
+@media (min-width: 900px) {
+  .contact__availability { grid-column: 1 / span 4; }
+  .contact__reach        { grid-column: 6 / -1; }
+}
+
+.contact__status {
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  line-height: 2;
+  text-transform: uppercase;
+  color: var(--ink);
+  max-width: 28ch;
+}
+.contact__place {
+  margin-top: 1.5rem;
   font-family: var(--mono);
   font-size: var(--fs-micro);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--mute);
 }
-.contact__cta {
-  display: inline-block;
+
+.contact__reach {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(32px, 5vh, 56px);
+}
+
+/* Address and action share one behaviour: a hairline at rest that an ink
+   rule draws over from the left on hover. Quick — 260ms, not the page's 700. */
+.contact__email,
+.contact__action {
+  position: relative;
+  color: var(--ink);
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--line);
+}
+.contact__email::after,
+.contact__action::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  height: 1px;
+  background: var(--ink);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--dur-quick) var(--ease);
+}
+.contact__email:hover::after,
+.contact__email:focus-visible::after,
+.contact__action:hover::after,
+.contact__action:focus-visible::after { transform: scaleX(1); }
+
+.contact__email {
+  align-self: stretch;
   font-family: var(--sans);
   font-size: var(--fs-lead);
   letter-spacing: -0.015em;
-  color: var(--ink);
-}
-.contact__socials {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem 2rem;
-  margin-top: clamp(40px, 5vh, 64px);
-  padding-top: clamp(20px, 2.5vh, 32px);
-  border-top: 1px solid var(--line);
-}
-.contact__socials a {
-  font-family: var(--mono);
-  font-size: var(--fs-micro);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--dim);
 }
 
-/* ── Footer ────────────────────────────────────────────────── */
+/* The one thing on this page asking to be pressed */
+.contact__action {
+  align-self: flex-end;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.contact__action-label {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.contact__action-arrow {
+  display: inline-block;
+  font-size: 13px;
+  line-height: 1;
+  transition: transform var(--dur-quick) var(--ease);
+}
+.contact__action:hover .contact__action-arrow,
+.contact__action:focus-visible .contact__action-arrow { transform: translate(3px, -3px); }
+
+/* ── Footer — a signature, weighted a shade above the section above ── */
 footer {
   position: relative;
   z-index: 10;
   border-top: 1px solid var(--line);
-  padding-block: 1.5rem;
+  padding-block: clamp(48px, 7vh, 88px) clamp(32px, 4vh, 48px);
 }
 .footer__inner {
   max-width: var(--maxw);
   margin-inline: auto;
   padding-inline: var(--pad);
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gap);
+  row-gap: clamp(40px, 6vh, 72px);
+}
+.footer__links {
+  grid-column: 1 / -1;
   display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+  flex-wrap: wrap;
+  gap: 1.5rem 2.5rem;
 }
-@media (min-width: 768px) {
-  .footer__inner { flex-direction: row; justify-content: space-between; align-items: baseline; }
+.footer__link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
 }
-.footer__inner span {
+.footer__link::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  height: 1px;
+  background: var(--ink);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--dur-quick) var(--ease);
+}
+.footer__link:hover::after,
+.footer__link:focus-visible::after { transform: scaleX(1); }
+.footer__arrow {
+  display: inline-block;
+  font-size: 13px;
+  line-height: 1;
+  transition: transform var(--dur-quick) var(--ease);
+}
+.footer__link:hover .footer__arrow,
+.footer__link:focus-visible .footer__arrow { transform: translate(3px, -3px); }
+
+.footer__sign {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.footer__mark {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: clamp(1.125rem, 1.6vw, 1.5rem);
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+.footer__year {
   font-family: var(--mono);
   font-size: var(--fs-micro);
   letter-spacing: 0.14em;
-  text-transform: uppercase;
   color: var(--mute);
 }
+
 /* ── Motion preferences ────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
