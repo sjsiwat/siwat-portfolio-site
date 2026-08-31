@@ -1865,7 +1865,19 @@ footer {
   padding-bottom: 0.7rem;
 }
 .projects__more .btn:hover { color: var(--vermilion-ink); border-bottom-color: var(--vermilion-ink); }
-.projects__more .btn__arrow { font-size: 19px; }
+/* An idle nudge, not a hover trick — the arrow makes its own case for
+   being clicked. Pauses on hover so it doesn't fight the .btn__arrow
+   hover slide already defined above; prefers-reduced-motion kills it
+   sitewide via the *,*::before,*::after rule at the bottom of this file. */
+.projects__more .btn__arrow {
+  font-size: 19px;
+  animation: nudge-right 2s var(--ease) infinite;
+}
+.projects__more .btn:hover .btn__arrow { animation-play-state: paused; }
+@keyframes nudge-right {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(6px); }
+}
 
 /* ── Motion preferences ────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
