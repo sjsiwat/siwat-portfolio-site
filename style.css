@@ -456,14 +456,22 @@ main { position: relative; z-index: 10; flex: 1; }
 }
 .hero__inner {
   padding-block: clamp(120px, 20vh, 200px) var(--section-gap);
-  row-gap: clamp(48px, 8vh, 96px);
+  row-gap: 0;                 /* rows are spaced by explicit margins below */
 }
-.hero__text  { grid-column: 1 / -1; min-width: 0; }
-.hero__photo { grid-column: 1 / -1; }
+.hero__kicker { grid-column: 1 / -1; }
+.hero__text   { grid-column: 1 / -1; min-width: 0; }
+.hero__photo  { grid-column: 1 / -1; margin-top: clamp(48px, 8vh, 96px); }
 
 @media (min-width: 900px) {
   .hero__text  { grid-column: 1 / span 8; }
-  .hero__photo { grid-column: 10 / -1; align-self: start; }
+  /* The portrait shares the name's row, then drops by the distance from the
+     line-box top to the cap of the S — half-leading plus the ascender gap,
+     both proportional to the type size, so the alignment holds at any width. */
+  .hero__photo {
+    grid-column: 10 / -1;
+    align-self: start;
+    margin-top: calc(var(--fs-hero) * 0.092);
+  }
 }
 
 .hero__kicker {
