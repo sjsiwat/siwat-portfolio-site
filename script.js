@@ -255,35 +255,45 @@ const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matc
   });
 })();
 
-/* ── Experience panel (drops open on demand) ───────────────── */
-(function experiencePanel() {
-  const section = document.getElementById("experience");
-  const btn = document.getElementById("expToggle");
-  const panel = document.getElementById("expCollapse");
-  const label = document.getElementById("expLabel");
-  if (!section || !btn || !panel) return;
+/* ── Disclosures — every section folds away ────────────────────
+   Panels are open in the markup so the page still reads without JS;
+   the collapse only becomes possible once this runs. */
+(function disclosures() {
+  const btns = [...document.querySelectorAll(".disclosure__btn")];
+  if (!btns.length) return;
 
-  // Only collapse once JS is running — without it the timeline stays open.
-  section.classList.add("experience-ready");
-  panel.setAttribute("aria-hidden", "true");
+  document.documentElement.classList.add("js-disclosure");
 
-  btn.addEventListener("click", () => {
-    const open = panel.classList.toggle("open");
+  const setState = (btn, panel, open) => {
+    panel.classList.toggle("is-open", open);
     btn.setAttribute("aria-expanded", String(open));
     panel.setAttribute("aria-hidden", String(!open));
-    label.textContent = open ? "Hide experience path" : "Show experience path";
+    const label = btn.querySelector(".disclosure__label");
+    if (label) label.textContent = (open ? "Hide " : "Show ") + btn.dataset.noun;
+  };
 
-    // Opening from a half-scrolled position can leave the button off-screen.
-    if (open) {
-      const top = btn.getBoundingClientRect().top;
-      if (top < 80 || top > window.innerHeight - 160) {
-        btn.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "center" });
+  btns.forEach((btn) => {
+    const panel = document.getElementById(btn.getAttribute("aria-controls"));
+    if (!panel) return;
+
+    // Experience stays folded on arrival; everything else opens.
+    setState(btn, panel, panel.id !== "panel-experience");
+
+    btn.addEventListener("click", () => {
+      const open = !panel.classList.contains("is-open");
+      setState(btn, panel, open);
+
+      // Closing a tall panel can strand the button off-screen.
+      if (!open) {
+        const top = btn.getBoundingClientRect().top;
+        if (top < 80) btn.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "center" });
       }
-    }
+    });
   });
 
-  // Deep link (#experience) opens it straight away.
-  if (location.hash === "#experience") btn.click();
+  // A deep link opens the section it points at.
+  const deep = location.hash && document.querySelector(location.hash + " .disclosure__btn");
+  if (deep && deep.getAttribute("aria-expanded") === "false") deep.click();
 })();
 
 /* ── Smooth scroll for nav links ───────────────────────────── */
