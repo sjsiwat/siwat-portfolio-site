@@ -27,9 +27,9 @@ const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matc
   //  cobalt in the serif italic.
   const strings = [
     { text: "Full Stack Developer" },
-    { text: "Backend-Leaning Builder" },
+    { text: "Interface & API Builder" },
     { text: "Cat Lover", fun: true },
-    { text: "Data Modeller & API Designer" },
+    { text: "Design-Minded Engineer" },
     { text: "Coffee Lover", fun: true },
     { text: "Cloud & Automation Tinkerer" },
     { text: "Road Cyclist", fun: true },

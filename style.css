@@ -131,7 +131,7 @@ strong { font-weight: 500; color: var(--ink); }
 /* The deck sits under the name — display voice, one step down */
 .hero__tagline {
   font-size: var(--fs-deck);
-  max-width: 26ch;      /* wide enough that "full stack" stays on one line */
+  max-width: 26ch;      /* the deck breaks on its own <br>, not on width */
   text-wrap: balance;
   margin-bottom: clamp(24px, 3vh, 40px);
 }
@@ -495,7 +495,7 @@ main { position: relative; z-index: 10; flex: 1; }
 .hero__name { margin-bottom: clamp(28px, 4vh, 56px); }
 .hero__tagline {
   font-size: var(--fs-deck);
-  max-width: 26ch;      /* wide enough that "full stack" stays on one line */
+  max-width: 26ch;      /* the deck breaks on its own <br>, not on width */
   text-wrap: balance;
   margin-bottom: clamp(24px, 3vh, 40px);
 }
