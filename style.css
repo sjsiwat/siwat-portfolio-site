@@ -968,11 +968,11 @@ main { position: relative; z-index: 10; flex: 1; }
 }
 @keyframes marquee { to { transform: translateX(-50%); } }
 
-/* ── Projects — a carousel, one spread to a card ────────────────
-   The entries used to run down the page swapping sides. Sideways they
-   need to agree with each other instead: one width, one picture box, and
-   the links pinned to the foot so the row of them reads as a line. */
-.carousel { border-top: 1px solid var(--line); }
+/* ── Projects — the supporting work, two up ──────────────────────
+   Everything not featured lands here as a plain grid: one width, one
+   picture box, and the links pinned to the foot so the row of them
+   reads as a line. Used to be a scroll carousel, back when there were
+   three of these; with two, scrolling had nothing to hide. */
 
 /* The track breaks two columns further left than the section body it sits
    in, into the air beside the sticky label — the word PROJECTS is 11px mono
@@ -988,38 +988,19 @@ main { position: relative; z-index: 10; flex: 1; }
 }
 
 .projects {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: var(--gap);
-  /* The track scrolls in place; the page never moves sideways. */
-  overflow-x: auto;
-  overflow-y: hidden;
-  overscroll-behavior-x: contain;
-  scroll-snap-type: x mandatory;
-  /* The rail below is the scrollbar — the browser's own is redundant. */
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  /* Room for focus rings, which the overflow would otherwise clip. The
-     scroll-padding matches it, or the snapped rest position sits at 2px
-     and the "at the start" test never fires. */
   padding-block: clamp(28px, 4vh, 48px);
-  padding-inline: 2px;
-  scroll-padding-inline: 2px;
 }
-.projects::-webkit-scrollbar { display: none; }
-.projects:focus-visible { outline: 1px solid var(--cobalt); outline-offset: 4px; }
+@media (min-width: 900px) {
+  .projects { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 
 .project {
   --fs-project-title: clamp(1.575rem, 2.7vw, 2.475rem);
-  /* Supporting work runs narrower than a page, so a second card is always
-     part in view and the featured picture stays clearly the largest thing
-     in the section. Sized against the track rather than the viewport: the
-     featured figure is eight of twelve columns above 900px and the whole
-     width below it, and only a share of the same box tracks that. Holds the
-     gap at 22% from 375px to 1440px; a vw clamp fell to 12% in between. */
-  flex: 0 0 82%;
   display: flex;
   flex-direction: column;
-  scroll-snap-align: start;
 }
 
 /* ── The featured entry ────────────────────────────────────────
@@ -1033,7 +1014,6 @@ main { position: relative; z-index: 10; flex: 1; }
   border-bottom: 1px solid var(--line);
 }
 @media (min-width: 900px) {
-  .project { flex-basis: 54%; }   /* the featured figure is 66% up here */
   .project--featured {
     display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -1142,64 +1122,6 @@ main { position: relative; z-index: 10; flex: 1; }
   border-bottom-color: color-mix(in srgb, var(--cobalt) 35%, transparent);
 }
 .project__links .btn:hover { color: var(--cobalt); border-bottom-color: var(--cobalt); }
-
-/* ── Carousel controls ─────────────────────────────────────────
-   The rail is the scrollbar, drawn in the page's own hand: a hairline
-   with the accent riding it in proportion to how much is off-screen. */
-.carousel__foot {
-  display: flex;
-  align-items: center;
-  gap: clamp(24px, 4vw, 56px);
-  padding-top: clamp(20px, 2.5vh, 28px);
-  border-top: 1px solid var(--line);
-}
-.carousel__rail {
-  position: relative;
-  flex: 1;
-  height: 1px;
-  background: var(--line);
-}
-.carousel__bar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 1px;
-  width: 25%;
-  background: var(--cobalt);
-  transform-origin: left center;
-  will-change: transform;
-}
-.carousel__nav {
-  display: flex;
-  gap: 0.5rem;
-}
-.carousel__btn {
-  width: 2.75rem;
-  height: 2.75rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: 1px solid color-mix(in srgb, var(--cobalt) 35%, transparent);
-  font-family: var(--mono);
-  font-size: 14px;
-  line-height: 1;
-  color: var(--cobalt);
-  cursor: pointer;
-  transition: background-color var(--dur-quick) var(--ease),
-              color var(--dur-quick) var(--ease),
-              border-color var(--dur-quick) var(--ease);
-}
-.carousel__btn:hover,
-.carousel__btn:focus-visible {
-  background: var(--cobalt);
-  border-color: var(--cobalt);
-  color: var(--on-accent);
-}
-
-/* No JS, no controls — the track still scrolls on its own. */
-.carousel__foot { display: none; }
-.js-carousel .carousel__foot { display: flex; }
 
 /* ── Activity — the GitHub calendar, redrawn in the page's own language ──
    No green, no rounded chrome: an ink ramp on paper, with the accent kept

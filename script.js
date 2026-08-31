@@ -348,67 +348,6 @@ const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matc
   });
 })();
 
-/* ── Projects carousel ─────────────────────────────────────────
-   The track scrolls natively — this only draws the rail, steps the
-   buttons by exactly one card, and greys them out at the ends. */
-(function carousel() {
-  const root = document.querySelector("[data-carousel]");
-  if (!root) return;
-  const track = root.querySelector("[data-carousel-track]");
-  const bar = root.querySelector("[data-carousel-bar]");
-  const prev = root.querySelector("[data-carousel-prev]");
-  const next = root.querySelector("[data-carousel-next]");
-  if (!track || !bar || !prev || !next) return;
-
-  document.documentElement.classList.add("js-carousel");
-
-  function draw() {
-    const max = track.scrollWidth - track.clientWidth;
-    const visible = track.clientWidth / track.scrollWidth;
-    const travel = max > 0 ? track.scrollLeft / max : 0;
-    bar.style.width = (visible * 100).toFixed(3) + "%";
-    bar.style.transform =
-      "translateX(" + (travel * (1 / visible - 1) * 100).toFixed(3) + "%)";
-  }
-
-  // A loop: past the last card is the first again, so neither button ever
-  // goes dead and the rail is what says where you are.
-  // The stops are the cards' own positions rather than a multiple of the
-  // stride — more than one card is in view at a time, so the last stop is
-  // where the track runs out, not where the last card starts.
-  function step(dir) {
-    const max = track.scrollWidth - track.clientWidth;
-    if (max <= 0) return;
-    const stops = [...track.children]
-      .map((c) => Math.min(c.offsetLeft - track.offsetLeft, max));
-    const at = track.scrollLeft;
-    let left;
-    if (dir > 0) {
-      left = stops.find((x) => x > at + 2);
-      if (left === undefined) left = 0;
-    } else {
-      const before = stops.filter((x) => x < at - 2);
-      left = before.length ? before[before.length - 1] : max;
-    }
-    track.scrollTo({ left: left, behavior: reducedMotion ? "auto" : "smooth" });
-  }
-  prev.addEventListener("click", () => step(-1));
-  next.addEventListener("click", () => step(1));
-
-  let frame = 0;
-  track.addEventListener("scroll", () => {
-    if (frame) return;
-    frame = requestAnimationFrame(() => { frame = 0; draw(); });
-  }, { passive: true });
-
-  window.addEventListener("resize", draw);
-  // Card width follows a clamp on font size, so wait for the webfonts.
-  const ready = document.fonts && document.fonts.ready
-    ? document.fonts.ready : Promise.resolve();
-  ready.then(draw);
-  draw();
-})();
-
 /* ── Reveal on scroll ──────────────────────────────────────── */
 (function reveal() {
   const els = document.querySelectorAll(".reveal");
