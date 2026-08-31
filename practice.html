@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Practice &amp; Coursework | Siwat Jankam</title>
+  <meta name="description" content="Coursework, clones and self-directed exercises — the bootcamp assignments and side practice behind the four projects in Selected Work." />
+  <link rel="stylesheet" href="style.css" />
+  <script>
+    try {
+      var t = localStorage.getItem("theme");
+      if (t === "dark" || t === "light") {
+        document.documentElement.setAttribute("data-theme", t);
+      }
+    } catch (e) {}
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+
+  <div class="grid-lines" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <div class="scroll-progress"><div class="scroll-progress__bar" id="progressBar"></div></div>
+
+
+  <!-- ════════════════════════════════════════════
+       NAV
+  ════════════════════════════════════════════ -->
+  <nav class="nav" id="nav">
+    <div class="nav__inner">
+      <a class="nav__logo" href="index.html">Siwat Jankam</a>
+
+      <div class="nav__links">
+        <a class="nav__link u-line" href="index.html#about">About</a>
+        <a class="nav__link u-line" href="index.html#skills">Skills</a>
+        <a class="nav__link u-line" href="index.html#projects">Projects</a>
+        <a class="nav__link u-line" href="index.html#experience">Experience</a>
+        <a class="nav__link u-line" href="index.html#contact">Contact</a>
+        <a href="https://github.com/sjsiwat" target="_blank" rel="noopener" class="nav__github">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.08-.73.08-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .3z"/></svg>
+          GITHUB
+        </a>
+      </div>
+
+      <button class="lamp" id="lamp" type="button" aria-pressed="false"
+              aria-label="Turn the lights down">
+        <svg class="lamp__svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+             stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 1.6V4.9" />
+          <path class="lamp__shade" d="M3.2 13.8C3.2 8.9 7.1 4.9 12 4.9s8.8 4 8.8 8.9Z" />
+          <circle class="lamp__bulb" cx="12" cy="16.7" r="2.4" />
+          <g class="lamp__rays">
+            <path d="M6.4 18.4 4.1 22.0" />
+            <path d="M12 20.5V23.4" />
+            <path d="M17.6 18.4 19.9 22.0" />
+          </g>
+        </svg>
+      </button>
+      <button class="nav__burger" id="burger" aria-label="Toggle menu">
+        <svg id="iconMenu" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+        <svg id="iconClose" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24" style="display:none"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+      </button>
+    </div>
+
+    <div class="nav__mobile" id="mobileMenu">
+      <a href="index.html#about">About</a>
+      <a href="index.html#skills">Skills</a>
+      <a href="index.html#projects">Projects</a>
+      <a href="index.html#experience">Experience</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+  </nav>
+
+
+  <main>
+
+    <!-- ════════════════════════════════════════════
+         HERO
+    ════════════════════════════════════════════ -->
+    <header class="case-hero">
+      <div class="wrap">
+        <div class="section__body" style="grid-column: 1 / -1;">
+          <a class="case-back u-line" href="index.html#projects">&larr; Selected work</a>
+
+          <p class="hero__kicker">Practice</p>
+          <h1 class="section-title case-title">Everything else <span class="accent">I built</span></h1>
+          <p class="t-lead case-dek">
+            Selected Work is what shipped. This is where it came from — a database assessment with
+            two backends, a pixel-matched clone, a DOM clicker, a live API pull, a product page for
+            my own bike, a café-discovery concept, and a terminal game. Not production work.
+            Practice, on purpose.
+          </p>
+        </div>
+      </div>
+    </header>
+
+
+    <!-- ════════════════════════════════════════════
+         THE LIST
+    ════════════════════════════════════════════ -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-label"><span>The list</span></div>
+        <div class="section__body">
+
+          <div class="practice-list">
+
+            <!-- 01 — Chrome & Burger -->
+            <article class="practice-item reveal">
+              <span class="practice-item__index t-micro">01 / 07</span>
+              <h2 class="practice-item__title">Chrome &amp; Burger</h2>
+              <p class="practice-item__desc t-body">
+                A full-stack database assessment: one live menu, sourced from two different
+                databases at once, to see the same data modelled two ways.
+              </p>
+              <p class="practice-item__meta"><span>Node.js</span><span>Express</span><span>PostgreSQL (Supabase)</span><span>MongoDB</span><span>Tailwind CSS</span><span>Cloudflare Pages</span><span>Render</span></p>
+              <div class="practice-item__links">
+                <a class="btn btn--quiet" href="https://siwat-chrome-burger.pages.dev/" target="_blank" rel="noopener">Live site <span class="btn__arrow">&#8599;</span></a>
+                <a class="btn btn--quiet" href="https://github.com/sjsiwat/jsd-assessment-dbs" target="_blank" rel="noopener">GitHub <span class="btn__arrow">&#8599;</span></a>
+              </div>
+              <div class="practice-item__strip">
+                <div class="practice-thumb"><img src="project-images/more/burger-1-home.webp" alt="Chrome & Burger — the landing page" loading="lazy" /></div>
+                <div class="practice-thumb"><img src="project-images/more/burger-2-menu-supabase.webp" alt="The menu page, sourced from Supabase" loading="lazy" /></div>
+                <div class="practice-thumb"><img src="project-images/more/burger-3-menu-mongodb.webp" alt="The same menu, sourced from MongoDB" loading="lazy" /></div>
+                <div class="practice-thumb"><img src="project-images/more/burger-4-mobile.webp" alt="The landing page on mobile" loading="lazy" /></div>
+                <div class="practice-thumb"><img src="project-images/more/burger-5-contact.webp" alt="The contact section with a video embed" loading="lazy" /></div>
+              </div>
+            </article>
+
+            <!-- 02 — Colmar Academy clone -->
+            <article class="practice-item reveal">
+              <span class="practice-item__index t-micro">02 / 07</span>
+              <h2 class="practice-item__title">Colmar Academy, cloned</h2>
+              <p class="practice-item__desc t-body">
+                A pixel-matched front-end clone exercise — reproducing a real design's typography,
+                spacing and layout instead of inventing my own.
+              </p>
+              <p class="practice-item__meta"><span>HTML5</span><span>CSS3</span></p>
+              <div class="practice-item__links">
+                <a class="btn btn--quiet" href="https://36-siwat-colmar.vercel.app/" target="_blank" rel="noopener">Live site <span class="btn__arrow">&#8599;</span></a>
+                <a class="btn btn--quiet" href="https://github.com/sjsiwat/36_Siwat_colmar" target="_blank" rel="noopener">GitHub <span class="btn__arrow">&#8599;</span></a>
+              </div>
+              <div class="practice-item__strip">
+                <div class="practice-thumb"><img src="project-images/more/colmar-1-hero.webp" alt="Colmar Academy — the hero section" loading="lazy" /></div>
+                <div class="practice-thumb"><img src="project-images/more/colmar-2-orientation.webp" alt="Orientation, campus and guest lecture cards" loading="lazy" /></div>
+                <div class="practice-thumb"><img src="project-images/more/colmar-3-courses.webp" alt="The course category grid" loading="lazy" /></div>
+                <div class="practice-thumb"><img src="project-images/more/colmar-4-thesis.webp" alt="The thesis exhibits section" loading="lazy" /></div>
+                <div class="practice-thumb"><img src="project-images/more/colmar-5-mobile.webp" alt="The page on mobile" loading="lazy" /></div>
+              </div>
+            </article>
+
+            <!-- 03 — WTFast Equipment -->
+            <article class="practice-item reveal">
+              <span class="practice-item__index t-micro">03 / 07</span>
+              <h2 class="practice-item__title">WTFast Equipment</h2>
+              <p class="practice-item__desc t-body">
+                A Specialized S-Works product page, built from scratch — because I ride, and wanted
+                to see if I could design for it: feature copy, spec breakdowns, a pricing grid.
+              </p>
+              <p class="practice-item__meta"><span>HTML5</span><span>CSS3</span></p>
+              <div class="practice-item__links">
+                <a class="btn btn--quiet" href="https://github.com/sjsiwat/HTML-CSS-project" target="_blank" rel="noopener">GitHub <span class="btn__arrow">&#8599;</span></a>
+              </div>
+              <div class="practice-item__strip">
+                <div class="practice-thumb"><img src="project-images/more/wtfast-1-hero.webp" alt="WTFast Equipment — the hero section" loading="lazy" /></div>
+                <div class="practice-thumb"><img src="project-images/more/wtfast-2-flowfork.webp" alt="A feature breakdown — the Flow Fork" loading="lazy" /></div>
+                <div class="practice-thumb"><img src="project-images/more/wtfast-3-outcome.webp" alt="The engineering outcome section with stats" loading="lazy" /></div>
+                <div class="practice-thumb"><img src="project-images/more/wtfast-4-framesets.webp" alt="The frameset pricing grid" loading="lazy" /></div>
+                <div class="practice-thumb"><img src="project-images/more/wtfast-5-contact.webp" alt="The contact form" loading="lazy" /></div>
+              </div>
+            </article>
+
+            <!-- 04 — Clicker Game -->
+            <article class="practice-item reveal">
+              <span class="practice-item__index t-micro">04 / 07</span>
+              <h2 class="practice-item__title">Clicker Game</h2>
+              <p class="practice-item__desc t-body">
+                A DOM-manipulation exercise that turned into an idle clicker — upgrades, an
+                auto-clicker, and a character I drew myself standing in for the "click me" target.
+              </p>
+              <p class="practice-item__meta"><span>JavaScript</span><span>DOM</span></p>
+              <div class="practice-item__links">
+                <a class="btn btn--quiet" href="https://github.com/sjsiwat/JS-DOM-clickerGame-pokemon" target="_blank" rel="noopener">GitHub <span class="btn__arrow">&#8599;</span></a>
+              </div>
+              <div class="practice-item__strip">
+                <div class="practice-thumb"><img src="project-images/more/clicker-1-start.webp" alt="Clicker Game — the stats panel at zero" loading="lazy" /></div>
+                <div class="practice-thumb"><img src="project-images/more/clicker-2-character.webp" alt="The hand-drawn character to click" loading="lazy" /></div>
+                <div class="practice-thumb"><img src="project-images/more/clicker-3-clicking.webp" alt="Stats after fifteen clicks" loading="lazy" /></div>
+                <div class="practice-thumb"><img src="project-images/more/clicker-4-stats.webp" alt="The counter and auto-click rate" loading="lazy" /></div>
+                <div class="practice-thumb"><img src="project-images/more/clicker-5-shop.webp" alt="The upgrade shop, with a fake terminal log" loading="lazy" /></div>
+              </div>
+            </article>
+
+            <!-- 05 — Pokédex -->
+            <article class="practice-item reveal">
+              <span class="practice-item__index t-micro">05 / 07</span>
+              <h2 class="practice-item__title">Pokédex</h2>
+              <p class="practice-item__desc t-body">
+                One button, one live call to PokéAPI — pulls a random Pokémon's sprite, name and
+                type every time, and keeps every card you've drawn on screen.
+              </p>
+              <p class="practice-item__meta"><span>JavaScript</span><span>PokéAPI</span><span>DOM</span></p>
+              <div class="practice-item__links">
+                <a class="btn btn--quiet" href="https://github.com/sjsiwat/JS-DOM-clickerGame-pokemon" target="_blank" rel="noopener">GitHub <span class="btn__arrow">&#8599;</span></a>
+              </div>
+              <div class="practice-item__strip">
+                <div class="practice-thumb"><img src="project-images/more/pokemon-1-empty.webp" alt="Pokédex — the empty starting state" loading="lazy" /></div>
+                <div class="practice-thumb"><img src="project-images/more/pokemon-2-draw.webp" alt="The first card drawn" loading="lazy" /></div>
+                <div class="practice-thumb"><img src="project-images/more/pokemon-3-draw.webp" alt="Two cards drawn" loading="lazy" /></div>
+                <div class="practice-thumb"><img src="project-images/more/pokemon-4-draw.webp" alt="Three cards drawn" loading="lazy" /></div>
+                <div class="practice-thumb"><img src="project-images/more/pokemon-5-draw.webp" alt="Four cards drawn, including Pikachu" loading="lazy" /></div>
+              </div>
+            </article>
+
+            <!-- 06 — BrewMap AI -->
+            <article class="practice-item reveal">
+              <span class="practice-item__index t-micro">06 / 07</span>
+              <h2 class="practice-item__title">BrewMap AI</h2>
+              <p class="practice-item__desc t-body">
+                A café-discovery concept that started as a week-three e-commerce exercise and ended
+                up somewhere else entirely: a taste-matching engine, a filterable café list, and
+                editorial copy written to sound like a real product.
+              </p>
+              <p class="practice-item__meta"><span>Next.js</span><span>TypeScript</span><span>Tailwind CSS</span><span>Framer Motion</span></p>
+              <div class="practice-item__links">
+                <a class="btn btn--quiet" href="https://github.com/sjsiwat/jsd13-week03-vibecode-myecommerce" target="_blank" rel="noopener">GitHub <span class="btn__arrow">&#8599;</span></a>
+              </div>
+              <div class="practice-item__strip">
+                <div class="practice-thumb"><img src="project-images/more/brewmap-1-hero.webp" alt="BrewMap AI — the hero and match engine card" loading="lazy" /></div>
+                <div class="practice-thumb"><img src="project-images/more/brewmap-2-features.webp" alt="The numbered feature list" loading="lazy" /></div>
+                <div class="practice-thumb"><img src="project-images/more/brewmap-3-signals.webp" alt="The signals grid and How It Works header" loading="lazy" /></div>
+                <div class="practice-thumb"><img src="project-images/more/brewmap-4-quote.webp" alt="A dark editorial pull-quote section" loading="lazy" /></div>
+                <div class="practice-thumb"><img src="project-images/more/brewmap-5-cafes.webp" alt="The café listing page" loading="lazy" /></div>
+              </div>
+            </article>
+
+            <!-- 07 — Find My Hat -->
+            <article class="practice-item reveal">
+              <span class="practice-item__index t-micro">07 / 07</span>
+              <h2 class="practice-item__title">Find My Hat</h2>
+              <p class="practice-item__desc t-body">
+                A classic terminal exercise — a 2D field, hidden holes, one hat, and a class
+                written to explain its own reasoning in comments as it goes.
+              </p>
+              <p class="practice-item__meta"><span>JavaScript</span><span>Node.js</span></p>
+              <div class="practice-item__links">
+                <a class="btn btn--quiet" href="https://github.com/sjsiwat/Find-my-hat" target="_blank" rel="noopener">GitHub <span class="btn__arrow">&#8599;</span></a>
+              </div>
+              <div class="practice-item__strip">
+                <div class="practice-thumb"><img src="project-images/more/findhat-1-start.webp" alt="Find My Hat — the field at the start of a run" loading="lazy" /></div>
+                <div class="practice-thumb"><img src="project-images/more/findhat-2-move.webp" alt="A few moves in" loading="lazy" /></div>
+                <div class="practice-thumb"><img src="project-images/more/findhat-3-move.webp" alt="Further into the run, trail visible" loading="lazy" /></div>
+                <div class="practice-thumb"><img src="project-images/more/findhat-4-close.webp" alt="Closing in on the hat" loading="lazy" /></div>
+                <div class="practice-thumb"><img src="project-images/more/findhat-5-win.webp" alt="The winning message" loading="lazy" /></div>
+              </div>
+            </article>
+
+          </div>
+
+          <div class="case-close reveal" style="margin-top: clamp(56px, 8vh, 88px); padding-top: clamp(32px, 4vh, 56px); border-top: 1px solid var(--line);">
+            <a class="case-back u-line" href="index.html#projects">&larr; Back to selected work</a>
+            <a class="contact__action" href="mailto:sj.siwat@gmail.com">
+              <span class="contact__action-label">Get in touch</span>
+              <span class="contact__action-arrow" aria-hidden="true">&#8599;</span>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- ════════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════════ -->
+  <footer>
+    <div class="footer__inner">
+      <nav class="footer__links" aria-label="Elsewhere">
+        <a class="footer__link" href="https://github.com/sjsiwat" target="_blank" rel="noopener">
+          GitHub <span class="footer__arrow" aria-hidden="true">&#8599;</span>
+        </a>
+        <a class="footer__link" href="https://www.linkedin.com/in/siwat-jankam-9a340016a" target="_blank" rel="noopener">
+          LinkedIn <span class="footer__arrow" aria-hidden="true">&#8599;</span>
+        </a>
+        <a class="footer__link" href="https://www.instagram.com/yoksiwat/" target="_blank" rel="noopener">
+          Instagram <span class="footer__arrow" aria-hidden="true">&#8599;</span>
+        </a>
+      </nav>
+
+      <div class="footer__sign">
+        <span class="footer__mark">Siwat Jankam</span>
+        <span class="footer__year">&copy; 2026</span>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="script.js"></script>
+
+</body>
+</html>
