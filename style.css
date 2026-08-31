@@ -1679,17 +1679,21 @@ footer {
 }
 .case-figure img { width: 100%; height: 100%; object-fit: contain; }
 
-/* ── Gallery — a few more screenshots, two to a row ─────────── */
+/* ── Gallery — a few more screenshots, full width and legible ── */
 .case-gallery {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--gap);
+  gap: clamp(40px, 6vh, 64px);
   margin-top: clamp(28px, 4vh, 44px);
 }
-@media (min-width: 768px) {
-  .case-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+/* Each shot keeps its own aspect ratio rather than being cropped into a
+   fixed box — a dashboard and a wide diagram don't share one shape, and
+   forcing them to made every screenshot smaller than it needed to be. */
+.case-gallery .case-figure {
+  aspect-ratio: auto;
+  margin-top: 0;
 }
-.case-gallery .case-figure { margin-top: 0; }
+.case-gallery .case-figure img { height: auto; }
 .case-gallery figcaption {
   margin-top: 0.6rem;
   font-family: var(--mono);
