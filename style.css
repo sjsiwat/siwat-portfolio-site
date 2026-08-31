@@ -26,6 +26,11 @@
      the marquee only carries it because it is aria-hidden decoration
      duplicating the tag rows above it. #C4441F would pass at 4.55:1. */
   --vermilion: #E4572E;
+  /* The same orange, taken down until it carries small text. #E4572E is
+     3.35:1 and only clears AA above 24px; this is 4.55:1, so it can hold
+     the availability lines at 11px. Same hue — at that size the two are
+     indistinguishable, but only one of them is readable. */
+  --vermilion-ink: #C4441F;
   --grid-line: color-mix(in srgb, var(--ink) 6%, transparent);
   --hi:      #111111;   /* accent = invert only, no colour */
 
@@ -1303,16 +1308,18 @@ main { position: relative; z-index: 10; flex: 1; }
   letter-spacing: 0.14em;
   line-height: 2;
   text-transform: uppercase;
-  color: var(--ink);
+  color: var(--vermilion-ink);
   max-width: 28ch;
 }
+/* Both availability lines run warm. They keep their order through weight —
+   500 against 400 — rather than through two different colours. */
 .contact__place {
   margin-top: 1.5rem;
   font-family: var(--mono);
   font-size: var(--fs-micro);
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--mute);
+  color: var(--vermilion-ink);
 }
 
 .contact__reach {
