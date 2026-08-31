@@ -741,10 +741,11 @@ main { position: relative; z-index: 10; flex: 1; }
 .profile__img {
   position: relative;
   aspect-ratio: 4 / 5;
-  background: var(--surface);
-  /* A shade firmer than --line: the drawing's own ground is close enough
-     to the paper that the default hairline all but disappears. */
-  border: 1px solid color-mix(in srgb, var(--ink) 26%, transparent);
+  /* Paper, not surface — an empty frame reads as part of the page, not
+     as a card sitting on it. */
+  background: var(--paper);
+  border: 1px dashed color-mix(in srgb, var(--ink) 26%, transparent);
+  border-radius: 10px;
 }
 .profile__img img {
   width: 100%;
@@ -753,10 +754,10 @@ main { position: relative; z-index: 10; flex: 1; }
 }
 
 /* The frame holds the photograph, not showing it — .profile__img's own
-   surface and hairline read as an empty frame until the picture is asked
-   for. Hovering previews it; clicking pins it open. */
+   paper and hairline read as an empty frame until the picture is asked
+   for. Click-only: no hover preview. */
 .portrait {
-  --portrait-zoom: 1.1;
+  --portrait-zoom: 1;
   cursor: pointer;
 }
 .portrait img {
@@ -770,8 +771,6 @@ main { position: relative; z-index: 10; flex: 1; }
   opacity: 0;
   transition: opacity 320ms var(--ease), transform 1100ms var(--ease);
 }
-.portrait:hover .portrait__real,
-.portrait.is-peeking .portrait__real,
 .portrait.is-unmasked .portrait__real { opacity: 1; }
 
 .profile__caption {

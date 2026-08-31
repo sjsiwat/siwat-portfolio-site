@@ -304,28 +304,17 @@ const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matc
   frames.forEach((f) => io.observe(f));
 })();
 
-/* ── Portrait — an empty frame until you ask for the photo ──── */
+/* ── Portrait — an empty frame until you ask for the photo ────
+   Click-only, on purpose: no hover preview, so the photo only ever
+   shows up when someone actually asks for it. */
 (function portrait() {
   const frame = document.querySelector("[data-portrait]");
   const toggle = document.querySelector("[data-portrait-toggle]");
   if (!frame || !toggle) return;
 
-  // Hovering the control previews, the same as hovering the frame does;
-  // clicking pins it, which is the only route open on a touch screen.
-  const peek = (on) => {
-    if (!frame.classList.contains("is-unmasked")) {
-      frame.classList.toggle("is-peeking", on);
-    }
-  };
-  toggle.addEventListener("pointerenter", () => peek(true));
-  toggle.addEventListener("pointerleave", () => peek(false));
-  toggle.addEventListener("focus", () => peek(true));
-  toggle.addEventListener("blur", () => peek(false));
-
   const pin = () => {
     const on = !frame.classList.contains("is-unmasked");
     frame.classList.toggle("is-unmasked", on);
-    frame.classList.remove("is-peeking");
     toggle.setAttribute("aria-pressed", String(on));
   };
   toggle.addEventListener("click", pin);
