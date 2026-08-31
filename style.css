@@ -503,7 +503,16 @@ main { position: relative; z-index: 10; flex: 1; }
    behind the cursor as it crosses the name rather than a hard on and off. */
 @media (hover: hover) {
   .hero__name .ch { transition: color 520ms var(--ease); }
-  .hero__name .ch:hover {
+
+  /* :has, not :hover, on the name itself — otherwise crossing the empty
+     half of the line would dim every letter with none of them picked out.
+     Its argument's specificity lands this at (0,4,0), so the rule for the
+     hovered letter has to be qualified the same way to outrank it. */
+  .hero__name:has(.ch:hover) .ch {
+    color: var(--mute);
+    transition-duration: 260ms;
+  }
+  .hero__name:has(.ch:hover) .ch:hover {
     color: var(--cobalt);
     transition-duration: 120ms;
   }
