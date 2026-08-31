@@ -1799,6 +1799,19 @@ footer {
   50% { transform: translateX(6px); }
 }
 
+/* "More" bounces in place — a second, distinct idle motion from the
+   arrow's nudge, so the word that starts the sentence is the one
+   asking to be read first. */
+.projects__more .btn__bounce {
+  display: inline-block;
+  animation: bounce 1.6s ease-in-out infinite;
+}
+.projects__more .btn:hover .btn__bounce { animation-play-state: paused; }
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
 /* ── Motion preferences ────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
