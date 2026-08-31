@@ -655,12 +655,18 @@ main { position: relative; z-index: 10; flex: 1; }
 
 /* Typing line — role names take the serif italic accent */
 .hero__typing {
+  --fs-typed: clamp(1.5rem, 2.2vw, 1.75rem);
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
   gap: 0.5rem;
-  min-height: 2.4rem;
   margin-bottom: clamp(28px, 4vh, 48px);
+}
+/* The longest role ("Cloud & Automation Tinkerer") doesn't fit on one line
+   under ~400px and wraps to two — reserve that height so switching to it
+   doesn't push the page down and back on every pass through the list. */
+@media (max-width: 400px) {
+  .hero__typing { min-height: calc(var(--fs-typed) * 1.65 * 2 + 0.5rem); }
 }
 .hero__typing .lead {
   font-size: var(--fs-lead);
@@ -669,11 +675,17 @@ main { position: relative; z-index: 10; flex: 1; }
 }
 /* The line that types itself is the hero's one moving part. Roles take the
    cobalt, the off-duty lines take vermilion. Its own size floor sits at
-   24px so vermilion always reads as large text, where 3:1 is the bar. */
+   24px so vermilion always reads as large text, where 3:1 is the bar.
+
+   Both variants set line-height off the same --fs-typed base rather than
+   their own font-size — the role's serif italic runs 6% bigger and reads
+   taller again on top of that from the typeface's own metrics, so tying
+   line-height to each element's own size left the row 3px taller every
+   time a role swapped in, and the whole page below it shifted with it. */
 .hero__typing .typed {
-  --fs-typed: clamp(1.5rem, 2.2vw, 1.75rem);
   font-family: var(--sans);
   font-size: var(--fs-typed);
+  line-height: calc(var(--fs-typed) * 1.65);
   letter-spacing: -0.015em;
   color: var(--cobalt);
   min-width: 0;
@@ -682,6 +694,7 @@ main { position: relative; z-index: 10; flex: 1; }
   font-family: var(--serif);
   font-style: italic;
   font-size: calc(var(--fs-typed) * 1.06);
+  line-height: calc(var(--fs-typed) * 1.65);
   letter-spacing: -0.01em;
   color: var(--cobalt);
 }
@@ -806,8 +819,8 @@ main { position: relative; z-index: 10; flex: 1; }
   color: var(--mute);
 }
 
-/* The only cue that the frame has a second picture under it. Cobalt,
-   because on this page cobalt is what you can act on. */
+/* The only cue that the frame has a second picture under it. Vermilion-ink,
+   not vermilion — at 11px only the darker value clears 4.5:1. */
 .portrait__toggle {
   display: inline-flex;
   align-items: center;
@@ -821,7 +834,7 @@ main { position: relative; z-index: 10; flex: 1; }
   font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--cobalt);
+  color: var(--vermilion-ink);
   cursor: pointer;
 }
 .portrait__toggle-arrow {
