@@ -795,6 +795,9 @@ main { position: relative; z-index: 10; flex: 1; }
   justify-content: space-between;
   gap: 1rem;
   margin-top: 0.75rem;
+  /* Clears the bottom-left crop mark, which reaches 15px left of the
+     frame's own edge — without this the caption sits right on top of it. */
+  padding-left: 22px;
   font-family: var(--mono);
   font-size: var(--fs-micro);
   letter-spacing: 0.14em;
