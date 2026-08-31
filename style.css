@@ -33,9 +33,11 @@
   --mono:    "JetBrains Mono", ui-monospace, monospace;
 
   /* Type scale — two poles, almost no middle */
-  --fs-hero:    clamp(2.8rem, 10.4vw, 8.8rem);   /* 20% down from 3.5/13/11 */
-  --fs-display: clamp(3rem, 11vw, 9rem);
-  --fs-deck:    clamp(2rem, 5.5vw, 4.25rem);
+  /* The display sizes were taken down 20%, then a further 10%, so they now
+     sit at 72% of the scale the theme was first drawn at. */
+  --fs-hero:    clamp(2.52rem, 9.36vw, 7.92rem);
+  --fs-display: clamp(2.7rem, 9.9vw, 8.1rem);
+  --fs-deck:    clamp(1.8rem, 4.95vw, 3.825rem);
   --fs-lead:    clamp(1.25rem, 2.2vw, 1.75rem);
   --fs-body:    1rem;
   --fs-micro:   11px;
@@ -744,7 +746,7 @@ main { position: relative; z-index: 10; flex: 1; }
    swap sides and change width from one entry to the next. */
 .projects { display: block; }
 .project {
-  --fs-project-title: clamp(1.75rem, 3vw, 2.75rem);
+  --fs-project-title: clamp(1.575rem, 2.7vw, 2.475rem);
   display: grid;
   grid-template-columns: repeat(9, minmax(0, 1fr));
   column-gap: var(--gap);
