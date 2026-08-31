@@ -90,6 +90,142 @@ const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matc
   step();
 })();
 
+/* ── Heading line reveal ───────────────────────────────────────
+   Split a heading into its rendered lines, mask each one, and slide
+   them up in sequence. Lines are measured, not guessed, so the split
+   survives a resize — and an .accent word stays inside its own line
+   rather than animating on a beat of its own. */
+(function headingReveal() {
+  const SELECTOR = ".hero__name, .hero__tagline, .section-title, .contact__title";
+  const heads = [...document.querySelectorAll(SELECTOR)];
+  if (!heads.length) return;
+
+  // Remember the original markup so a resize can re-split from clean source.
+  heads.forEach((el) => { el.dataset.source = el.innerHTML; });
+
+  function tokenise(el) {
+    const out = [];
+    (function walk(node, accent) {
+      node.childNodes.forEach((n) => {
+        if (n.nodeType === Node.TEXT_NODE) {
+          n.textContent.split(/\s+/).forEach((w) => {
+            if (w) out.push({ word: w, accent });
+          });
+        } else if (n.nodeType === Node.ELEMENT_NODE) {
+          if (n.tagName === "BR") out.push({ br: true });
+          else walk(n, accent || n.classList.contains("accent"));
+        }
+      });
+    })(el, false);
+    return out;
+  }
+
+  function split(el) {
+    el.innerHTML = el.dataset.source;
+    const tokens = tokenise(el);
+
+    // Lay the words out flat first so the browser tells us where they break.
+    el.innerHTML = "";
+    const probes = [];
+    tokens.forEach((t) => {
+      if (t.br) { probes.push({ br: true }); el.appendChild(document.createElement("br")); return; }
+      const s = document.createElement("span");
+      if (t.accent) s.className = "accent";
+      s.textContent = t.word;
+      el.appendChild(s);
+      el.appendChild(document.createTextNode(" "));
+      probes.push({ node: s, token: t });
+    });
+
+    // Group by vertical position — that is the rendered line.
+    const lines = [];
+    let current = null, lastTop = null;
+    probes.forEach((p) => {
+      if (p.br) { current = null; lastTop = null; return; }
+      const top = p.node.offsetTop;
+      if (current === null || Math.abs(top - lastTop) > 2) {
+        current = [];
+        lines.push(current);
+        lastTop = top;
+      }
+      current.push(p.token);
+    });
+
+    el.innerHTML = "";
+    lines.forEach((words, i) => {
+      const mask = document.createElement("span");
+      mask.className = "ln";
+      const inner = document.createElement("span");
+      inner.className = "ln__i";
+      inner.style.setProperty("--ln-delay", i * 70 + "ms");
+      words.forEach((t, j) => {
+        if (j) inner.appendChild(document.createTextNode(" "));
+        if (t.accent) {
+          const a = document.createElement("span");
+          a.className = "accent";
+          a.textContent = t.word;
+          inner.appendChild(a);
+        } else {
+          inner.appendChild(document.createTextNode(t.word));
+        }
+      });
+      mask.appendChild(inner);
+      el.appendChild(mask);
+    });
+  }
+
+  if (reducedMotion) return;
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add("is-revealed");
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.15, rootMargin: "0px 0px -8% 0px" });
+
+  // Wait for the display faces before measuring — fallback metrics break
+  // lines in the wrong places, and re-splitting later would replay the
+  // animation halfway through.
+  const ready = document.fonts && document.fonts.ready
+    ? document.fonts.ready
+    : Promise.resolve();
+
+  ready.then(() => {
+    heads.forEach((el) => { split(el); io.observe(el); });
+
+    // Re-measure on resize; anything already shown stays shown.
+    let t;
+    window.addEventListener("resize", () => {
+      clearTimeout(t);
+      t = setTimeout(() => heads.forEach((el) => {
+        const was = el.classList.contains("is-revealed");
+        split(el);
+        if (was) el.classList.add("is-revealed");
+        else io.observe(el);
+      }), 200);
+    });
+  });
+})();
+
+/* ── Image reveal — the picture settles back to its own size ──── */
+(function imageReveal() {
+  const frames = document.querySelectorAll(".img-reveal");
+  if (!frames.length) return;
+  if (reducedMotion) {
+    frames.forEach((f) => f.classList.add("is-revealed"));
+    return;
+  }
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add("is-revealed");
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.2 });
+  frames.forEach((f) => io.observe(f));
+})();
+
 /* ── Reveal on scroll ──────────────────────────────────────── */
 (function reveal() {
   const els = document.querySelectorAll(".reveal");

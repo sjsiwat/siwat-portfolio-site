@@ -200,7 +200,7 @@ strong { font-weight: 500; color: var(--ink); }
   position: fixed;
   top: 2px; left: 0; right: 0;
   z-index: 50;
-  transition: background 0.5s, border-color 0.5s, backdrop-filter 0.5s;
+  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease), backdrop-filter var(--dur) var(--ease);
   border-bottom: 1px solid transparent;
 }
 .nav.scrolled {
@@ -236,18 +236,9 @@ strong { font-weight: 500; color: var(--ink); }
   letter-spacing: 0.025em;
   color: var(--muted-fg);
   position: relative;
-  transition: color 0.2s;
+  transition: color var(--dur) var(--ease);
 }
-.nav__link::after {
-  content: "";
-  position: absolute;
-  bottom: -2px; left: 0;
-  width: 0; height: 1px;
-  background: var(--primary);
-  transition: width 0.3s;
-}
-.nav__link:hover { color: var(--primary); }
-.nav__link:hover::after { width: 100%; }
+.nav__link:hover { color: var(--ink); }
 
 .nav__github {
   display: flex;
@@ -260,7 +251,7 @@ strong { font-weight: 500; color: var(--ink); }
   background: var(--primary);
   padding: 0.5rem 1rem;
   border-radius: 2px;
-  transition: opacity 0.2s;
+  transition: opacity var(--dur) var(--ease);
 }
 .nav__github:hover { opacity: 0.9; }
 
@@ -328,6 +319,60 @@ main { position: relative; z-index: 10; }
 
 /* Hero sits outside the label/body split — it owns the full measure */
 .hero .wrap { align-items: start; }
+
+
+/* ════════════════════════════════════════════════════════════
+   MOTION
+   Slow, smooth, no bounce. One curve for everything.
+   ════════════════════════════════════════════════════════════ */
+
+/* ── Heading line reveal ───────────────────────────────────────
+   JS re-wraps each heading a line at a time. The mask clips; the
+   inner block slides up from below it. An .accent sits inside its
+   own line, so it never reveals on a beat of its own. */
+.ln {
+  display: block;
+  overflow: hidden;
+  padding-block: 0.14em;
+  margin-block: -0.14em;
+}
+.ln__i {
+  display: block;
+  transform: translateY(110%);
+  transition: transform 900ms var(--ease);
+  transition-delay: var(--ln-delay, 0ms);
+  will-change: transform;
+}
+.is-revealed .ln__i { transform: none; }
+
+/* ── Image reveal ──────────────────────────────────────────────
+   The frame is fixed; the picture settles back to its own size. */
+.img-reveal { overflow: hidden; }
+.img-reveal img {
+  transform: scale(1.08);
+  transition: transform 1100ms var(--ease), filter 600ms var(--ease);
+  will-change: transform;
+}
+.img-reveal.is-revealed img { transform: none; }
+
+/* ── Link underline ────────────────────────────────────────────
+   Draws in from the left, retracts to the right. Never a colour change. */
+.u-line { position: relative; }
+.u-line::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -0.18em;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform var(--dur) var(--ease);
+}
+.u-line:hover::after,
+.u-line:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
 
 @media (min-width: 900px) {
   .section-label { position: sticky; top: 96px; }
@@ -399,7 +444,7 @@ main { position: relative; z-index: 10; }
 .reveal {
   opacity: 0;
   transform: translateY(24px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
   transition-delay: var(--delay, 0s);
 }
 .reveal.visible { opacity: 1; transform: none; }
@@ -501,10 +546,10 @@ main { position: relative; z-index: 10; }
   font-size: 0.875rem;
   padding: 0.75rem 1.5rem;
   border-radius: 2px;
-  transition: opacity 0.2s;
+  transition: opacity var(--dur) var(--ease);
 }
 .btn-primary:hover { opacity: 0.9; }
-.btn-primary .chev { transition: transform 0.2s; display: flex; }
+.btn-primary .chev { transition: transform var(--dur) var(--ease); display: flex; }
 .btn-primary:hover .chev { transform: translateX(4px); }
 
 .btn-ghost {
@@ -517,7 +562,7 @@ main { position: relative; z-index: 10; }
   font-size: 0.875rem;
   padding: 0.75rem 1.5rem;
   border-radius: 2px;
-  transition: border-color 0.2s, color 0.2s;
+  transition: border-color var(--dur) var(--ease), color var(--dur) var(--ease);
 }
 .btn-ghost:hover { border-color: var(--primary); color: var(--primary); }
 
@@ -532,7 +577,7 @@ main { position: relative; z-index: 10; }
   padding: 0.5rem;
   border-radius: 2px;
   display: flex;
-  transition: color 0.2s, background 0.2s;
+  transition: color var(--dur) var(--ease), background var(--dur) var(--ease);
 }
 .hero__socials a:hover { color: var(--primary); background: color-mix(in srgb, var(--ink) 10%, transparent); }
 
@@ -643,7 +688,7 @@ main { position: relative; z-index: 10; }
   background: color-mix(in srgb, var(--surface) 90%, transparent);
   backdrop-filter: blur(4px);
   border: 1px solid var(--border);
-  transition: color 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+  transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease), transform var(--dur) var(--ease);
 }
 .profile__toggle-label {
   font-family: var(--font-mono);
@@ -690,7 +735,7 @@ main { position: relative; z-index: 10; }
 }
 
 /* Rings spin up hard, then bow out */
-.profile__ring, .profile__ring2 { transition: opacity 0.4s ease; }
+.profile__ring, .profile__ring2 { transition: opacity var(--dur) var(--ease); }
 .profile.is-off .profile__ring {
   opacity: 0;
   animation-duration: 0.5s;
@@ -738,7 +783,7 @@ main { position: relative; z-index: 10; }
   pointer-events: none;
   opacity: 0;
   transform: scale(0.92);
-  transition: opacity 0.35s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease), 1 var(--dur) var(--ease), 0.36 var(--dur) var(--ease), 1) var(--dur) var(--ease);
 }
 .profile.is-off .profile__ghost {
   opacity: 1;
@@ -822,7 +867,7 @@ main { position: relative; z-index: 10; }
   border: 1px solid var(--border);
   border-radius: 2px;
   padding: 0.25rem 0.625rem;
-  transition: border-color 0.2s, color 0.2s;
+  transition: border-color var(--dur) var(--ease), color var(--dur) var(--ease);
 }
 .about-meta span:hover {
   border-color: color-mix(in srgb, var(--ink) 30%, transparent);
@@ -875,7 +920,7 @@ main { position: relative; z-index: 10; }
   font-size: 0.875rem;
   font-weight: 600;
   white-space: nowrap;
-  transition: color 0.25s, background 0.25s, border-color 0.25s, transform 0.25s;
+  transition: color var(--dur) var(--ease), background var(--dur) var(--ease), border-color var(--dur) var(--ease), transform var(--dur) var(--ease);
 }
 @media (min-width: 900px) {
   .stack__tab {
@@ -908,7 +953,7 @@ main { position: relative; z-index: 10; }
   display: none;
   opacity: 0;
   transform: translateX(-4px);
-  transition: opacity 0.25s, transform 0.25s;
+  transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
 }
 @media (min-width: 900px) { .stack__arrow { display: flex; } }
 .stack__tab.is-active .stack__arrow { opacity: 1; transform: none; }
@@ -923,10 +968,7 @@ main { position: relative; z-index: 10; }
   border-radius: 2px;
   background: var(--line);
   opacity: 0;
-  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-              height 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-              width 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-              opacity 0.3s ease;
+  transition: transform var(--dur) var(--ease), 1 var(--dur) var(--ease), 0.36 var(--dur) var(--ease), 1) var(--dur) var(--ease), height var(--dur) var(--ease), width var(--dur) var(--ease), opacity var(--dur) var(--ease);
   pointer-events: none;
 }
 .stack__marker.ready { opacity: 1; }
@@ -947,7 +989,7 @@ main { position: relative; z-index: 10; }
   opacity: 0;
   visibility: hidden;
   transform: translateY(10px);
-  transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.35s;
+  transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease), 1 var(--dur) var(--ease), 0.36 var(--dur) var(--ease), 1) var(--dur) var(--ease), visibility var(--dur) var(--ease);
 }
 .stack__panel.is-active { opacity: 1; visibility: visible; transform: none; }
 .stack__panel[hidden] { display: block; }   /* stays in flow so the box keeps its size */
@@ -1001,7 +1043,7 @@ main { position: relative; z-index: 10; }
   border: 1px solid var(--border);
   border-radius: 2px;
   padding: 0.3rem 0.7rem;
-  transition: border-color 0.2s, color 0.2s, transform 0.2s;
+  transition: border-color var(--dur) var(--ease), color var(--dur) var(--ease), transform var(--dur) var(--ease);
   cursor: default;
 }
 .stack__tags span:hover {
@@ -1069,7 +1111,7 @@ main { position: relative; z-index: 10; }
   transform-origin: left center;
   transform: scaleX(0);
   background: var(--line);
-  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform var(--dur) var(--ease), 1 var(--dur) var(--ease), 0.36 var(--dur) var(--ease), 1) var(--dur) var(--ease);
 }
 
 .carousel__nav { display: flex; gap: 0.5rem; flex-shrink: 0; }
@@ -1083,7 +1125,7 @@ main { position: relative; z-index: 10; }
   background: color-mix(in srgb, var(--surface) 40%, transparent);
   backdrop-filter: blur(4px);
   border: 1px solid var(--border);
-  transition: color 0.25s, border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+  transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease), transform var(--dur) var(--ease);
 }
 .carousel__btn:hover {
   color: var(--primary);
@@ -1093,7 +1135,7 @@ main { position: relative; z-index: 10; }
 .carousel__btn:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 #projPrev:hover svg { transform: translateX(-2px); }
 #projNext:hover svg { transform: translateX(2px); }
-.carousel__btn svg { transition: transform 0.25s; }
+.carousel__btn svg { transition: transform var(--dur) var(--ease); }
 
 /* The sliding track — native scroll-snap, so touch and trackpad feel right */
 .carousel__track {
@@ -1119,7 +1161,7 @@ main { position: relative; z-index: 10; }
 .carousel__track > .project-card {
   flex: 0 0 100%;
   scroll-snap-align: start;
-  transition: border-color 0.3s, box-shadow 0.3s, opacity 0.45s ease;
+  transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease), opacity var(--dur) var(--ease);
 }
 
 /* At full width the card reads better side by side than stacked */
@@ -1167,7 +1209,7 @@ main { position: relative; z-index: 10; }
   border-radius: 2px;
   padding: 1.5rem;
   overflow: hidden;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
 }
 .project-card:hover {
   border-color: color-mix(in srgb, var(--accent) 33%, transparent);
@@ -1178,7 +1220,7 @@ main { position: relative; z-index: 10; }
   top: 0; right: 0;
   width: 6rem; height: 6rem;
   opacity: 0;
-  transition: opacity 0.5s;
+  transition: opacity var(--dur) var(--ease);
   background: var(--line);
   pointer-events: none;
 }
@@ -1200,7 +1242,7 @@ main { position: relative; z-index: 10; }
 .project-card__ext {
   color: var(--muted-fg);
   opacity: 0;
-  transition: opacity 0.3s, color 0.3s;
+  transition: opacity var(--dur) var(--ease), color var(--dur) var(--ease);
   display: flex;
 }
 .project-card:hover .project-card__ext { opacity: 1; color: var(--primary); }
@@ -1243,7 +1285,7 @@ main { position: relative; z-index: 10; }
 .project-card__preview img {
   width: 100%;
   height: auto;
-  transition: transform 0.4s ease;
+  transition: transform var(--dur) var(--ease);
 }
 .project-card:hover .project-card__preview img { transform: scale(1.03); }
 
@@ -1260,7 +1302,7 @@ main { position: relative; z-index: 10; }
   font-family: var(--font-mono);
   font-size: 0.75rem;
   color: var(--muted-fg);
-  transition: color 0.2s;
+  transition: color var(--dur) var(--ease);
 }
 .project-card__links a:hover { color: var(--accent); }
 
@@ -1289,7 +1331,7 @@ main { position: relative; z-index: 10; }
   padding: 0.75rem 1.25rem;
   position: relative;
   overflow: hidden;
-  transition: border-color 0.3s, color 0.3s, box-shadow 0.3s;
+  transition: border-color var(--dur) var(--ease), color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
 }
 .exp-btn::before {                    /* sheen that sweeps across on hover */
   content: "";
@@ -1317,7 +1359,7 @@ main { position: relative; z-index: 10; }
 .exp-btn__label { position: relative; }
 .exp-btn__chev {
   display: flex;
-  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform var(--dur) var(--ease), 1 var(--dur) var(--ease), 0.36 var(--dur) var(--ease), 1) var(--dur) var(--ease);
 }
 .exp-btn[aria-expanded="true"] {
   color: var(--primary);
@@ -1335,7 +1377,7 @@ main { position: relative; z-index: 10; }
 /* Height animation via grid-template-rows (0fr → 1fr) */
 .exp-collapse {
   display: grid;
-  transition: grid-template-rows 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: grid-template-rows var(--dur) var(--ease), 1 var(--dur) var(--ease), 0.36 var(--dur) var(--ease), 1) var(--dur) var(--ease);
 }
 .exp-collapse__inner {
   min-height: 0;
@@ -1353,8 +1395,7 @@ main { position: relative; z-index: 10; }
   opacity: 0;
   transform: translateY(-18px) scale(0.985);
   filter: blur(3px);
-  transition: opacity 0.5s ease, filter 0.5s ease,
-              transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity var(--dur) var(--ease), filter var(--dur) var(--ease), transform var(--dur) var(--ease), 1 var(--dur) var(--ease), 0.36 var(--dur) var(--ease), 1) var(--dur) var(--ease);
 }
 .experience-ready .exp-collapse.open .tl-item {
   opacity: 1;
@@ -1382,7 +1423,7 @@ main { position: relative; z-index: 10; }
   width: 1px;
   background: var(--line);
   transform-origin: top;
-  transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.12s;
+  transition: transform var(--dur) var(--ease), 1 var(--dur) var(--ease), 0.36 var(--dur) var(--ease), 1) var(--dur) var(--ease);
 }
 .experience-ready .exp-collapse .timeline::before { transform: scaleY(0); }
 .experience-ready .exp-collapse.open .timeline::before { transform: scaleY(1); }
@@ -1401,7 +1442,7 @@ main { position: relative; z-index: 10; }
   border-radius: 50%;
   background: var(--background);
   border: 2px solid var(--accent);
-  transition: box-shadow 0.3s, transform 0.3s;
+  transition: box-shadow var(--dur) var(--ease), transform var(--dur) var(--ease);
 }
 .tl-item:hover .tl-dot {
   transform: scale(1.2);
@@ -1419,7 +1460,7 @@ main { position: relative; z-index: 10; }
   border: 1px solid var(--border);
   border-radius: 2px;
   padding: 1.5rem;
-  transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  transition: border-color var(--dur) var(--ease), transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
 }
 .tl-card:hover {
   border-color: color-mix(in srgb, var(--accent) 33%, transparent);
@@ -1508,7 +1549,7 @@ main { position: relative; z-index: 10; }
   background: var(--accent);
   opacity: 0.65;
   transform: rotate(45deg);
-  transition: opacity 0.3s;
+  transition: opacity var(--dur) var(--ease);
 }
 .tl-card:hover .tl-list li::before { opacity: 1; }
 .tl-list strong { color: var(--foreground); font-weight: 600; }
@@ -1536,7 +1577,7 @@ main { position: relative; z-index: 10; }
   padding: 1rem 2rem;
   border-radius: 2px;
   background: var(--line);
-  transition: opacity 0.2s, transform 0.2s;
+  transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
 }
 .contact__cta:hover { opacity: 0.9; transform: scale(1.05); }
 
@@ -1554,7 +1595,7 @@ main { position: relative; z-index: 10; }
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--muted-fg);
-  transition: color 0.2s;
+  transition: color var(--dur) var(--ease);
 }
 .contact__socials a:hover { color: var(--primary); }
 
@@ -1606,4 +1647,7 @@ footer {
     transition-duration: 0.01ms !important;
   }
   html { scroll-behavior: auto; }
+  .ln__i,
+  .img-reveal img { transform: none !important; }
+  .reveal { opacity: 1 !important; transform: none !important; }
 }
