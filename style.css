@@ -15,6 +15,10 @@
   --dim:     #5C5A56;
   --mute:    #726F6A;
   --line:    #DCD9D4;
+  /* The one colour on the page. Reserved for interaction and position —
+     never for headings, body copy, backgrounds or decoration.
+     4.81:1 on --paper, 5.33:1 for white on cobalt. */
+  --cobalt:  #3157FF;
   --grid-line: color-mix(in srgb, var(--ink) 6%, transparent);
   --hi:      #0E0E0E;   /* accent = invert only, no colour */
 
@@ -76,7 +80,7 @@ strong { font-weight: 500; color: var(--ink); }
 
 ::selection { background: var(--ink); color: var(--paper); }
 
-:focus-visible { outline: 1px solid var(--ink); outline-offset: 4px; }
+:focus-visible { outline: 1px solid var(--cobalt); outline-offset: 4px; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -92,7 +96,7 @@ strong { font-weight: 500; color: var(--ink); }
 .scroll-progress__bar {
   height: 100%;
   width: 0%;
-  background: var(--ink);
+  background: var(--cobalt);
   transition: width 0.1s linear;
 }
 
@@ -311,7 +315,7 @@ main { position: relative; z-index: 10; flex: 1; }
 }
 
 /* Section label — micro-label, sits in the left rail (see LAYOUT) */
-.section-label { display: block; }
+.section-label { display: block; color: var(--cobalt); }
 
 /* .section-title takes its size from the display rule */
 .section-title { margin-bottom: clamp(48px, 7vh, 96px); }
@@ -479,6 +483,7 @@ main { position: relative; z-index: 10; flex: 1; }
   align-items: center;
   gap: 0.6rem;
   margin-bottom: clamp(24px, 4vh, 48px);
+  color: var(--cobalt);
 }
 .hero__name { margin-bottom: clamp(28px, 4vh, 56px); }
 .hero__tagline {
@@ -559,7 +564,7 @@ main { position: relative; z-index: 10; flex: 1; }
   font-size: clamp(2.25rem, 4vw, 3.5rem);
   letter-spacing: -0.045em;
   line-height: 1;
-  color: var(--ink);
+  color: var(--cobalt);
   margin-bottom: 0.75rem;
 }
 .stat__label { color: var(--mute); }
@@ -736,6 +741,11 @@ main { position: relative; z-index: 10; flex: 1; }
   flex-wrap: wrap;
   gap: 1.5rem;
 }
+.project__links .btn {
+  color: var(--cobalt);
+  border-bottom-color: color-mix(in srgb, var(--cobalt) 35%, transparent);
+}
+.project__links .btn:hover { color: var(--cobalt); border-bottom-color: var(--cobalt); }
 
 /* ── Experience — a rule down the page, years in the left column ── */
 /* ── Disclosure ────────────────────────────────────────────────
@@ -804,6 +814,17 @@ main { position: relative; z-index: 10; flex: 1; }
   }
 }
 .tl-year { color: var(--mute); }
+/* Chapters still in progress carry the accent and a small marker */
+.tl-item.is-current .tl-year { color: var(--cobalt); }
+.tl-item.is-current .tl-year::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 0.7rem;
+  vertical-align: 0.08em;
+  background: var(--cobalt);
+}
 .tl-role {
   font-family: var(--sans);
   font-size: var(--fs-lead);
@@ -880,17 +901,20 @@ main { position: relative; z-index: 10; flex: 1; }
   gap: clamp(32px, 5vh, 56px);
 }
 
-/* Address and action share one behaviour: a hairline at rest that an ink
-   rule draws over from the left on hover. Quick — 260ms, not the page's 700. */
-.contact__email,
-.contact__action {
+/* The address stays ink: it is information, not the action. A hairline at
+   rest, an ink rule drawing over it from the left on hover. Quick — 260ms,
+   not the page's 700. */
+.contact__email {
   position: relative;
+  align-self: stretch;
   color: var(--ink);
   padding-bottom: 0.6rem;
   border-bottom: 1px solid var(--line);
+  font-family: var(--sans);
+  font-size: var(--fs-lead);
+  letter-spacing: -0.015em;
 }
-.contact__email::after,
-.contact__action::after {
+.contact__email::after {
   content: "";
   position: absolute;
   left: 0; right: 0; bottom: -1px;
@@ -901,23 +925,25 @@ main { position: relative; z-index: 10; flex: 1; }
   transition: transform var(--dur-quick) var(--ease);
 }
 .contact__email:hover::after,
-.contact__email:focus-visible::after,
-.contact__action:hover::after,
-.contact__action:focus-visible::after { transform: scaleX(1); }
+.contact__email:focus-visible::after { transform: scaleX(1); }
 
-.contact__email {
-  align-self: stretch;
-  font-family: var(--sans);
-  font-size: var(--fs-lead);
-  letter-spacing: -0.015em;
-}
-
-/* The one thing on this page asking to be pressed */
+/* The one thing on this page asking to be pressed, and the only place the
+   accent becomes a surface: cobalt on paper at rest, paper on cobalt held. */
 .contact__action {
   align-self: flex-end;
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
+  padding: 0.9rem 1.25rem;
+  color: var(--cobalt);
+  border-bottom: 1px solid var(--cobalt);
+  transition: background-color var(--dur-quick) var(--ease),
+              color var(--dur-quick) var(--ease);
+}
+.contact__action:hover,
+.contact__action:focus-visible {
+  background-color: var(--cobalt);
+  color: #fff;
 }
 .contact__action-label {
   font-family: var(--mono);
@@ -933,7 +959,7 @@ main { position: relative; z-index: 10; flex: 1; }
   transition: transform var(--dur-quick) var(--ease);
 }
 .contact__action:hover .contact__action-arrow,
-.contact__action:focus-visible .contact__action-arrow { transform: translate(3px, -3px); }
+.contact__action:focus-visible .contact__action-arrow { transform: translateX(5px); }
 
 /* ── Footer — a signature, weighted a shade above the section above ── */
 footer {
