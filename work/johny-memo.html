@@ -313,31 +313,29 @@
             <div class="incident">
               <span class="incident__label">A fallback link that didn't</span>
               <p class="t-body">
-                Magic-link sign-in leans on a fallback redirect for when the primary link doesn't
-                land someone back inside the app — and that fallback broke, sending people to a
-                dead page instead of the workspace. The likely culprit is the plainest one:
-                Supabase Auth's redirect allowlist not matching the URL the app was actually
-                running on, a mismatch that stays invisible right up until someone clicks the link.
+                Testing turned this one up myself: after signing in through LINE, the app didn't
+                forward to the dashboard — the fallback redirect pointed at a destination URL the
+                system couldn't find. The fix was as plain as the cause: correcting the link so it
+                pointed at the right place.
               </p>
             </div>
             <div class="incident">
               <span class="incident__label">Messages that never landed</span>
               <p class="t-body">
-                I wired up the LINE Messaging API so a message sent through LINE could be logged
-                straight into Johny Memo as a note. The webhook received it — but the write never
-                reached Supabase, and nothing errored on the way. It's the same failure shape as a
-                missing RLS policy: the insert doesn't fail loud, it just doesn't happen, so the
-                first sign of a problem is a note that should exist and doesn't.
+                After wiring up the LINE Messaging API to log incoming messages as notes, the
+                webhook received them but Supabase never saved them — for two reasons, once I dug
+                in. The field names in the payload (<code>line_user_id</code>, for one) didn't
+                match the table's columns, and a data-type mismatch sent text into a column
+                expecting a number. Underneath both was Row Level Security: the webhook wrote from
+                the server using the <code>anon</code> key, and RLS quietly rejected the insert
+                rather than raising an error.
+              </p>
+              <p class="t-body">
+                The fix was two-part — align the schema, and write from the server with the
+                <code>service_role</code> key instead of <code>anon</code>, since server-side code
+                is exactly the case RLS's anon-key policies aren't meant to authorize.
               </p>
             </div>
-          </div>
-
-          <div class="case-draft reveal">
-            <span class="case-draft__label">Draft — optional</span>
-            <p>
-              Worth adding once it's fresh in memory: what confirmed each cause, and how it
-              actually got fixed — or whether either one is still open.
-            </p>
           </div>
         </div>
       </div>
