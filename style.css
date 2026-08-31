@@ -603,6 +603,12 @@ main { position: relative; z-index: 10; flex: 1; }
   .profile { width: 85%; margin-left: auto; }
 }
 
+/* On a phone the frame runs edge-to-edge with the rest of the column by
+   default — trimmed back so it reads as a photo, not a banner. */
+@media (max-width: 639px) {
+  .profile { width: 80%; }
+}
+
 .hero__kicker {
   display: flex;
   align-items: center;
