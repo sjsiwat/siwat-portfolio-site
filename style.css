@@ -20,9 +20,11 @@
      never for headings, body copy, backgrounds or decoration.
      4.81:1 on --paper, 5.33:1 for white on cobalt. */
   --cobalt:  #3157FF;
-  /* Second accent, and the only other colour: the off-duty lines in the
-     hero's typed slot. 3.32:1 on --paper, so it is held above 24px where
-     AA asks 3:1 — see .hero__typing .typed. */
+  /* Second accent, and the only other colour. Two uses: the off-duty lines
+     in the hero's typed slot, held above 24px where AA asks 3:1, and the
+     marquee. 3.35:1 on --paper — under the 4.5:1 that 11px would need, so
+     the marquee only carries it because it is aria-hidden decoration
+     duplicating the tag rows above it. #C4441F would pass at 4.55:1. */
   --vermilion: #E4572E;
   --grid-line: color-mix(in srgb, var(--ink) 6%, transparent);
   --hi:      #111111;   /* accent = invert only, no colour */
@@ -830,7 +832,10 @@ main { position: relative; z-index: 10; flex: 1; }
   font-size: var(--fs-micro);
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--mute);
+  /* The one warm band on the page. It is aria-hidden and every tag on it is
+     already listed as real text in the rows above, so it runs as texture
+     rather than as something to read — see the note on --vermilion. */
+  color: var(--vermilion);
   white-space: nowrap;
 }
 @keyframes marquee { to { transform: translateX(-50%); } }
