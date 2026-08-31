@@ -304,25 +304,11 @@ const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matc
   frames.forEach((f) => io.observe(f));
 })();
 
-/* ── Portrait — the drawing gives way to the photograph ────── */
+/* ── Portrait — an empty frame until you ask for the photo ──── */
 (function portrait() {
-  const frame = document.querySelector(".portrait");
+  const frame = document.querySelector("[data-portrait]");
   const toggle = document.querySelector("[data-portrait-toggle]");
   if (!frame || !toggle) return;
-  const art = frame.querySelector("[data-portrait-art]");
-  if (!art) return;
-
-  // If the illustration never arrives there is nothing to look past, so the
-  // layer goes and the control never appears.
-  const drop = () => {
-    frame.classList.add("is-photo-only");
-    toggle.hidden = true;
-  };
-  const offer = () => { toggle.hidden = false; };
-
-  if (art.complete) { art.naturalWidth === 0 ? drop() : offer(); }
-  art.addEventListener("load", offer);
-  art.addEventListener("error", drop);
 
   // Hovering the control previews, the same as hovering the frame does;
   // clicking pins it, which is the only route open on a touch screen.
@@ -343,9 +329,7 @@ const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matc
     toggle.setAttribute("aria-pressed", String(on));
   };
   toggle.addEventListener("click", pin);
-  frame.addEventListener("click", () => {
-    if (!frame.classList.contains("is-photo-only")) pin();
-  });
+  frame.addEventListener("click", pin);
 })();
 
 /* ── Reveal on scroll ──────────────────────────────────────── */

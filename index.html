@@ -160,18 +160,15 @@
         <!-- Right: profile photo -->
         <div class="hero__photo">
           <div class="profile">
-            <div class="profile__img img-reveal portrait">
+            <div class="profile__img img-reveal portrait" data-portrait>
               <img class="portrait__real" src="images/propic.webp" alt="Siwat Jankam" />
-              <img class="portrait__art" src="images/portrait-line.webp" alt=""
-                   aria-hidden="true" data-portrait-art />
             </div>
             <p class="profile__caption">
               <span>Chiang Mai, TH</span>
-              <span class="status"><i class="status__dot" aria-hidden="true"></i>Available</span>
             </p>
             <button class="portrait__toggle" type="button" aria-pressed="false"
-                    data-portrait-toggle hidden>
-              <span class="portrait__toggle-label">View reality</span>
+                    data-portrait-toggle>
+              <span class="portrait__toggle-label">showPicture()</span>
               <span class="portrait__toggle-arrow" aria-hidden="true">&#8599;</span>
             </button>
           </div>

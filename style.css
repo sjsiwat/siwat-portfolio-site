@@ -501,12 +501,7 @@ main { position: relative; z-index: 10; flex: 1; }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .lamp__bulb { fill: none; }
   :root:not([data-theme="light"]) .lamp__rays { opacity: 0; transform: scale(0.6); }
-  /* The drawing is ink on white. Turned over, it is white on ink. */
-  :root:not([data-theme="light"]) .portrait .portrait__art {
-    filter: contrast(1.12) invert(1);
-  }
 }
-[data-theme="dark"] .portrait .portrait__art { filter: contrast(1.12) invert(1); }
 
 .nav__links {
   display: none;
@@ -757,12 +752,10 @@ main { position: relative; z-index: 10; flex: 1; }
   object-fit: cover;
 }
 
-/* The drawing is what you meet first; the photograph is underneath,
-   and hovering the frame dissolves the ink away to find it. */
+/* The frame holds the photograph, not showing it — .profile__img's own
+   surface and hairline read as an empty frame until the picture is asked
+   for. Hovering previews it; clicking pins it open. */
 .portrait {
-  /* Both layers carry the same zoom and origin, so the drawing and the
-     photograph stay registered while the figure comes forward and the
-     crop eats sky rather than shoulders. */
   --portrait-zoom: 1.1;
   cursor: pointer;
 }
@@ -771,28 +764,15 @@ main { position: relative; z-index: 10; flex: 1; }
   inset: 0;
   transform-origin: 50% 58%;
 }
-.portrait .portrait__art,
 .portrait .portrait__real { transform: scale(calc(var(--portrait-zoom) * 1.08)); }
-.portrait.is-revealed .portrait__art,
 .portrait.is-revealed .portrait__real { transform: scale(var(--portrait-zoom)); }
-.portrait .portrait__art {
-  opacity: 1;
-  /* The drawing traces this exact photograph, frame for frame, so the two
-     layers need no nudging — the face dissolves in place. The contrast is
-     nudged just enough to firm the ink; its ground reads 240, so anything
-     stronger clips that to white and loses the faint construction lines.
-     Outbids .img-reveal img, which would otherwise drop the opacity leg. */
-  filter: contrast(1.12);
-  transition: opacity 520ms var(--ease), transform 1100ms var(--ease);
+.portrait .portrait__real {
+  opacity: 0;
+  transition: opacity 320ms var(--ease), transform 1100ms var(--ease);
 }
-
-.portrait:hover .portrait__art,
-.portrait.is-peeking .portrait__art,
-.portrait.is-unmasked .portrait__art { opacity: 0; }
-
-/* No illustration on disk, no two-layer frame — fall back to the photograph. */
-.portrait.is-photo-only .portrait__art { display: none; }
-.portrait.is-photo-only { cursor: default; }
+.portrait:hover .portrait__real,
+.portrait.is-peeking .portrait__real,
+.portrait.is-unmasked .portrait__real { opacity: 1; }
 
 .profile__caption {
   display: flex;
