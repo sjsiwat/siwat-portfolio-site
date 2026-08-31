@@ -23,7 +23,8 @@ const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matc
 (function typing() {
   const el = document.getElementById("typedText");
   if (!el) return;
-  // `fun` lines are the off-duty ones — only role names take the accent.
+  // `fun` lines are the off-duty ones: vermilion, in the sans. Roles run
+  //  cobalt in the serif italic.
   const strings = [
     { text: "Full Stack Developer" },
     { text: "Backend-Leaning Builder" },
@@ -44,7 +45,10 @@ const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matc
   function step() {
     const entry = strings[idx % strings.length];
     const current = entry.text;
-    if (wrap) wrap.classList.toggle("is-role", !entry.fun);
+    if (wrap) {
+      wrap.classList.toggle("is-role", !entry.fun);
+      wrap.classList.toggle("is-fun", !!entry.fun);
+    }
     if (!deleting && text === current) {
       deleting = true;
       setTimeout(step, PAUSE);

@@ -19,6 +19,10 @@
      never for headings, body copy, backgrounds or decoration.
      4.81:1 on --paper, 5.33:1 for white on cobalt. */
   --cobalt:  #3157FF;
+  /* Second accent, and the only other colour: the off-duty lines in the
+     hero's typed slot. 3.32:1 on --paper, so it is held above 24px where
+     AA asks 3:1 — see .hero__typing .typed. */
+  --vermilion: #E4572E;
   --grid-line: color-mix(in srgb, var(--ink) 6%, transparent);
   --hi:      #0E0E0E;   /* accent = invert only, no colour */
 
@@ -507,12 +511,13 @@ main { position: relative; z-index: 10; flex: 1; }
   color: var(--dim);
   white-space: nowrap;
 }
-/* The line that types itself is the hero's one moving part — it carries
-   the accent, and keeps it across every phrase so the colour never blinks
-   as the words cycle. */
+/* The line that types itself is the hero's one moving part. Roles take the
+   cobalt, the off-duty lines take vermilion. Its own size floor sits at
+   24px so vermilion always reads as large text, where 3:1 is the bar. */
 .hero__typing .typed {
+  --fs-typed: clamp(1.5rem, 2.2vw, 1.75rem);
   font-family: var(--sans);
-  font-size: var(--fs-lead);
+  font-size: var(--fs-typed);
   letter-spacing: -0.015em;
   color: var(--cobalt);
   min-width: 0;
@@ -520,14 +525,16 @@ main { position: relative; z-index: 10; flex: 1; }
 .hero__typing .typed.is-role {
   font-family: var(--serif);
   font-style: italic;
-  font-size: calc(var(--fs-lead) * 1.06);
+  font-size: calc(var(--fs-typed) * 1.06);
   letter-spacing: -0.01em;
+  color: var(--cobalt);
 }
+.hero__typing .typed.is-fun { color: var(--vermilion); }
 .hero__typing .caret {
   display: inline-block;
   width: 1px;
   height: 1.05em;
-  background: var(--cobalt);
+  background: currentColor;
   vertical-align: -0.14em;
   animation: caret-blink 1.2s steps(1) infinite;
 }
