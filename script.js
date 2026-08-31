@@ -277,14 +277,20 @@ const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matc
     bar.style.width = (visible * 100).toFixed(3) + "%";
     bar.style.transform =
       "translateX(" + (travel * (1 / visible - 1) * 100).toFixed(3) + "%)";
-    // Slack for sub-pixel widths, which keep scrollLeft off its bounds.
-    prev.disabled = track.scrollLeft <= 2;
-    next.disabled = track.scrollLeft >= max - 2;
   }
 
+  // The four pages are a loop: past the last one is the first again. Neither
+  // button ever goes dead, so the rail is what says where you are.
+  // Stepping works on the page index rather than adding to scrollLeft, so
+  // half a page of hand-scrolling still lands on a whole one.
   function step(dir) {
-    track.scrollBy({
-      left: dir * stride(),
+    const s = stride();
+    const count = track.children.length;
+    if (!s || !count) return;
+    const page = (Math.round(track.scrollLeft / s) + dir + count) % count;
+    const max = track.scrollWidth - track.clientWidth;
+    track.scrollTo({
+      left: Math.min(page * s, max),
       behavior: reducedMotion ? "auto" : "smooth",
     });
   }
