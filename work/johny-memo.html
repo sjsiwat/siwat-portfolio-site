@@ -164,6 +164,75 @@
 
 
     <!-- ════════════════════════════════════════════
+         IMPLEMENTATION
+    ════════════════════════════════════════════ -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-label"><span>Implementation</span></div>
+        <div class="section__body">
+          <h2 class="section-title">Built <span class="accent">three times over</span></h2>
+          <div class="reveal">
+            <p class="t-body">
+              This is a learning project first. Some of it was built with AI-assisted
+              ("vibe") coding, but reviewed and reworked at each stage rather than accepted
+              as-is — each rewrite below was a deliberate step to learn the layer the last
+              version was hiding, not a restart out of confusion.
+            </p>
+          </div>
+
+          <div class="timeline reveal" style="margin-top: clamp(32px, 4vh, 56px);">
+
+            <article class="tl-item">
+              <span class="tl-year">v1</span>
+              <div>
+                <h3 class="tl-role">Static HTML</h3>
+                <p class="tl-org">Proving the interface before anything was dynamic.</p>
+                <ul class="tl-list">
+                  <li>Pages and layout only — no state, no data, just the design translated into markup.</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="tl-item">
+              <span class="tl-year">v2</span>
+              <div>
+                <h3 class="tl-role">Vanilla JavaScript</h3>
+                <p class="tl-org">Learning the DOM directly before reaching for a framework.</p>
+                <ul class="tl-list">
+                  <li>Added interactivity and local state by hand — the parts a framework would normally hide.</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="tl-item">
+              <span class="tl-year">v3</span>
+              <div>
+                <h3 class="tl-role">Next.js</h3>
+                <p class="tl-org">Moved to a framework to learn its conventions.</p>
+                <ul class="tl-list">
+                  <li>Traded hand-written wiring for routing, data fetching and a file-based structure — to see what problems a framework actually solves.</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="tl-item is-current">
+              <span class="tl-year">v4</span>
+              <div>
+                <h3 class="tl-role">React</h3>
+                <p class="tl-org">Simplified back down once the extra machinery stopped paying for itself.</p>
+                <ul class="tl-list">
+                  <li>Kept the framework, dropped the server-rendering layer a single-user PWA doesn't need.</li>
+                </ul>
+              </div>
+            </article>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════
          DECISIONS
     ════════════════════════════════════════════ -->
     <section class="section">
@@ -236,40 +305,38 @@
     ════════════════════════════════════════════ -->
     <section class="section">
       <div class="wrap">
-        <div class="section-label"><span>What breaks</span></div>
+        <div class="section-label"><span>What broke</span></div>
         <div class="section__body">
-          <h2 class="section-title">Where this design is <span class="accent">honest about failure</span></h2>
+          <h2 class="section-title">Two things that <span class="accent">actually broke</span></h2>
 
           <div class="reveal">
             <div class="incident">
-              <span class="incident__label">Silent by default</span>
+              <span class="incident__label">A fallback link that didn't</span>
               <p class="t-body">
-                A missing RLS policy doesn't error — it returns nothing. If I add a table and
-                forget to write its policy, the query comes back empty, and an empty query result
-                looks exactly like an empty state. That's the wrong lesson for the interface to
-                teach, and the only defence is testing every policy on the way in, not noticing its
-                absence later.
+                Magic-link sign-in leans on a fallback redirect for when the primary link doesn't
+                land someone back inside the app — and that fallback broke, sending people to a
+                dead page instead of the workspace. The likely culprit is the plainest one:
+                Supabase Auth's redirect allowlist not matching the URL the app was actually
+                running on, a mismatch that stays invisible right up until someone clicks the link.
               </p>
             </div>
             <div class="incident">
-              <span class="incident__label">Rolling back cleanly</span>
+              <span class="incident__label">Messages that never landed</span>
               <p class="t-body">
-                The UI shows a change before the server has confirmed it. If the server rejects the
-                write, the row has to snap back without reading as "it was there, now it's gone" —
-                which is a harder animation problem than it sounds, and the reason undo took longer
-                to get right than the confirm dialog it replaced would have.
+                I wired up the LINE Messaging API so a message sent through LINE could be logged
+                straight into Johny Memo as a note. The webhook received it — but the write never
+                reached Supabase, and nothing errored on the way. It's the same failure shape as a
+                missing RLS policy: the insert doesn't fail loud, it just doesn't happen, so the
+                first sign of a problem is a note that should exist and doesn't.
               </p>
             </div>
           </div>
 
           <div class="case-draft reveal">
-            <span class="case-draft__label">Draft — replace before sharing</span>
+            <span class="case-draft__label">Draft — optional</span>
             <p>
-              This is the spot for the real incident: a specific policy you actually forgot, a sync
-              conflict you actually hit, a bug a real interviewer can ask you to walk through.
-            </p>
-            <p>
-              What broke, how did you notice, and what did you change because of it?
+              Worth adding once it's fresh in memory: what confirmed each cause, and how it
+              actually got fixed — or whether either one is still open.
             </p>
           </div>
         </div>
