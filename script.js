@@ -391,7 +391,10 @@ const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matc
     btn.setAttribute("aria-expanded", String(open));
     panel.setAttribute("aria-hidden", String(!open));
     const label = btn.querySelector(".disclosure__label");
-    if (label) label.textContent = (open ? "Hide " : "Show ") + btn.dataset.noun;
+    if (!label) return;
+    // A section can name its own two states; otherwise it gets Show/Hide.
+    const named = open ? btn.dataset.labelOpen : btn.dataset.labelClosed;
+    label.textContent = named || (open ? "Hide " : "Show ") + btn.dataset.noun;
   };
 
   btns.forEach((btn) => {
