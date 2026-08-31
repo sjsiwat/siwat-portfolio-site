@@ -167,7 +167,6 @@ strong { font-weight: 500; color: var(--ink); }
    ════════════════════════════════════════════════════════════ */
 
 /* ── Display ───────────────────────────────────────────────── */
-.t-display,
 .hero__name,
 .hero__tagline,
 .section-title,
@@ -210,7 +209,6 @@ strong { font-weight: 500; color: var(--ink); }
 .about-meta span,
 .stack__num,
 .project__index,
-.exp-hint,
 .footer__inner {
   font-family: var(--mono);
   font-size: var(--fs-micro);
@@ -245,8 +243,6 @@ strong { font-weight: 500; color: var(--ink); }
   color: var(--ink);
 }
 
-/* Left-aligned throughout. Nothing is centred. */
-.section-label.centered { justify-content: flex-start; }
 /* ── Layout ────────────────────────────────────────────────── */
 main { position: relative; z-index: 10; flex: 1; }
 
@@ -575,14 +571,6 @@ main { position: relative; z-index: 10; flex: 1; }
   transition: transform var(--dur) var(--ease);
 }
 .btn:hover .btn__arrow { transform: translateX(4px); }
-
-.btn--solid {
-  background: var(--ink);
-  color: var(--paper);
-  border-bottom-color: var(--ink);
-  padding: 1rem 1.5rem;
-}
-.btn--solid:hover { color: var(--paper); }
 
 .btn--quiet { color: var(--dim); border-bottom-color: var(--line); }
 .btn--quiet:hover { color: var(--ink); border-bottom-color: var(--ink); }
