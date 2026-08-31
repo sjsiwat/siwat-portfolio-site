@@ -1311,6 +1311,15 @@ main { position: relative; z-index: 10; flex: 1; }
   text-transform: uppercase;
 }
 .disclosure__btn:hover { opacity: 0.6; }
+.disclosure__btn--accent { border-bottom-color: var(--vermilion-ink); }
+.disclosure__btn--accent .disclosure__label {
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--vermilion-ink);
+  animation: bounce 1.6s ease-in-out infinite;
+}
+.disclosure__btn--accent:hover .disclosure__label { animation-play-state: paused; }
 .disclosure__chev {
   display: inline-flex;
   transition: transform var(--dur) var(--ease);
