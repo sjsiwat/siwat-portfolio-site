@@ -32,7 +32,6 @@
      indistinguishable, but only one of them is readable. */
   --vermilion-ink: #C4441F;
   --grid-line: color-mix(in srgb, var(--ink) 6%, transparent);
-  --hi:      #111111;   /* accent = invert only, no colour */
 
   /* Type */
   --display: "Archivo", "Inter", system-ui, sans-serif;
