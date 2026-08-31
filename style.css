@@ -584,6 +584,7 @@ main { position: relative; z-index: 10; flex: 1; }
    A plain frame, and the picture in its own colour. */
 .profile { position: relative; }
 .profile__img {
+  position: relative;
   aspect-ratio: 4 / 5;
   background: var(--surface);
   border: 1px solid var(--line);
@@ -594,6 +595,30 @@ main { position: relative; z-index: 10; flex: 1; }
   object-fit: cover;
 }
 
+/* The drawing is what you meet first; the photograph is underneath,
+   and hovering the frame dissolves the ink away to find it. */
+.portrait { cursor: pointer; }
+.portrait img { position: absolute; inset: 0; }
+.portrait .portrait__art {
+  opacity: 1;
+  /* The drawing traces this exact photograph, frame for frame, so the two
+     layers need no nudging — the face dissolves in place. The ink is only
+     firmed up a little to hold its own against a night photograph. */
+  filter: contrast(1.22) brightness(0.98);
+  /* Outbids .img-reveal img, which would otherwise drop the opacity leg. */
+  transition: opacity 520ms var(--ease), transform 1100ms var(--ease);
+}
+
+.portrait:hover .portrait__art,
+.portrait:focus-visible .portrait__art,
+.portrait.is-unmasked .portrait__art { opacity: 0; }
+
+.portrait:focus-visible { outline: 1px solid var(--cobalt); outline-offset: 3px; }
+
+/* No illustration on disk, no two-layer frame — fall back to the photograph. */
+.portrait.is-photo-only .portrait__art { display: none; }
+.portrait.is-photo-only { cursor: default; }
+
 .profile__caption {
   display: flex;
   align-items: baseline;
@@ -601,6 +626,38 @@ main { position: relative; z-index: 10; flex: 1; }
   gap: 1rem;
   margin-top: 0.75rem;
   color: var(--mute);
+}
+
+/* The one green on the page. Small enough to read as a signal
+   rather than as a third accent colour. */
+.status {
+  --live: #12A150;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+.status__dot {
+  position: relative;
+  flex: none;
+  align-self: center;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--live);
+}
+.status__dot::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 1px solid var(--live);
+  opacity: 0;
+  animation: status-pulse 2.6s var(--ease) infinite;
+}
+@keyframes status-pulse {
+  0%   { transform: scale(0.6); opacity: 0.7; }
+  70%  { transform: scale(1.5); opacity: 0; }
+  100% { transform: scale(1.5); opacity: 0; }
 }
 
 /* ── About ─────────────────────────────────────────────────── */

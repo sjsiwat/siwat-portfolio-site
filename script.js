@@ -203,6 +203,30 @@ const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matc
   frames.forEach((f) => io.observe(f));
 })();
 
+/* ── Portrait — the drawing gives way to the photograph ────── */
+(function portrait() {
+  const frame = document.querySelector(".portrait");
+  if (!frame) return;
+  const art = frame.querySelector("[data-portrait-art]");
+  if (!art) return;
+
+  // If the illustration never arrives, drop the layer rather than leave a
+  // broken frame sitting over the photograph.
+  const drop = () => frame.classList.add("is-photo-only");
+  if (art.complete && art.naturalWidth === 0) drop();
+  art.addEventListener("error", drop);
+
+  // A pointer that cannot hover gets a tap instead, so the photograph is
+  // reachable on a phone too.
+  if (window.matchMedia("(hover: none)").matches) {
+    frame.addEventListener("click", () => {
+      if (!frame.classList.contains("is-photo-only")) {
+        frame.classList.toggle("is-unmasked");
+      }
+    });
+  }
+})();
+
 /* ── Reveal on scroll ──────────────────────────────────────── */
 (function reveal() {
   const els = document.querySelectorAll(".reveal");
