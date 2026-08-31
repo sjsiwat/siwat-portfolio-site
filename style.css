@@ -871,9 +871,9 @@ main { position: relative; z-index: 10; flex: 1; }
 .gh__legend i { width: 11px; height: 11px; }
 .gh {
   --gh-0: color-mix(in srgb, var(--ink) 7%, transparent);
-  --gh-1: color-mix(in srgb, var(--ink) 20%, transparent);
-  --gh-2: color-mix(in srgb, var(--ink) 40%, transparent);
-  --gh-3: color-mix(in srgb, var(--ink) 68%, transparent);
+  --gh-1: color-mix(in srgb, var(--ink) 24%, transparent);
+  --gh-2: color-mix(in srgb, var(--ink) 46%, transparent);
+  --gh-3: color-mix(in srgb, var(--ink) 72%, transparent);
   --gh-4: var(--cobalt);
 }
 .gh__grid i[data-level="1"], .gh__legend i[data-level="1"] { background: var(--gh-1); }

@@ -325,14 +325,25 @@ function scrollToSection(id) {
     const data = await res.json();
     if (!Array.isArray(data.days) || !data.days.length) throw new Error("no days");
 
+    // GitHub buckets its levels against the year's single busiest day, so a
+    // couple of outliers flatten everything else into one shade. Rebucket
+    // against the quartiles of the days actually worked, which is what the
+    // graph is meant to show.
+    const worked = data.days.map((d) => d[2]).filter((c) => c > 0).sort((a, b) => a - b);
+    const q = (p) => worked[Math.min(worked.length - 1, Math.floor(worked.length * p))] || 0;
+    const [q1, q2, q3] = [q(0.25), q(0.5), q(0.75)];
+    const levelOf = (c) =>
+      c === 0 ? 0 : c <= q1 ? 1 : c <= q2 ? 2 : c <= q3 ? 3 : 4;
+
     // Cells are placed by week and weekday, so a partial first or last
     // week leaves its gap rather than shifting everything along.
     const frag = document.createDocumentFragment();
     let active = 0, streak = 0, best = 0;
 
-    data.days.forEach(([week, weekday, count, level]) => {
+    data.days.forEach(([week, weekday, count]) => {
       const cell = document.createElement("i");
-      cell.dataset.level = level;
+      cell.dataset.level = levelOf(count);
+      cell.title = count === 1 ? "1 contribution" : count + " contributions";
       cell.style.gridColumn = week + 1;
       cell.style.gridRow = weekday + 1;
       frag.appendChild(cell);
