@@ -53,6 +53,9 @@ html {
 }
 
 body {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
   background: var(--paper);
   color: var(--ink);
   font-family: var(--sans);
@@ -141,9 +144,6 @@ strong { font-weight: 500; color: var(--ink); }
 .stat__label,
 .about-meta span,
 .stack__num,
-.stack__badge,
-.carousel__count,
-.tl-chip,
 .exp-hint,
 .footer__inner {
   font-family: var(--mono);
@@ -160,7 +160,6 @@ strong { font-weight: 500; color: var(--ink); }
 .hero__intro,
 .about-card p,
 .stack__note,
-.project-card__desc,
 .contact__sub,
 .tl-list {
   font-family: var(--sans);
@@ -184,7 +183,7 @@ strong { font-weight: 500; color: var(--ink); }
 /* Left-aligned throughout. Nothing is centred. */
 .section-label.centered { justify-content: flex-start; }
 /* ── Layout ────────────────────────────────────────────────── */
-main { position: relative; z-index: 10; }
+main { position: relative; z-index: 10; flex: 1; }
 
 
 /* ════════════════════════════════════════════════════════════
@@ -205,6 +204,7 @@ main { position: relative; z-index: 10; }
 }
 
 .section {
+  scroll-margin-top: 72px;
   padding-block: var(--section-gap);
   border-top: 1px solid var(--line);   /* divider runs the full width */
 }
@@ -304,11 +304,14 @@ main { position: relative; z-index: 10; }
   .grid-lines span:nth-child(n + 5) { display: none; }
   .grid-lines { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
+/* On a phone four rules cut through the text — two is enough to read as a grid */
+@media (max-width: 639px) {
+  .grid-lines span:nth-child(n + 3) { display: none; }
+  .grid-lines { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 
 /* Section label — micro-label, sits in the left rail (see LAYOUT) */
 .section-label { display: block; }
-.section-label.centered { text-align: left; }
-.section-label .line { display: none; }
 
 /* .section-title takes its size from the display rule */
 .section-title { margin-bottom: clamp(48px, 7vh, 96px); }
@@ -446,6 +449,7 @@ main { position: relative; z-index: 10; }
 
 /* ── Hero ──────────────────────────────────────────────────── */
 .hero {
+  scroll-margin-top: 72px;
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -468,7 +472,6 @@ main { position: relative; z-index: 10; }
   gap: 0.6rem;
   margin-bottom: clamp(24px, 4vh, 48px);
 }
-.hero__kicker .line { display: none; }
 .hero__name { margin-bottom: clamp(28px, 4vh, 56px); }
 .hero__tagline {
   font-size: var(--fs-deck);
