@@ -153,6 +153,7 @@ strong { font-weight: 500; color: var(--ink); }
 .stat__label,
 .about-meta span,
 .stack__num,
+.project__index,
 .exp-hint,
 .footer__inner {
   font-family: var(--mono);
@@ -686,6 +687,7 @@ main { position: relative; z-index: 10; flex: 1; }
    swap sides and change width from one entry to the next. */
 .projects { display: block; }
 .project {
+  --fs-project-title: clamp(1.75rem, 3vw, 2.75rem);
   display: grid;
   grid-template-columns: repeat(9, minmax(0, 1fr));
   column-gap: var(--gap);
@@ -705,8 +707,14 @@ main { position: relative; z-index: 10; flex: 1; }
    row, level with the description rather than with the index. */
 @media (min-width: 900px) {
   .project__head   { grid-row: 1; }
-  .project__figure { grid-row: 2; }
   .project__text   { grid-row: 2; }
+  /* The picture spans both rows and is pushed down past the index, so its
+     top edge lands on the cap of the title rather than on the number. */
+  .project__figure {
+    grid-row: 1 / span 2;
+    align-self: start;
+    margin-top: calc(var(--fs-micro) * 1.4 + 1rem + var(--fs-project-title) * 0.147);
+  }
 
   .project:nth-child(4n + 1) .project__figure { grid-column: 1 / span 5; }
   .project:nth-child(4n + 1) .project__head,
@@ -724,9 +732,6 @@ main { position: relative; z-index: 10; flex: 1; }
   .project:nth-child(4n + 4) .project__head,
   .project:nth-child(4n + 4) .project__text   { grid-column: 1 / span 2; }
 
-  /* Drop the picture to the cap of the description's first line —
-     half-leading plus the ascender gap, in units of the body size. */
-  .project__figure { margin-top: calc(var(--fs-body) * 0.46); }
 }
 
 /* Screenshots keep their own proportions — never cropped to fit a frame.
@@ -740,13 +745,12 @@ main { position: relative; z-index: 10; flex: 1; }
 
 .project__index {
   display: block;
-  color: var(--mute);
   margin-bottom: 1rem;
 }
 .project__title {
   font-family: var(--display);
   font-weight: 500;
-  font-size: clamp(1.75rem, 3vw, 2.75rem);
+  font-size: var(--fs-project-title);
   letter-spacing: -0.035em;
   line-height: 1;
   color: var(--ink);
