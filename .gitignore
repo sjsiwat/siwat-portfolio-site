@@ -3,3 +3,5 @@
 *.local.md
 .DS_Store
 .claude
+.wrangler/
+node_modules/
