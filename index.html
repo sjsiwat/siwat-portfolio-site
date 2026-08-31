@@ -349,13 +349,47 @@
           <div class="disclosure__panel disclosure__panel--wide is-open" id="panel-projects">
             <div class="disclosure__inner">
 
+
+            <article class="project project--featured reveal">
+              <div class="project__head">
+                <span class="project__index">01 / <span class="project__badge">Featured</span></span>
+                <h3 class="project__title">Johny Memo</h3>
+              </div>
+
+              <div class="project__figure img-reveal">
+                <img src="project-images/johny_memo.png" alt="Johny Memo — the sign-in page and workspace" loading="lazy" />
+              </div>
+
+              <div class="project__text">
+                <p class="project__lead">A personal OS for everyday life.</p>
+                <p class="project__desc">
+                  A private workspace for tasks, notes and expenses, designed and built end to end.
+                  I drew the interface and the flows first, then built what sits behind them:
+                  magic-link sign-in and Postgres Row Level Security keep each person's data
+                  separated at the database rather than only in application code, and realtime
+                  sync with optimistic updates keeps it usable on a bad connection.
+                </p>
+                <p class="project__craft" aria-label="What I handled on this project">
+                  <span>Design</span><span>Interface</span><span>Frontend</span><span>API</span><span>Database</span><span>Auth</span><span>Automation</span><span>Deployment</span>
+                </p>
+                <p class="project__meta"><span>Supabase</span><span>PostgreSQL</span><span>Row Level Security</span><span>Magic-link auth</span><span>PWA</span><span>Cloudflare Pages</span></p>
+                <div class="project__links">
+                  <a class="btn btn--quiet project__cta" href="https://johny.siwat.me" target="_blank" rel="noopener">View project <span class="btn__arrow">&#8599;</span></a>
+                  <a class="btn btn--quiet" href="https://github.com/sjsiwat/Little-Johny" target="_blank" rel="noopener">GitHub <span class="btn__arrow">&#8599;</span></a>
+                </div>
+              </div>
+            </article>
+
+            <div class="projects__aside">
+              <span>Also built</span>
+            </div>
             <div class="carousel reveal" data-carousel>
             <div class="projects" data-carousel-track role="region"
                  aria-label="Selected work — scroll sideways for more" tabindex="0">
 
               <article class="project">
                 <div class="project__head">
-                  <span class="project__index">01 / 04</span>
+                  <span class="project__index">02 / 04</span>
                   <h3 class="project__title">AWS S3 Static Website</h3>
                 </div>
 
@@ -374,7 +408,7 @@
 
               <article class="project">
                 <div class="project__head">
-                  <span class="project__index">02 / 04</span>
+                  <span class="project__index">03 / 04</span>
                   <h3 class="project__title">AWS EC2 Nginx Website</h3>
                 </div>
 
@@ -391,25 +425,6 @@
                 </div>
               </article>
 
-              <article class="project">
-                <div class="project__head">
-                  <span class="project__index">03 / 04</span>
-                  <h3 class="project__title">Johny Memo</h3>
-                </div>
-
-                <div class="project__figure img-reveal">
-                  <img src="project-images/johny_memo.png" alt="Johny Memo app screenshot" loading="lazy" />
-                </div>
-
-                <div class="project__text">
-                  <p class="project__desc">A privacy-first productivity PWA for tasks, notes, and expenses. Magic-link auth and Postgres Row Level Security isolate each user's data at the database layer — not just in application logic — while realtime sync with optimistic UI and undo-delete keeps it responsive on unreliable connections.</p>
-                  <p class="project__meta"><span>Supabase</span><span>PostgreSQL</span><span>RLS</span><span>Magic-link auth</span><span>PWA</span><span>Cloudflare Pages</span></p>
-                  <div class="project__links">
-                  <a class="btn btn--quiet" href="https://github.com/sjsiwat/Little-Johny" target="_blank" rel="noopener">GitHub <span class="btn__arrow">&#8594;</span></a>
-                  <a class="btn btn--quiet" href="https://johny.siwat.me" target="_blank" rel="noopener">Live site <span class="btn__arrow">&#8594;</span></a>
-                  </div>
-                </div>
-              </article>
 
               <article class="project">
                 <div class="project__head">

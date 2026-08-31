@@ -1010,26 +1010,77 @@ main { position: relative; z-index: 10; flex: 1; }
 
 .project {
   --fs-project-title: clamp(1.575rem, 2.7vw, 2.475rem);
-  /* One project to a page — the track holds four of them and nothing else */
-  flex: 0 0 100%;
+  /* Supporting work runs narrower than a page, so a second card is always
+     half in view and the featured picture above stays the largest thing in
+     the section by a clear margin — 773px against 618px, 25%. */
+  flex: 0 0 clamp(250px, 78vw, 618px);
   display: flex;
   flex-direction: column;
   scroll-snap-align: start;
 }
 
-/* With a page to work in, the picture and the words sit side by side and
-   the card reads as a spread again. The words stretch to the picture's
-   height, so the links land on its bottom edge. */
+/* ── The featured entry ────────────────────────────────────────
+   Out of the track and across the whole panel: the picture and the words
+   side by side, the way the entries read before they were a carousel. The
+   supporting cards keep the stacked layout at every width, because at
+   618px a second column would leave the prose about thirty characters. */
+.project--featured {
+  padding-bottom: clamp(48px, 6vh, 80px);
+  margin-bottom: clamp(40px, 5vh, 64px);
+  border-bottom: 1px solid var(--line);
+}
 @media (min-width: 900px) {
-  .project {
+  .project--featured {
     display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));
     column-gap: var(--gap);
     align-content: start;
   }
-  .project__head   { grid-column: 1 / -1; }
-  .project__figure { grid-column: 1 / span 8; }
-  .project__text   { grid-column: 9 / -1; }
+  .project--featured .project__head   { grid-column: 1 / -1; }
+  .project--featured .project__figure { grid-column: 1 / span 8; align-self: start; }
+  .project--featured .project__text   { grid-column: 9 / -1; }
+}
+
+/* FEATURED carries the accent; the number beside it stays quiet. */
+.project__badge { color: var(--cobalt); }
+
+.project__lead {
+  font-family: var(--sans);
+  font-size: var(--fs-lead);
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+  color: var(--ink);
+  margin-bottom: 1.25rem;
+}
+
+/* What I did, as opposed to what it was built with — set apart from the
+   stack row below it by weight and colour, not by another rule. */
+.project__craft {
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 2;
+  color: var(--cobalt);
+  margin-bottom: 1.25rem;
+}
+.project__craft span:not(:last-child)::after {
+  content: " / ";
+  color: var(--mute);
+}
+
+/* The one picture on the page big enough to reward a closer look */
+.project--featured .project__figure:hover img { transform: scale(1.015); }
+
+/* A quiet marker between the featured entry and the rest */
+.projects__aside {
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mute);
+  margin-bottom: clamp(16px, 2vh, 24px);
 }
 
 /* Contain, never cover: these are screenshots of real interfaces and they
@@ -1040,7 +1091,6 @@ main { position: relative; z-index: 10; flex: 1; }
      shallower box is the same picture with less dead paper above and below. */
   aspect-ratio: 16 / 9;
   margin-bottom: clamp(20px, 3vh, 32px);
-  align-self: start;
   background: var(--surface);
   border: 1px solid var(--line);
 }

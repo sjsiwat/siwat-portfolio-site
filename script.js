@@ -362,15 +362,6 @@ const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matc
 
   document.documentElement.classList.add("js-carousel");
 
-  // One card plus the gap it carries — read from the DOM so the clamp on
-  // the card width stays the single source of truth.
-  function stride() {
-    const card = track.querySelector(".project");
-    if (!card) return track.clientWidth;
-    const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
-    return card.getBoundingClientRect().width + gap;
-  }
-
   function draw() {
     const max = track.scrollWidth - track.clientWidth;
     const visible = track.clientWidth / track.scrollWidth;
@@ -380,20 +371,26 @@ const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matc
       "translateX(" + (travel * (1 / visible - 1) * 100).toFixed(3) + "%)";
   }
 
-  // The four pages are a loop: past the last one is the first again. Neither
-  // button ever goes dead, so the rail is what says where you are.
-  // Stepping works on the page index rather than adding to scrollLeft, so
-  // half a page of hand-scrolling still lands on a whole one.
+  // A loop: past the last card is the first again, so neither button ever
+  // goes dead and the rail is what says where you are.
+  // The stops are the cards' own positions rather than a multiple of the
+  // stride — more than one card is in view at a time, so the last stop is
+  // where the track runs out, not where the last card starts.
   function step(dir) {
-    const s = stride();
-    const count = track.children.length;
-    if (!s || !count) return;
-    const page = (Math.round(track.scrollLeft / s) + dir + count) % count;
     const max = track.scrollWidth - track.clientWidth;
-    track.scrollTo({
-      left: Math.min(page * s, max),
-      behavior: reducedMotion ? "auto" : "smooth",
-    });
+    if (max <= 0) return;
+    const stops = [...track.children]
+      .map((c) => Math.min(c.offsetLeft - track.offsetLeft, max));
+    const at = track.scrollLeft;
+    let left;
+    if (dir > 0) {
+      left = stops.find((x) => x > at + 2);
+      if (left === undefined) left = 0;
+    } else {
+      const before = stops.filter((x) => x < at - 2);
+      left = before.length ? before[before.length - 1] : max;
+    }
+    track.scrollTo({ left: left, behavior: reducedMotion ? "auto" : "smooth" });
   }
   prev.addEventListener("click", () => step(-1));
   next.addEventListener("click", () => step(1));
