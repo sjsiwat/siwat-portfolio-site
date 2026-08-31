@@ -34,7 +34,7 @@
   ════════════════════════════════════════════ -->
   <nav class="nav" id="nav">
     <div class="nav__inner">
-      <span class="nav__logo">&lt;siwat /&gt;</span>
+      <span class="nav__logo">Siwat Jankam</span>
 
       <div class="nav__links">
         <button class="nav__link u-line" onclick="scrollToSection('about')">About</button>
@@ -92,11 +92,8 @@
           </p>
 
           <div class="hero__actions">
-            <button class="btn-primary" onclick="scrollToSection('projects')">
-              View Projects
-              <span class="chev"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></span>
-            </button>
-            <button class="btn-ghost" onclick="scrollToSection('contact')">Get in Touch</button>
+            <button class="btn" onclick="scrollToSection('projects')">View Projects <span class="btn__arrow">&#8594;</span></button>
+            <button class="btn btn--quiet" onclick="scrollToSection('contact')">Get in Touch <span class="btn__arrow">&#8594;</span></button>
 
             <div class="hero__socials">
               <a href="https://github.com/sjsiwat" target="_blank" rel="noopener" aria-label="GitHub">
@@ -134,33 +131,14 @@
 
         <!-- Right: profile photo -->
         <div class="hero__photo">
-          <div class="profile is-off" id="profile">
-            <div class="profile__ring"><div class="profile__ring-inner"></div></div>
-            <div class="profile__ring2"></div>
-
+          <div class="profile">
             <div class="profile__img img-reveal">
-              <img src="images/propic.png" alt="Siwat Jankam profile photo" />
+              <img src="images/propic.png" alt="Siwat Jankam" />
             </div>
-
-            <!-- Placeholder that takes over while the photo is powered down -->
-            <div class="profile__ghost" aria-hidden="true">
-              <span class="profile__ghost-ring"></span>
-              <span class="profile__ghost-label">profile://hidden</span>
-            </div>
-
-            <!-- Scanner bar that sweeps on every toggle -->
-            <span class="profile__beam" aria-hidden="true"></span>
-
-            <button class="profile__toggle" id="profileToggle" aria-pressed="true" aria-label="Show profile photo" title="Show profile photo">
-              <svg class="ico ico--on" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-              <svg class="ico ico--off" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M10.7 5.1A10.9 10.9 0 0 1 12 5c6.5 0 10 7 10 7a18.5 18.5 0 0 1-2.7 3.7M6.6 6.6A18.6 18.6 0 0 0 2 12s3.5 7 10 7a10.7 10.7 0 0 0 5.4-1.4"/><path d="M14.1 14.1a3 3 0 1 1-4.2-4.2"/><line x1="2" y1="2" x2="22" y2="22"/></svg>
-              <span class="profile__toggle-label" id="profileToggleLabel">profile.show()</span>
-            </button>
-
-            <div class="profile__badge">
-              <span class="dot"></span>
-              <span>available</span>
-            </div>
+            <p class="profile__caption">
+              <span>Chiang Mai, TH</span>
+              <span>Available</span>
+            </p>
           </div>
         </div>
 
@@ -221,122 +199,62 @@
 
           <div class="stack reveal" id="skillStack">
 
-            <div class="stack__nav" role="tablist" aria-label="Skill categories" aria-orientation="vertical">
-              <span class="stack__marker" id="stackMarker" aria-hidden="true"></span>
-              <button class="stack__tab is-active" role="tab" id="tab-backend" aria-selected="true" aria-controls="panel-backend" tabindex="0">
-                <span class="stack__num">01</span>
-                <span class="stack__name">Backend</span>
-                <span class="stack__arrow">
-                  <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-                </span>
-              </button>
-              <button class="stack__tab" role="tab" id="tab-frontend" aria-selected="false" aria-controls="panel-frontend" tabindex="-1">
-                <span class="stack__num">02</span>
-                <span class="stack__name">Frontend</span>
-                <span class="stack__arrow">
-                  <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-                </span>
-              </button>
-              <button class="stack__tab" role="tab" id="tab-data" aria-selected="false" aria-controls="panel-data" tabindex="-1">
-                <span class="stack__num">03</span>
-                <span class="stack__name">Data</span>
-                <span class="stack__arrow">
-                  <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-                </span>
-              </button>
-              <button class="stack__tab" role="tab" id="tab-cloud" aria-selected="false" aria-controls="panel-cloud" tabindex="-1">
-                <span class="stack__num">04</span>
-                <span class="stack__name">Cloud &amp; Infra</span>
-                <span class="stack__arrow">
-                  <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-                </span>
-              </button>
-              <button class="stack__tab" role="tab" id="tab-tooling" aria-selected="false" aria-controls="panel-tooling" tabindex="-1">
-                <span class="stack__num">05</span>
-                <span class="stack__name">Tooling &amp; Automation</span>
-                <span class="stack__arrow">
-                  <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-                </span>
-              </button>
-              <button class="stack__tab" role="tab" id="tab-practices" aria-selected="false" aria-controls="panel-practices" tabindex="-1">
-                <span class="stack__num">06</span>
-                <span class="stack__name">Practices</span>
-                <span class="stack__arrow">
-                  <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-                </span>
-              </button>
+          <div class="stack__row">
+            <span class="stack__num">01</span>
+            <div>
+              <h3 class="stack__name">Backend</h3>
+              <p class="stack__note">Where most of my depth sits — API design, authentication and access control.</p>
             </div>
-
-            <div class="stack__panels">
-              <div class="stack__panel is-active" role="tabpanel" id="panel-backend" aria-labelledby="tab-backend">
-                <div class="stack__panel-head">
-                  <span class="stack__icon">
-                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
-                  </span>
-                  <h3>Backend</h3>
-                  <span class="stack__badge">06 entries</span>
-                </div>
-                <p class="stack__note">Where most of my depth sits — API design, authentication and access control.</p>
-                <div class="stack__tags"><span>Node.js</span><span>Express</span><span>REST API design</span><span>Magic-link auth</span><span>Row Level Security</span><span>OAuth 2.0</span></div>
-              </div>
-              <div class="stack__panel" role="tabpanel" id="panel-frontend" aria-labelledby="tab-frontend" hidden>
-                <div class="stack__panel-head">
-                  <span class="stack__icon">
-                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-                  </span>
-                  <h3>Frontend</h3>
-                  <span class="stack__badge">06 entries</span>
-                </div>
-                <p class="stack__note">Interface work I genuinely care about — layout, typography, and detail.</p>
-                <div class="stack__tags"><span>React</span><span>JavaScript (ES6+)</span><span>HTML5</span><span>CSS3</span><span>PWA</span><span>Optimistic UI</span></div>
-              </div>
-              <div class="stack__panel" role="tabpanel" id="panel-data" aria-labelledby="tab-data" hidden>
-                <div class="stack__panel-head">
-                  <span class="stack__icon">
-                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg>
-                  </span>
-                  <h3>Data</h3>
-                  <span class="stack__badge">06 entries</span>
-                </div>
-                <p class="stack__note">Modelling data across relational and document stores, in the same project.</p>
-                <div class="stack__tags"><span>PostgreSQL</span><span>Supabase</span><span>MongoDB Atlas</span><span>Cloudflare D1</span><span>DynamoDB</span><span>SQL</span></div>
-              </div>
-              <div class="stack__panel" role="tabpanel" id="panel-cloud" aria-labelledby="tab-cloud" hidden>
-                <div class="stack__panel-head">
-                  <span class="stack__icon">
-                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
-                  </span>
-                  <h3>Cloud &amp; Infra</h3>
-                  <span class="stack__badge">10 entries</span>
-                </div>
-                <p class="stack__note">Every project on this page is deployed and running in production — by me.</p>
-                <div class="stack__tags"><span>Cloudflare Pages</span><span>Workers</span><span>AWS S3</span><span>CloudFront</span><span>Lambda</span><span>EC2</span><span>Linux</span><span>Nginx</span><span>Render</span><span>Vercel</span></div>
-              </div>
-              <div class="stack__panel" role="tabpanel" id="panel-tooling" aria-labelledby="tab-tooling" hidden>
-                <div class="stack__panel-head">
-                  <span class="stack__icon">
-                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                  </span>
-                  <h3>Tooling &amp; Automation</h3>
-                  <span class="stack__badge">06 entries</span>
-                </div>
-                <p class="stack__note">The glue work: automation pipelines and third-party APIs.</p>
-                <div class="stack__tags"><span>Git &amp; GitHub</span><span>Docker</span><span>n8n</span><span>Gemini</span><span>LINE Messaging API</span><span>Google APIs</span></div>
-              </div>
-              <div class="stack__panel" role="tabpanel" id="panel-practices" aria-labelledby="tab-practices" hidden>
-                <div class="stack__panel-head">
-                  <span class="stack__icon">
-                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-                  </span>
-                  <h3>Practices</h3>
-                  <span class="stack__badge">04 entries</span>
-                </div>
-                <p class="stack__note">How I work day to day, not just what I have installed.</p>
-                <div class="stack__tags"><span>Git branching workflow</span><span>CI auto-deploy</span><span>Production debugging</span><span>Technical documentation</span></div>
-              </div>
-            </div>
-
+            <p class="stack__tags"><span>Node.js</span><span>Express</span><span>REST API design</span><span>Magic-link auth</span><span>Row Level Security</span><span>OAuth 2.0</span></p>
           </div>
+          <div class="stack__row">
+            <span class="stack__num">02</span>
+            <div>
+              <h3 class="stack__name">Frontend</h3>
+              <p class="stack__note">Interface work I genuinely care about — layout, typography, and detail.</p>
+            </div>
+            <p class="stack__tags"><span>React</span><span>JavaScript (ES6+)</span><span>HTML5</span><span>CSS3</span><span>PWA</span><span>Optimistic UI</span></p>
+          </div>
+          <div class="stack__row">
+            <span class="stack__num">03</span>
+            <div>
+              <h3 class="stack__name">Data</h3>
+              <p class="stack__note">Modelling data across relational and document stores, in the same project.</p>
+            </div>
+            <p class="stack__tags"><span>PostgreSQL</span><span>Supabase</span><span>MongoDB Atlas</span><span>Cloudflare D1</span><span>DynamoDB</span><span>SQL</span></p>
+          </div>
+          <div class="stack__row">
+            <span class="stack__num">04</span>
+            <div>
+              <h3 class="stack__name">Cloud &amp; Infra</h3>
+              <p class="stack__note">Every project on this page is deployed and running in production — by me.</p>
+            </div>
+            <p class="stack__tags"><span>Cloudflare Pages</span><span>Workers</span><span>AWS S3</span><span>CloudFront</span><span>Lambda</span><span>EC2</span><span>Linux</span><span>Nginx</span><span>Render</span><span>Vercel</span></p>
+          </div>
+          <div class="stack__row">
+            <span class="stack__num">05</span>
+            <div>
+              <h3 class="stack__name">Tooling &amp; Automation</h3>
+              <p class="stack__note">The glue work: automation pipelines and third-party APIs.</p>
+            </div>
+            <p class="stack__tags"><span>Git &amp; GitHub</span><span>Docker</span><span>n8n</span><span>Gemini</span><span>LINE Messaging API</span><span>Google APIs</span></p>
+          </div>
+          <div class="stack__row">
+            <span class="stack__num">06</span>
+            <div>
+              <h3 class="stack__name">Practices</h3>
+              <p class="stack__note">How I work day to day, not just what I have installed.</p>
+            </div>
+            <p class="stack__tags"><span>Git branching workflow</span><span>CI auto-deploy</span><span>Production debugging</span><span>Technical documentation</span></p>
+          </div>
+
+          <div class="marquee" aria-hidden="true">
+            <div class="marquee__track">
+              <div class="marquee__group"><span>Node.js</span><span>Express</span><span>REST API design</span><span>Magic-link auth</span><span>Row Level Security</span><span>OAuth 2.0</span><span>React</span><span>JavaScript (ES6+)</span><span>HTML5</span><span>CSS3</span><span>PWA</span><span>Optimistic UI</span><span>PostgreSQL</span><span>Supabase</span><span>MongoDB Atlas</span><span>Cloudflare D1</span><span>DynamoDB</span><span>SQL</span><span>Cloudflare Pages</span><span>Workers</span><span>AWS S3</span><span>CloudFront</span><span>Lambda</span><span>EC2</span><span>Linux</span><span>Nginx</span><span>Render</span><span>Vercel</span><span>Git &amp; GitHub</span><span>Docker</span><span>n8n</span><span>Gemini</span><span>LINE Messaging API</span><span>Google APIs</span><span>Git branching workflow</span><span>CI auto-deploy</span><span>Production debugging</span><span>Technical documentation</span></div>
+              <div class="marquee__group"><span>Node.js</span><span>Express</span><span>REST API design</span><span>Magic-link auth</span><span>Row Level Security</span><span>OAuth 2.0</span><span>React</span><span>JavaScript (ES6+)</span><span>HTML5</span><span>CSS3</span><span>PWA</span><span>Optimistic UI</span><span>PostgreSQL</span><span>Supabase</span><span>MongoDB Atlas</span><span>Cloudflare D1</span><span>DynamoDB</span><span>SQL</span><span>Cloudflare Pages</span><span>Workers</span><span>AWS S3</span><span>CloudFront</span><span>Lambda</span><span>EC2</span><span>Linux</span><span>Nginx</span><span>Render</span><span>Vercel</span><span>Git &amp; GitHub</span><span>Docker</span><span>n8n</span><span>Gemini</span><span>LINE Messaging API</span><span>Google APIs</span><span>Git branching workflow</span><span>CI auto-deploy</span><span>Production debugging</span><span>Technical documentation</span></div>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
@@ -353,154 +271,69 @@
         <div class="section__body">
           <h2 class="section-title">Selected <span class="accent">work</span></h2>
 
-          <div class="carousel reveal" id="projectCarousel">
+          <div class="projects reveal">
 
-            <div class="carousel__bar">
-              <div class="carousel__meta">
-                <span class="carousel__count">
-                  <span class="carousel__index" id="projIndex">01</span><span class="carousel__sep">/</span><span id="projTotal">04</span>
-                </span>
-                <span class="carousel__rail"><span class="carousel__rail-fill" id="projRail"></span></span>
-              </div>
-              <div class="carousel__nav">
-                <button class="carousel__btn" id="projPrev" aria-label="Previous project">
-                  <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-                </button>
-                <button class="carousel__btn" id="projNext" aria-label="Next project">
-                  <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-                </button>
-              </div>
-            </div>
-
-            <div class="carousel__track" id="projTrack" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Selected work">
-
-            <!-- Project 1: AWS S3 -->
-            <div class="project-card" style="--accent: #00c8ff">
-              <div class="project-card__corner"></div>
-              <div class="project-card__head">
-                <span class="project-card__icon">
-                  <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
-                </span>
-                <a href="https://github.com/sjsiwat/aws-static-website" target="_blank" rel="noopener" class="project-card__ext" aria-label="Open project">
-                  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
-                </a>
-              </div>
-              <h3>AWS S3 Static Website</h3>
-              <p class="project-card__desc">
-                The first home of siwat.me — static hosting on Amazon S3 with a scoped bucket policy,
-                CloudFront and ACM in front, and AWS CLI sync deployment. Later migrated to Cloudflare
-                Pages with GitHub-triggered auto-deploy.
-              </p>
-              <div class="project-card__tags">
-                <span>Amazon S3</span><span>CloudFront</span><span>ACM</span><span>AWS CLI</span><span>Bucket Policy</span>
-              </div>
-              <div class="project-card__preview img-reveal">
+            <article class="project">
+              <div class="project__figure img-reveal">
                 <img src="project-images/s3-project.png" alt="S3 project screenshot" loading="lazy" />
               </div>
-              <div class="project-card__links">
-                <a href="https://github.com/sjsiwat/aws-static-website" target="_blank" rel="noopener">
-                  <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.08-.73.08-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .3z"/></svg>
-                  GitHub →
-                </a>
+              <div class="project__body">
+                <span class="project__index">01 / 04</span>
+                <h3 class="project__title">AWS S3 Static Website</h3>
+                <p class="project__desc">The first home of siwat.me — static hosting on Amazon S3 with a scoped bucket policy, CloudFront and ACM in front, and AWS CLI sync deployment. Later migrated to Cloudflare Pages with GitHub-triggered auto-deploy.</p>
+                <p class="project__meta"><span>Amazon S3</span><span>CloudFront</span><span>ACM</span><span>AWS CLI</span><span>Bucket Policy</span></p>
+                <div class="project__links">
+                <a class="btn btn--quiet" href="https://github.com/sjsiwat/aws-static-website" target="_blank" rel="noopener">GitHub <span class="btn__arrow">&#8594;</span></a>
+                </div>
               </div>
-            </div>
+            </article>
 
-            <!-- Project 2: EC2 Nginx -->
-            <div class="project-card" style="--accent: #10b981">
-              <div class="project-card__corner"></div>
-              <div class="project-card__head">
-                <span class="project-card__icon">
-                  <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
-                </span>
-                <a href="https://github.com/sjsiwat/AWS-EC2-nginx-website" target="_blank" rel="noopener" class="project-card__ext" aria-label="Open project">
-                  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
-                </a>
-              </div>
-              <h3>AWS EC2 Nginx Website</h3>
-              <p class="project-card__desc">
-                Deployed a static website on an Ubuntu EC2 instance using Linux, SSH, SCP, Nginx,
-                AWS Security Groups, and Linux file permissions.
-              </p>
-              <div class="project-card__tags">
-                <span>EC2</span><span>Ubuntu</span><span>Nginx</span><span>SSH</span><span>Security Groups</span>
-              </div>
-              <div class="project-card__preview img-reveal">
+            <article class="project">
+              <div class="project__figure img-reveal">
                 <img src="project-images/ec2-project.png" alt="EC2 project screenshot" loading="lazy" />
               </div>
-              <div class="project-card__links">
-                <a href="https://github.com/sjsiwat/AWS-EC2-nginx-website" target="_blank" rel="noopener">
-                  <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.08-.73.08-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .3z"/></svg>
-                  GitHub →
-                </a>
+              <div class="project__body">
+                <span class="project__index">02 / 04</span>
+                <h3 class="project__title">AWS EC2 Nginx Website</h3>
+                <p class="project__desc">Deployed a static website on an Ubuntu EC2 instance using Linux, SSH, SCP, Nginx, AWS Security Groups, and Linux file permissions.</p>
+                <p class="project__meta"><span>EC2</span><span>Ubuntu</span><span>Nginx</span><span>SSH</span><span>Security Groups</span></p>
+                <div class="project__links">
+                <a class="btn btn--quiet" href="https://github.com/sjsiwat/AWS-EC2-nginx-website" target="_blank" rel="noopener">GitHub <span class="btn__arrow">&#8594;</span></a>
+                </div>
               </div>
-            </div>
+            </article>
 
-            <!-- Project 3: Johny Memo -->
-            <div class="project-card" style="--accent: #a855f7">
-              <div class="project-card__corner"></div>
-              <div class="project-card__head">
-                <span class="project-card__icon">
-                  <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-                </span>
-                <a href="https://johny.siwat.me" target="_blank" rel="noopener" class="project-card__ext" aria-label="Open project">
-                  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
-                </a>
-              </div>
-              <h3>Johny Memo</h3>
-              <p class="project-card__desc">
-                A privacy-first productivity PWA for tasks, notes, and expenses. Magic-link auth and
-                Postgres Row Level Security isolate each user's data at the database layer — not just
-                in application logic — while realtime sync with optimistic UI and undo-delete keeps it
-                responsive on unreliable connections.
-              </p>
-              <div class="project-card__tags">
-                <span>Supabase</span><span>PostgreSQL</span><span>RLS</span><span>Magic-link auth</span><span>PWA</span><span>Cloudflare Pages</span>
-              </div>
-              <div class="project-card__preview img-reveal">
+            <article class="project">
+              <div class="project__figure img-reveal">
                 <img src="project-images/johny_memo.png" alt="Johny Memo app screenshot" loading="lazy" />
               </div>
-              <div class="project-card__links">
-                <a href="https://github.com/sjsiwat/Little-Johny" target="_blank" rel="noopener">
-                  <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.08-.73.08-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .3z"/></svg>
-                  GitHub
-                </a>
-                <a href="https://johny.siwat.me" target="_blank" rel="noopener">Live Demo →</a>
+              <div class="project__body">
+                <span class="project__index">03 / 04</span>
+                <h3 class="project__title">Johny Memo</h3>
+                <p class="project__desc">A privacy-first productivity PWA for tasks, notes, and expenses. Magic-link auth and Postgres Row Level Security isolate each user's data at the database layer — not just in application logic — while realtime sync with optimistic UI and undo-delete keeps it responsive on unreliable connections.</p>
+                <p class="project__meta"><span>Supabase</span><span>PostgreSQL</span><span>RLS</span><span>Magic-link auth</span><span>PWA</span><span>Cloudflare Pages</span></p>
+                <div class="project__links">
+                <a class="btn btn--quiet" href="https://github.com/sjsiwat/Little-Johny" target="_blank" rel="noopener">GitHub <span class="btn__arrow">&#8594;</span></a>
+                <a class="btn btn--quiet" href="https://johny.siwat.me" target="_blank" rel="noopener">Live site <span class="btn__arrow">&#8594;</span></a>
+                </div>
               </div>
-            </div>
+            </article>
 
-            <!-- Project 4: MDflow -->
-            <div class="project-card" style="--accent: #f59e0b">
-              <div class="project-card__corner"></div>
-              <div class="project-card__head">
-                <span class="project-card__icon">
-                  <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                </span>
-                <a href="https://github.com/sjsiwat/MDflow" target="_blank" rel="noopener" class="project-card__ext" aria-label="Open project">
-                  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
-                </a>
-              </div>
-              <h3>MDflow</h3>
-              <p class="project-card__desc">
-                A PDF-to-Markdown pipeline: an n8n workflow watches a Google Drive inbox, uses Gemini
-                to OCR and restructure each file into clean Markdown, then auto-files it into an
-                Obsidian vault. A broken library node meant calling the Drive API v3 directly over
-                OAuth instead.
-              </p>
-              <div class="project-card__tags">
-                <span>n8n</span><span>Docker</span><span>Gemini</span><span>Google Drive API v3</span><span>OAuth 2.0</span>
-              </div>
-              <div class="project-card__preview img-reveal">
+            <article class="project">
+              <div class="project__figure img-reveal">
                 <img src="project-images/n8nnode.png" alt="MDflow n8n workflow diagram" loading="lazy" />
               </div>
-              <div class="project-card__links">
-                <a href="https://github.com/sjsiwat/MDflow" target="_blank" rel="noopener">
-                  <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.08-.73.08-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .3z"/></svg>
-                  GitHub →
-                </a>
+              <div class="project__body">
+                <span class="project__index">04 / 04</span>
+                <h3 class="project__title">MDflow</h3>
+                <p class="project__desc">A PDF-to-Markdown pipeline: an n8n workflow watches a Google Drive inbox, uses Gemini to OCR and restructure each file into clean Markdown, then auto-files it into an Obsidian vault. A broken library node meant calling the Drive API v3 directly over OAuth instead.</p>
+                <p class="project__meta"><span>n8n</span><span>Docker</span><span>Gemini</span><span>Google Drive API v3</span><span>OAuth 2.0</span></p>
+                <div class="project__links">
+                <a class="btn btn--quiet" href="https://github.com/sjsiwat/MDflow" target="_blank" rel="noopener">GitHub <span class="btn__arrow">&#8594;</span></a>
+                </div>
               </div>
-            </div>
+            </article>
 
-            </div>
           </div>
         </div>
       </div>
@@ -520,99 +353,73 @@
 
           <!-- Toggle -->
           <div class="exp-cta">
-            <button class="exp-btn" id="expToggle" aria-expanded="false" aria-controls="expCollapse">
-              <span class="exp-btn__prompt">&gt;</span>
-              <span class="exp-btn__label" id="expLabel">show experience path</span>
+            <button class="exp-btn btn btn--quiet" id="expToggle" aria-expanded="false" aria-controls="expCollapse">
+              <span class="exp-btn__label" id="expLabel">Show experience path</span>
               <span class="exp-btn__chev">
                 <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
               </span>
             </button>
-            <span class="exp-hint">4 chapters · 2017 → present</span>
+            <span class="exp-hint">4 chapters &middot; 2017 &rarr; present</span>
           </div>
 
           <div class="exp-collapse" id="expCollapse">
            <div class="exp-collapse__inner">
-            <div class="timeline">
+              <div class="timeline">
 
-            <!-- Independent projects -->
-            <article class="tl-item" style="--accent: #00c8ff; --delay: 0s">
-              <span class="tl-dot tl-dot--live"></span>
-              <div class="tl-card">
-                <div class="tl-card__head">
-                  <div>
-                    <h3>Full-Stack Developer — Independent Projects</h3>
-                    <p class="tl-org">Chiang Mai</p>
-                  </div>
-                  <span class="tl-chip tl-chip--live"><span class="dot"></span>Apr 2026 – Present</span>
-                </div>
-                <ul class="tl-list">
+              <article class="tl-item">
+                <span class="tl-year">2026 — Present</span>
+                <div>
+                  <h3 class="tl-role">Full-Stack Developer</h3>
+                  <p class="tl-org">Independent Projects · Chiang Mai</p>
+                  <ul class="tl-list">
                   <li>Shipped <strong>JohnyMemo</strong> (johny.siwat.me), a privacy-first productivity PWA — magic-link auth and Row Level Security isolate user data at the database layer, not just in application logic.</li>
                   <li>Built realtime sync with optimistic UI updates and undo-delete, keeping the app responsive on unreliable connections.</li>
                   <li>Rebuilt a serverless visitor-counter API on <strong>Cloudflare Workers + D1</strong>, migrating off AWS Lambda + DynamoDB to cut cost and operational overhead.</li>
                   <li>Deployed <strong>siwat.me</strong> on AWS S3 + CloudFront + ACM, later moved to Cloudflare Pages with GitHub-triggered auto-deploy.</li>
                   <li>Built <strong>MDflow</strong>, a PDF-to-Markdown pipeline (n8n, Docker, Google Drive API, Gemini); bypassed a broken library node by calling the Drive API v3 directly over OAuth.</li>
-                </ul>
-              </div>
-            </article>
-
-            <!-- Generation Thailand — in progress -->
-            <article class="tl-item" style="--accent: #a855f7; --delay: 0.08s">
-              <span class="tl-dot tl-dot--live"></span>
-              <div class="tl-card">
-                <div class="tl-card__head">
-                  <div>
-                    <h3>Full-Stack Web Development Program (JSD13)</h3>
-                    <p class="tl-org">Generation Thailand · currently enrolled</p>
-                  </div>
-                  <span class="tl-chip tl-chip--study"><span class="dot"></span>Jun 2026 – Oct 2026</span>
+                  </ul>
                 </div>
-                <ul class="tl-list">
+              </article>
+
+              <article class="tl-item">
+                <span class="tl-year">2026</span>
+                <div>
+                  <h3 class="tl-role">Full-Stack Web Development (JSD13)</h3>
+                  <p class="tl-org">Generation Thailand · currently enrolled</p>
+                  <ul class="tl-list">
                   <li>Intensive MERN-stack program covering JavaScript, React, Node.js, Express, SQL and MongoDB through practical assignments and team projects.</li>
                   <li>Built an Express REST API over two separate data layers — <strong>PostgreSQL via Supabase</strong> and <strong>MongoDB Atlas</strong> — deployed to Render with the client on Cloudflare Pages.</li>
                   <li>Serving as <strong>Tech Lead (backend)</strong> on the group project — owning API design and deployment, and unblocking the team on production-breaking issues such as a malformed MongoDB URI and a wrong API base URL.</li>
-                </ul>
-              </div>
-            </article>
-
-            <!-- Drive Car Rental -->
-            <article class="tl-item" style="--accent: #10b981; --delay: 0.16s">
-              <span class="tl-dot"></span>
-              <div class="tl-card">
-                <div class="tl-card__head">
-                  <div>
-                    <h3>Senior Sales Supervisor — Drive Car Rental</h3>
-                    <p class="tl-org">Chiang Mai, Thailand</p>
-                  </div>
-                  <span class="tl-chip">2021 – 2026</span>
+                  </ul>
                 </div>
-                <ul class="tl-list">
+              </article>
+
+              <article class="tl-item">
+                <span class="tl-year">2021 — 2026</span>
+                <div>
+                  <h3 class="tl-role">Senior Sales Supervisor</h3>
+                  <p class="tl-org">Drive Car Rental · Chiang Mai</p>
+                  <ul class="tl-list">
                   <li>Led the branch to a <strong>Top 3 revenue ranking company-wide in 2025</strong>, owning sales targets, daily operations and team coaching.</li>
                   <li>Raised service ratings into the Top 3 among Chiang Mai car rental operators on both Google Reviews and Rentalcars.com by standardising service touchpoints and following up on every complaint.</li>
-                </ul>
-              </div>
-            </article>
-
-            <!-- Earlier hospitality -->
-            <article class="tl-item" style="--accent: #6366f1; --delay: 0.24s">
-              <span class="tl-dot"></span>
-              <div class="tl-card">
-                <div class="tl-card__head">
-                  <div>
-                    <h3>Hospitality &amp; Guest Service</h3>
-                    <p class="tl-org">The New Concept · I-River Chiang Mai</p>
-                  </div>
-                  <span class="tl-chip">2017 – 2021</span>
+                  </ul>
                 </div>
-                <ul class="tl-list">
+              </article>
+
+              <article class="tl-item">
+                <span class="tl-year">2017 — 2021</span>
+                <div>
+                  <h3 class="tl-role">Hospitality &amp; Guest Service</h3>
+                  <p class="tl-org">The New Concept · I-River Chiang Mai</p>
+                  <ul class="tl-list">
                   <li><strong>Guest Relation Officer</strong> (2019 – 2021) — VIP guest experience and cross-department coordination.</li>
                   <li><strong>Guest Service Agent</strong> (2017 – 2019) — reservations, check-in/out and customer issue resolution.</li>
-                </ul>
-              </div>
-            </article>
+                  </ul>
+                </div>
+              </article>
 
             </div>
-           </div>
-          </div>
+         </div>
         </div>
       </div>
     </section>
@@ -632,10 +439,7 @@
             Open to junior backend / full stack roles and internships
             <span class="contact__sub-line">Chiang Mai or remote</span>
           </p>
-          <a href="mailto:sj.siwat@gmail.com" class="contact__cta u-line">
-            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-            sj.siwat@gmail.com
-          </a>
+          <a href="mailto:sj.siwat@gmail.com" class="contact__cta u-line">sj.siwat@gmail.com</a>
           <div class="contact__socials">
             <a class="u-line" href="https://github.com/sjsiwat" target="_blank" rel="noopener">
               <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.08-.73.08-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .3z"/></svg>
@@ -658,8 +462,8 @@
   ════════════════════════════════════════════ -->
   <footer>
     <div class="footer__inner">
-      <span class="mono">// Siwat Jankam · 2026</span>
-      <span>Built with HTML · CSS · JavaScript · Cloudflare Pages · Workers</span>
+      <span>Siwat Jankam &mdash; 2026</span>
+      <span>HTML &middot; CSS &middot; JavaScript &middot; Cloudflare Pages &middot; Workers</span>
     </div>
   </footer>
 
