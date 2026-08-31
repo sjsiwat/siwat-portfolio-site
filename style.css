@@ -20,6 +20,14 @@
   --sans:    "Inter", system-ui, sans-serif;
   --mono:    "JetBrains Mono", ui-monospace, monospace;
 
+  /* Type scale — two poles, almost no middle */
+  --fs-hero:    clamp(3.5rem, 13vw, 11rem);
+  --fs-display: clamp(3rem, 11vw, 9rem);
+  --fs-deck:    clamp(2rem, 5.5vw, 4.25rem);
+  --fs-lead:    clamp(1.25rem, 2.2vw, 1.75rem);
+  --fs-body:    1rem;
+  --fs-micro:   11px;
+
   /* Motion — expo-out everywhere, slow and unhurried */
   --ease: cubic-bezier(.16, 1, .3, 1);
   --dur:  700ms;
@@ -95,6 +103,97 @@ strong { font-weight: 500; color: var(--ink); }
   background: var(--ink);
   transition: width 0.1s linear;
 }
+
+/* ════════════════════════════════════════════════════════════
+   TYPOGRAPHY
+   High-contrast scale. Display is enormous, micro-label is tiny,
+   and almost nothing lives in between.
+   ════════════════════════════════════════════════════════════ */
+
+/* ── Display ───────────────────────────────────────────────── */
+.t-display,
+.hero__name,
+.hero__tagline,
+.section-title,
+.contact__title {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: var(--fs-display);
+  letter-spacing: -0.045em;
+  line-height: 0.92;
+  color: var(--ink);
+  margin: 0;
+}
+
+.hero__name { font-size: var(--fs-hero); }
+/* The deck sits under the name — display voice, one step down */
+.hero__tagline {
+  font-size: var(--fs-deck);
+  max-width: 18ch;
+  margin-bottom: clamp(24px, 3vh, 40px);
+}
+
+/* ── Serif italic accent ───────────────────────────────────────
+   One word per heading, five on the page. Optically matched to the
+   grotesk beside it — serif reads smaller at the same size. */
+.accent {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.06em;
+  letter-spacing: -0.01em;
+  line-height: inherit;
+}
+
+/* ── Micro-label ───────────────────────────────────────────── */
+.t-micro,
+.hero__kicker,
+.section-label,
+.stat__label,
+.about-meta span,
+.stack__num,
+.stack__badge,
+.carousel__count,
+.tl-chip,
+.exp-hint,
+.footer__inner {
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1.4;
+  color: var(--mute);
+}
+
+/* ── Body ──────────────────────────────────────────────────── */
+.t-body,
+.hero__intro,
+.about-card p,
+.stack__note,
+.project-card__desc,
+.contact__sub,
+.tl-list {
+  font-family: var(--sans);
+  font-size: var(--fs-body);
+  font-weight: 400;
+  line-height: 1.65;
+  color: var(--dim);
+  max-width: 62ch;
+}
+
+/* ── Lead — the one mid-step allowed, used sparingly ───────── */
+.t-lead {
+  font-family: var(--sans);
+  font-size: var(--fs-lead);
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+/* Left-aligned throughout. Nothing is centred. */
+.section-label.centered { justify-content: flex-start; }
 /* ── Nav ───────────────────────────────────────────────────── */
 .nav {
   position: fixed;
@@ -206,26 +305,13 @@ main { position: relative; z-index: 10; }
   border-top: 1px solid var(--border);
 }
 
-.section-label {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-.section-label.centered { justify-content: center; }
-.section-label .line { width: 1.5rem; height: 1px; background: var(--primary); }
-.section-label span:not(.line) {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: var(--primary);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
+/* Section label — micro-label, sits in the left rail (see LAYOUT) */
+.section-label { display: block; }
+.section-label.centered { text-align: left; }
+.section-label .line { display: none; }
 
-.section-title {
-  font-size: clamp(1.875rem, 5vw, 3rem);
-  font-weight: 700;
-  margin: 0.75rem 0 4rem;
-}
+/* .section-title takes its size from the display rule */
+.section-title { margin-bottom: clamp(48px, 7vh, 96px); }
 
 /* Titles that animate on entry — JS blanks them and locks their height,
    so a page without JS still renders them normally. */
@@ -298,102 +384,60 @@ main { position: relative; z-index: 10; }
   to { opacity: 1; transform: none; }
 }
 
+/* Hero kicker — slash-separated micro-label, top left */
 .hero__kicker {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: var(--primary);
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 2rem;
+  gap: 0.6rem;
+  margin-bottom: clamp(24px, 4vh, 48px);
 }
-.hero__kicker .line {
-  display: inline-block;
-  width: 2rem; height: 1px;
-  background: var(--primary);
-}
+.hero__kicker .line { display: none; }
 
-.hero__name {
-  font-size: clamp(3rem, 8vw, 4.5rem);
-  font-weight: 800;
-  line-height: 0.95;
-  letter-spacing: -0.025em;
-  margin-bottom: 1.5rem;
-}
-.hero__name .outline {
-  color: transparent;
-  -webkit-text-stroke: 2px color-mix(in srgb, var(--ink) 45%, transparent);
-}
+/* .hero__name takes its size from the display rule */
+.hero__name { margin-bottom: clamp(28px, 4vh, 56px); }
 
-/* Glitch effect */
-.glitch {
-  position: relative;
-  display: inline-block;
-}
-.glitch::before, .glitch::after {
-  content: attr(data-text);
-  position: absolute;
-  inset: 0;
-}
-.glitch::before { color: var(--ink); animation: g1 7s infinite; left: 2px; }
-.glitch::after  { color: var(--ink); animation: g2 8s infinite; left: -2px; }
-
-@keyframes g1 {
-  0%, 88%, 100% { clip-path: inset(0 0 100% 0); transform: translate(0); }
-  89% { clip-path: inset(20% 0 50% 0); transform: translate(-4px, 2px); }
-  91% { clip-path: inset(60% 0 10% 0); transform: translate(4px, -2px); }
-  93% { clip-path: inset(40% 0 30% 0); transform: translate(-2px, 1px); }
-  95% { clip-path: inset(10% 0 70% 0); transform: translate(3px, -1px); }
-  97% { clip-path: inset(80% 0 5% 0); transform: translate(-3px, 2px); }
-}
-@keyframes g2 {
-  0%, 83%, 100% { clip-path: inset(0 0 100% 0); transform: translate(0); }
-  84% { clip-path: inset(50% 0 20% 0); transform: translate(4px, -2px); }
-  86% { clip-path: inset(10% 0 60% 0); transform: translate(-4px, 2px); }
-  88% { clip-path: inset(70% 0 5% 0); transform: translate(2px, -1px); }
-  90% { clip-path: inset(30% 0 40% 0); transform: translate(-2px, 1px); }
-}
-
-/* Typing line */
+/* Typing line — role names take the serif italic accent */
 .hero__typing {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
   gap: 0.5rem;
-  min-height: 2.25rem;
-  margin-bottom: 1.5rem;
+  min-height: 2.4rem;
+  margin-bottom: clamp(28px, 4vh, 48px);
 }
-@media (min-width: 640px) { .hero__typing { flex-wrap: nowrap; } }
 .hero__typing .lead {
-  font-size: clamp(1.125rem, 2vw, 1.25rem);
-  font-weight: 300;
-  color: var(--muted-fg);
+  font-size: var(--fs-lead);
+  font-weight: 400;
+  color: var(--dim);
   white-space: nowrap;
 }
 .hero__typing .typed {
-  font-family: var(--font-mono);
-  font-size: clamp(1.125rem, 2vw, 1.25rem);
-  font-weight: 700;
-  color: var(--primary);
+  font-family: var(--sans);
+  font-size: var(--fs-lead);
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  color: var(--ink);
   min-width: 0;
 }
-@media (min-width: 640px) { .hero__typing .typed { min-width: 220px; } }
-.hero__typing .typed { transition: color 0.35s ease, text-shadow 0.35s ease; }
-.hero__typing .typed.is-fun {          /* the off-duty lines get their own colour */
-  color: var(--ink);
+.hero__typing .typed.is-role {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: calc(var(--fs-lead) * 1.06);
+  letter-spacing: -0.01em;
 }
-.hero__typing .caret { animation: blink 1s step-end infinite; }
-@keyframes blink { 50% { opacity: 0; } }
+/* Caret — a thin rule, blinking slowly */
+.hero__typing .caret {
+  display: inline-block;
+  width: 1px;
+  height: 1.05em;
+  background: var(--ink);
+  vertical-align: -0.14em;
+  animation: caret-blink 1.2s steps(1) infinite;
+}
+@keyframes caret-blink { 50% { opacity: 0; } }
 
-.hero__intro {
-  font-size: 0.875rem;
-  color: var(--muted-fg);
-  line-height: 1.7;
-  max-width: 28rem;
-  margin-bottom: 2.5rem;
-}
+/* .hero__intro takes its size from the body rule */
+.hero__intro { margin-bottom: clamp(32px, 5vh, 56px); }
 
 .hero__actions {
   display: flex;
@@ -1427,32 +1471,18 @@ main { position: relative; z-index: 10; }
 .tl-list strong { color: var(--foreground); font-weight: 600; }
 
 /* ── Contact ───────────────────────────────────────────────── */
-.contact { padding: 8rem 0; }
-.contact__inner {
-  max-width: 42rem;
-  margin: 0 auto;
-  text-align: center;
-}
-.contact__title {
-  font-size: clamp(2.25rem, 6vw, 3.75rem);
-  font-weight: 800;
-  line-height: 1.15;
-  margin: 1rem 0 1.25rem;
-}
-.contact__title .gradient { color: var(--ink); }
-.contact__sub {
-  color: var(--muted-fg);
-  font-size: 1.125rem;
-  margin-bottom: 2.5rem;
-}
+.contact__inner { text-align: left; }
+/* .contact__title takes its size from the display rule */
+.contact__title { margin: clamp(24px, 3vh, 40px) 0; }
+.contact__sub { margin-bottom: clamp(40px, 6vh, 72px); }
 .contact__sub-line {
   display: block;
-  margin-top: 0.375rem;
-  font-family: var(--font-mono);
-  font-size: 0.8125rem;
-  letter-spacing: 0.08em;
+  margin-top: 0.75rem;
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  opacity: 0.75;
+  color: var(--mute);
 }
 .contact__cta {
   display: inline-flex;
@@ -1505,10 +1535,12 @@ footer {
 @media (min-width: 768px) { .footer__inner { flex-direction: row; } }
 
 .footer__inner span {
-  font-size: 0.75rem;
-  color: var(--muted-fg);
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mute);
 }
-.footer__inner .mono { font-family: var(--font-mono); }
 
 .visitor-badge {
   display: inline-flex;

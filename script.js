@@ -50,7 +50,7 @@ const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matc
 (function typing() {
   const el = document.getElementById("typedText");
   if (!el) return;
-  // `fun` lines are the off-duty ones — they type out in a different colour.
+  // `fun` lines are the off-duty ones — only role names take the accent.
   const strings = [
     { text: "Full Stack Developer" },
     { text: "Backend-Leaning Builder" },
@@ -71,7 +71,7 @@ const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matc
   function step() {
     const entry = strings[idx % strings.length];
     const current = entry.text;
-    if (wrap) wrap.classList.toggle("is-fun", !!entry.fun);
+    if (wrap) wrap.classList.toggle("is-role", !entry.fun);
     if (!deleting && text === current) {
       deleting = true;
       setTimeout(step, PAUSE);
@@ -88,155 +88,6 @@ const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matc
     setTimeout(step, deleting ? SPEED / 2 : SPEED);
   }
   step();
-})();
-
-/* ── Section titles: decode + typewriter, looping while in view ─ */
-(function sectionTitles() {
-  const titles = document.querySelectorAll(".section-title[data-anim]");
-  if (!titles.length) return;
-  if (reducedMotion || !("IntersectionObserver" in window)) return;
-
-  const GLYPHS = "01<>/\\[]{}()#$%&*+=_|~^:;!?";
-  const rnd = () => GLYPHS[(Math.random() * GLYPHS.length) | 0];
-
-  /* "Who I am" — glyphs scramble, resolve left to right, then re-scramble. */
-  function decoder(el, text) {
-    const SETTLE_STEP = 70, LEAD_IN = 140, HOLD = 3500;
-    let raf = null, timer = null, alive = false;
-
-    function cycle() {
-      if (!alive) return;
-      el.textContent = "";
-
-      const chars = [...text].map((ch) => {
-        const span = document.createElement("span");
-        span.className = "dc-char";
-        span.textContent = ch;
-        el.appendChild(span);
-        return { span, final: ch, blank: ch === " " };
-      });
-      // Freeze each slot at its final width so random glyphs can't jiggle the line.
-      for (const c of chars) c.span.style.width = c.span.getBoundingClientRect().width + "px";
-      for (const c of chars) if (!c.blank) c.span.classList.add("scrambling");
-
-      const t0 = performance.now();
-      let lastFlip = 0;
-
-      raf = requestAnimationFrame(function tick(now) {
-        if (!alive) return;
-        const elapsed = now - t0;
-        const flip = now - lastFlip > 45;
-        if (flip) lastFlip = now;
-        let remaining = 0;
-
-        chars.forEach((c, i) => {
-          if (c.blank || c.done) return;
-          if (elapsed >= LEAD_IN + i * SETTLE_STEP) {
-            c.done = true;
-            c.span.textContent = c.final;
-            c.span.classList.remove("scrambling");
-            c.span.classList.add("settled");
-          } else {
-            remaining++;
-            if (flip) c.span.textContent = rnd();
-          }
-        });
-
-        if (remaining) { raf = requestAnimationFrame(tick); return; }
-
-        // Back to plain text between cycles, so the heading keeps its
-        // normal letter spacing while it rests.
-        timer = setTimeout(() => {
-          if (!alive) return;
-          el.textContent = text;
-          timer = setTimeout(cycle, HOLD);
-        }, 500);
-      });
-    }
-
-    return {
-      start() { if (!alive) { alive = true; cycle(); } },
-      // restore = put the real text back; otherwise rest blank until it
-      // scrolls back into view and replays.
-      stop(restore) {
-        alive = false;
-        cancelAnimationFrame(raf);
-        clearTimeout(timer);
-        el.textContent = restore ? text : "";
-      },
-    };
-  }
-
-  /* The other titles — typed, held, wiped, retyped, under a blinking caret. */
-  function typewriter(el, text) {
-    const HOLD = 5000, GAP = 700, DEL = 28;
-    let timer = null, alive = false;
-
-    return {
-      start() {
-        if (alive) return;
-        alive = true;
-        el.textContent = "";
-        const out = document.createElement("span");
-        const caret = document.createElement("span");
-        caret.className = "tw-caret";
-        el.append(out, caret);
-
-        let i = 0, deleting = false;
-        (function step() {
-          if (!alive) return;
-          if (!deleting && i === text.length) {
-            deleting = true;
-            timer = setTimeout(step, HOLD);
-            return;
-          }
-          if (deleting && i === 0) {
-            deleting = false;
-            timer = setTimeout(step, GAP);
-            return;
-          }
-          i += deleting ? -1 : 1;
-          out.textContent = text.slice(0, i);
-          timer = setTimeout(step, deleting ? DEL : 42 + Math.random() * 38);
-        })();
-      },
-      stop(restore) {
-        alive = false;
-        clearTimeout(timer);
-        el.textContent = restore ? text : "";
-      },
-    };
-  }
-
-  // Blank each title up front (height locked so the layout never jumps).
-  const players = new Map();
-  let everStarted = false;
-
-  for (const el of titles) {
-    const text = el.textContent;
-    el.style.minHeight = el.getBoundingClientRect().height + "px";
-    el.textContent = "";
-    players.set(el, el.dataset.anim === "decode" ? decoder(el, text) : typewriter(el, text));
-  }
-
-  // Runs only while the heading is on screen — off screen it rests as plain text.
-  const observer = new IntersectionObserver((entries) => {
-    for (const entry of entries) {
-      const player = players.get(entry.target);
-      if (!player) continue;
-      if (entry.isIntersecting) { everStarted = true; player.start(); }
-      else player.stop(false);
-    }
-  }, { threshold: 0.6 });
-
-  titles.forEach((el) => observer.observe(el));
-
-  // Safety net: if the observer never fires (page rendered inside a hidden
-  // container, for instance), put the text back rather than leave it blank.
-  setTimeout(() => {
-    if (everStarted) return;
-    players.forEach((player) => player.stop(true));
-  }, 15000);
 })();
 
 /* ── Reveal on scroll ──────────────────────────────────────── */
