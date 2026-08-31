@@ -1011,9 +1011,12 @@ main { position: relative; z-index: 10; flex: 1; }
 .project {
   --fs-project-title: clamp(1.575rem, 2.7vw, 2.475rem);
   /* Supporting work runs narrower than a page, so a second card is always
-     half in view and the featured picture above stays the largest thing in
-     the section by a clear margin — 773px against 618px, 25%. */
-  flex: 0 0 clamp(250px, 78vw, 618px);
+     part in view and the featured picture stays clearly the largest thing
+     in the section. Sized against the track rather than the viewport: the
+     featured figure is eight of twelve columns above 900px and the whole
+     width below it, and only a share of the same box tracks that. Holds the
+     gap at 22% from 375px to 1440px; a vw clamp fell to 12% in between. */
+  flex: 0 0 82%;
   display: flex;
   flex-direction: column;
   scroll-snap-align: start;
@@ -1030,6 +1033,7 @@ main { position: relative; z-index: 10; flex: 1; }
   border-bottom: 1px solid var(--line);
 }
 @media (min-width: 900px) {
+  .project { flex-basis: 54%; }   /* the featured figure is 66% up here */
   .project--featured {
     display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));
