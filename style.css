@@ -738,6 +738,22 @@ main { position: relative; z-index: 10; flex: 1; }
 /* ── Portrait ──────────────────────────────────────────────────
    A plain frame, and the picture in its own colour. */
 .profile { position: relative; }
+.profile__frame { position: relative; }
+
+/* Crop marks — the frame as a plate waiting to be trimmed, the way a
+   print proof marks its own edges. Held off the corner by a gap, the
+   way a real mark never touches the trim it's marking. */
+.crop {
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  pointer-events: none;
+}
+.crop--tl { top: -15px; left: -15px; border-top: 1px solid var(--mute); border-left: 1px solid var(--mute); }
+.crop--tr { top: -15px; right: -15px; border-top: 1px solid var(--mute); border-right: 1px solid var(--mute); }
+.crop--bl { bottom: -15px; left: -15px; border-bottom: 1px solid var(--mute); border-left: 1px solid var(--mute); }
+.crop--br { bottom: -15px; right: -15px; border-bottom: 1px solid var(--mute); border-right: 1px solid var(--mute); }
+
 .profile__img {
   position: relative;
   aspect-ratio: 4 / 5;
