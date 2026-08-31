@@ -247,6 +247,64 @@ const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matc
   });
 })();
 
+/* ── Projects carousel ─────────────────────────────────────────
+   The track scrolls natively — this only draws the rail, steps the
+   buttons by exactly one card, and greys them out at the ends. */
+(function carousel() {
+  const root = document.querySelector("[data-carousel]");
+  if (!root) return;
+  const track = root.querySelector("[data-carousel-track]");
+  const bar = root.querySelector("[data-carousel-bar]");
+  const prev = root.querySelector("[data-carousel-prev]");
+  const next = root.querySelector("[data-carousel-next]");
+  if (!track || !bar || !prev || !next) return;
+
+  document.documentElement.classList.add("js-carousel");
+
+  // One card plus the gap it carries — read from the DOM so the clamp on
+  // the card width stays the single source of truth.
+  function stride() {
+    const card = track.querySelector(".project");
+    if (!card) return track.clientWidth;
+    const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+    return card.getBoundingClientRect().width + gap;
+  }
+
+  function draw() {
+    const max = track.scrollWidth - track.clientWidth;
+    const visible = track.clientWidth / track.scrollWidth;
+    const travel = max > 0 ? track.scrollLeft / max : 0;
+    bar.style.width = (visible * 100).toFixed(3) + "%";
+    bar.style.transform =
+      "translateX(" + (travel * (1 / visible - 1) * 100).toFixed(3) + "%)";
+    // Slack for sub-pixel widths, which keep scrollLeft off its bounds.
+    prev.disabled = track.scrollLeft <= 2;
+    next.disabled = track.scrollLeft >= max - 2;
+  }
+
+  function step(dir) {
+    track.scrollBy({
+      left: dir * stride(),
+      behavior: reducedMotion ? "auto" : "smooth",
+    });
+  }
+  prev.addEventListener("click", () => step(-1));
+  next.addEventListener("click", () => step(1));
+
+  let frame = 0;
+  track.addEventListener("scroll", () => {
+    if (frame) return;
+    frame = requestAnimationFrame(() => { frame = 0; draw(); });
+  }, { passive: true });
+
+  window.addEventListener("resize", draw);
+  // Card width follows a clamp on font size, so wait for the webfonts.
+  const ready = document.fonts && document.fonts.ready
+    ? document.fonts.ready : Promise.resolve();
+  ready.then(draw);
+  draw();
+})();
+
 /* ── Reveal on scroll ──────────────────────────────────────── */
 (function reveal() {
   const els = document.querySelectorAll(".reveal");

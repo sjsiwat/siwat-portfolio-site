@@ -793,66 +793,58 @@ main { position: relative; z-index: 10; flex: 1; }
 }
 @keyframes marquee { to { transform: translateX(-50%); } }
 
-/* ── Projects ──────────────────────────────────────────────────
-   Editorial spreads, not a grid of tiles: the picture and the words
-   swap sides and change width from one entry to the next. */
-.projects { display: block; }
+/* ── Projects — a carousel, one spread to a card ────────────────
+   The entries used to run down the page swapping sides. Sideways they
+   need to agree with each other instead: one width, one picture box, and
+   the links pinned to the foot so the row of them reads as a line. */
+.carousel { border-top: 1px solid var(--line); }
+
+.projects {
+  display: flex;
+  gap: var(--gap);
+  /* The track scrolls in place; the page never moves sideways. */
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  /* The rail below is the scrollbar — the browser's own is redundant. */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  /* Room for focus rings, which the overflow would otherwise clip. The
+     scroll-padding matches it, or the snapped rest position sits at 2px
+     and the "at the start" test never fires. */
+  padding-block: clamp(40px, 6vh, 72px);
+  padding-inline: 2px;
+  scroll-padding-inline: 2px;
+}
+.projects::-webkit-scrollbar { display: none; }
+.projects:focus-visible { outline: 1px solid var(--cobalt); outline-offset: 4px; }
+
 .project {
   --fs-project-title: clamp(1.575rem, 2.7vw, 2.475rem);
-  display: grid;
-  grid-template-columns: repeat(9, minmax(0, 1fr));
-  column-gap: var(--gap);
-  row-gap: clamp(20px, 3vh, 32px);
-  padding-block: clamp(64px, 9vh, 128px);
-  border-top: 1px solid var(--line);
-}
-.project:last-child { border-bottom: 1px solid var(--line); }
-
-/* Stacked on a phone: number and title, picture, then the words */
-.project__head   { grid-column: 1 / -1; }
-.project__figure { grid-column: 1 / -1; }
-.project__text   { grid-column: 1 / -1; }
-
-/* Four rhythms, then it repeats — nothing lines up twice. The number and
-   title hold a row of their own so the picture can start on the second
-   row, level with the description rather than with the index. */
-@media (min-width: 900px) {
-  .project__head   { grid-row: 1; }
-  .project__text   { grid-row: 2; }
-  /* The picture spans both rows and is pushed down past the index, so its
-     top edge lands on the cap of the title rather than on the number. */
-  .project__figure {
-    grid-row: 1 / span 2;
-    align-self: start;
-    margin-top: calc(var(--fs-micro) * 1.4 + 1rem + var(--fs-project-title) * 0.147);
-  }
-
-  .project:nth-child(4n + 1) .project__figure { grid-column: 1 / span 5; }
-  .project:nth-child(4n + 1) .project__head,
-  .project:nth-child(4n + 1) .project__text   { grid-column: 6 / -1; }
-
-  .project:nth-child(4n + 2) .project__figure { grid-column: 4 / -1; }
-  .project:nth-child(4n + 2) .project__head,
-  .project:nth-child(4n + 2) .project__text   { grid-column: 1 / span 3; }
-
-  .project:nth-child(4n + 3) .project__figure { grid-column: 1 / span 6; }
-  .project:nth-child(4n + 3) .project__head,
-  .project:nth-child(4n + 3) .project__text   { grid-column: 7 / -1; }
-
-  .project:nth-child(4n + 4) .project__figure { grid-column: 3 / -1; }
-  .project:nth-child(4n + 4) .project__head,
-  .project:nth-child(4n + 4) .project__text   { grid-column: 1 / span 2; }
-
+  flex: 0 0 clamp(250px, 78vw, 440px);
+  display: flex;
+  flex-direction: column;
+  scroll-snap-align: start;
 }
 
-/* Screenshots keep their own proportions — never cropped to fit a frame.
-   The pictures already differ in shape, and the column spans above give
-   each spread a different width, so no two land the same size. */
+/* Contain, never cover: these are screenshots of real interfaces and they
+   arrive in four different shapes. A fixed box lines the cards up; letting
+   the picture sit inside it keeps every one of them undistorted. */
+.project__figure {
+  aspect-ratio: 16 / 10;
+  margin-bottom: clamp(20px, 3vh, 32px);
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
 .project__figure img {
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: contain;
   transition: transform 1100ms var(--ease);
 }
+
+.project__text { display: flex; flex-direction: column; flex: 1; }
 
 .project__index {
   display: block;
@@ -865,7 +857,7 @@ main { position: relative; z-index: 10; flex: 1; }
   letter-spacing: -0.035em;
   line-height: 1;
   color: var(--ink);
-  margin-bottom: 1rem;
+  margin-bottom: clamp(20px, 3vh, 32px);
 }
 .project__desc { margin-bottom: 1.25rem; }
 .project__meta {
@@ -881,12 +873,79 @@ main { position: relative; z-index: 10; flex: 1; }
   display: flex;
   flex-wrap: wrap;
   gap: 1.5rem;
+  /* Pinned to the foot so the links line up across cards of unequal prose */
+  margin-top: auto;
 }
 .project__links .btn {
   color: var(--cobalt);
   border-bottom-color: color-mix(in srgb, var(--cobalt) 35%, transparent);
 }
 .project__links .btn:hover { color: var(--cobalt); border-bottom-color: var(--cobalt); }
+
+/* ── Carousel controls ─────────────────────────────────────────
+   The rail is the scrollbar, drawn in the page's own hand: a hairline
+   with the accent riding it in proportion to how much is off-screen. */
+.carousel__foot {
+  display: flex;
+  align-items: center;
+  gap: clamp(24px, 4vw, 56px);
+  padding-top: clamp(20px, 2.5vh, 28px);
+  border-top: 1px solid var(--line);
+}
+.carousel__rail {
+  position: relative;
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+.carousel__bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 1px;
+  width: 25%;
+  background: var(--cobalt);
+  transform-origin: left center;
+  will-change: transform;
+}
+.carousel__nav {
+  display: flex;
+  gap: 0.5rem;
+}
+.carousel__btn {
+  width: 2.75rem;
+  height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 1px solid color-mix(in srgb, var(--cobalt) 35%, transparent);
+  font-family: var(--mono);
+  font-size: 14px;
+  line-height: 1;
+  color: var(--cobalt);
+  cursor: pointer;
+  transition: background-color var(--dur-quick) var(--ease),
+              color var(--dur-quick) var(--ease),
+              border-color var(--dur-quick) var(--ease),
+              opacity var(--dur-quick) var(--ease);
+}
+.carousel__btn:hover:not(:disabled),
+.carousel__btn:focus-visible {
+  background: var(--cobalt);
+  border-color: var(--cobalt);
+  color: #fff;
+}
+.carousel__btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+  color: var(--mute);
+  border-color: var(--line);
+}
+
+/* No JS, no controls — the track still scrolls on its own. */
+.carousel__foot { display: none; }
+.js-carousel .carousel__foot { display: flex; }
 
 /* ── Activity — the GitHub calendar, redrawn in the page's own language ──
    No green, no rounded chrome: an ink ramp on paper, with the accent kept
