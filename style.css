@@ -1683,6 +1683,10 @@ footer {
   .case-gallery--phones { grid-template-columns: 1fr; max-width: 220px; }
 }
 
+/* Capped at its own native width — stretching this one to the gallery's
+   full column would upscale it past the resolution it was shot at. */
+.case-figure--compact { max-width: 536px; }
+
 /* ── Decisions — the same numbered rhythm as Skills ─────────── */
 .decision-list { border-top: 1px solid var(--line); }
 .decision {
