@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Johny Memo — Case Study | Siwat Jankam</title>
-  <meta name="description" content="How Johny Memo — a private workspace for tasks, notes and expenses — got built: the constraints, the architecture decisions, and what I'd do differently." />
+  <title>Memo+ — Case Study | Siwat Jankam</title>
+  <meta name="description" content="How Memo+ — a private workspace for tasks, notes and expenses — got built: the constraints, the architecture decisions, and what I'd do differently." />
   <link rel="stylesheet" href="../style.css" />
   <script>
     try {
@@ -92,7 +92,7 @@
           <a class="case-back u-line" href="../index.html#projects">&larr; Selected work</a>
 
           <p class="hero__kicker">Case Study</p>
-          <h1 class="section-title case-title">Johny Memo <span class="accent">— a personal OS</span></h1>
+          <h1 class="section-title case-title">Memo+ <span class="accent">— a personal OS</span></h1>
           <p class="t-lead case-dek">
             Tasks, notes and expenses in one private place. I designed the interface first, then
             built the API, the database and the auth underneath it.
@@ -101,12 +101,12 @@
             <span>Design + full-stack</span><span>Solo</span><span>2026</span><span>Live in production</span>
           </p>
           <div class="project__links">
-            <a class="btn" href="https://johny.siwat.me" target="_blank" rel="noopener">Live site <span class="btn__arrow">&#8599;</span></a>
-            <a class="btn btn--quiet" href="https://github.com/sjsiwat/Little-Johny" target="_blank" rel="noopener">GitHub <span class="btn__arrow">&#8599;</span></a>
+            <a class="btn" href="https://memo.siwat.me" target="_blank" rel="noopener">Live site <span class="btn__arrow">&#8599;</span></a>
+            <a class="btn btn--quiet" href="https://github.com/sjsiwat/myMemo" target="_blank" rel="noopener">GitHub <span class="btn__arrow">&#8599;</span></a>
           </div>
 
           <div class="case-figure img-reveal reveal">
-            <img src="../project-images/johny_memo.png" alt="Johny Memo — the sign-in page and workspace" loading="lazy" />
+            <img src="../project-images/memo_plus.png" alt="Memo+ — the landing page and workspace" loading="lazy" />
           </div>
         </div>
       </div>
@@ -125,7 +125,7 @@
             <p class="t-body">
               I wanted one place for the three lists I was keeping separately — tasks, notes, and
               money going in and out — and I wanted it to feel like mine: fast, private, and not a
-              repurposed spreadsheet. Johny Memo is that place.
+              repurposed spreadsheet. Memo+ is that place.
             </p>
             <p class="t-body" style="margin-top: 1.5rem;">
               It's a solo project, in every sense: I drew the interface and the flows first, in a
@@ -138,25 +138,25 @@
           <div class="case-gallery reveal">
             <figure>
               <div class="case-figure img-reveal">
-                <img src="../project-images/johny-dashboard.png" alt="Johny Memo — the dashboard, with today's focus, spend and latest notes" loading="lazy" />
+                <img src="../project-images/johny-dashboard.png" alt="Memo+ — the dashboard, with today's focus, spend and latest notes" loading="lazy" />
               </div>
               <figcaption>Dashboard — today's tasks, focus items, and spend at a glance</figcaption>
             </figure>
             <figure>
               <div class="case-figure img-reveal">
-                <img src="../project-images/johny-tasks.png" alt="Johny Memo — the tasks board, split into four stages" loading="lazy" />
+                <img src="../project-images/johny-tasks.png" alt="Memo+ — the tasks board, split into four stages" loading="lazy" />
               </div>
               <figcaption>Tasks — a kanban board across four stages</figcaption>
             </figure>
             <figure>
               <div class="case-figure img-reveal">
-                <img src="../project-images/johny-calendar.png" alt="Johny Memo — the calendar, with tasks placed by day" loading="lazy" />
+                <img src="../project-images/johny-calendar.png" alt="Memo+ — the calendar, with tasks placed by day" loading="lazy" />
               </div>
               <figcaption>Calendar — tasks and events by day</figcaption>
             </figure>
             <figure>
               <div class="case-figure img-reveal">
-                <img src="../project-images/johny-expenses.png" alt="Johny Memo — the expenses log, filtered by day, month and year" loading="lazy" />
+                <img src="../project-images/johny-expenses.png" alt="Memo+ — the expenses log, filtered by day, month and year" loading="lazy" />
               </div>
               <figcaption>Expenses — logged by category, filtered by day, month, or year</figcaption>
             </figure>
@@ -365,13 +365,13 @@
               <div class="case-gallery case-gallery--phones">
                 <figure>
                   <div class="case-figure img-reveal">
-                    <img src="../project-images/johny-line-log.png" alt="Johny Memo — logging an expense as a plain LINE message, with the bot confirming the amount, category and date" loading="lazy" />
+                    <img src="../project-images/johny-line-log.png" alt="Memo+ — logging an expense as a plain LINE message, with the bot confirming the amount, category and date" loading="lazy" />
                   </div>
                   <figcaption>Working, after the fix — a spend logged straight from LINE</figcaption>
                 </figure>
                 <figure>
                   <div class="case-figure img-reveal">
-                    <img src="../project-images/johny-line-summary.png" alt="Johny Memo — a monthly expense summary requested and returned inside the LINE chat" loading="lazy" />
+                    <img src="../project-images/johny-line-summary.png" alt="Memo+ — a monthly expense summary requested and returned inside the LINE chat" loading="lazy" />
                   </div>
                   <figcaption>Monthly totals, requested straight from the same chat</figcaption>
                 </figure>
@@ -393,12 +393,12 @@
           <h2 class="section-title">Where it <span class="accent">landed</span></h2>
           <div class="reveal">
             <p class="t-body">
-              Johny Memo is live and in daily use — it's where my own tasks, notes and expense
+              Memo+ is live and in daily use — it's where my own tasks, notes and expense
               tracking actually live now, not a demo dataset built for a portfolio. It's deployed on
-              Cloudflare Pages with Supabase behind it, and it's the featured project on this site.
+              Cloudflare Workers with Supabase behind it, and it's the featured project on this site.
             </p>
             <p class="case-status">
-              <span class="status"><i class="status__dot" aria-hidden="true"></i>Live at johny.siwat.me</span>
+              <span class="status"><i class="status__dot" aria-hidden="true"></i>Live at memo.siwat.me</span>
             </p>
           </div>
         </div>
