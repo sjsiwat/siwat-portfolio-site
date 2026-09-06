@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>notify — Case Study | Siwat Jankam</title>
+  <meta name="description" content="How notify — a personal dashboard for Gmail, Calendar, Slack, Discord and GitHub — got built: the constraints, the architecture decisions, and what I'd do differently." />
+  <link rel="stylesheet" href="../style.css" />
+  <script>
+    try {
+      var t = localStorage.getItem("theme");
+      if (t === "dark" || t === "light") {
+        document.documentElement.setAttribute("data-theme", t);
+      }
+    } catch (e) {}
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+
+  <div class="grid-lines" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <div class="scroll-progress"><div class="scroll-progress__bar" id="progressBar"></div></div>
+
+
+  <!-- ════════════════════════════════════════════
+       NAV
+  ════════════════════════════════════════════ -->
+  <nav class="nav" id="nav">
+    <div class="nav__inner">
+      <a class="nav__logo" href="../index.html">Siwat Jankam</a>
+
+      <div class="nav__links">
+        <a class="nav__link u-line" href="../index.html#about">About</a>
+        <a class="nav__link u-line" href="../index.html#skills">Skills</a>
+        <a class="nav__link u-line" href="../index.html#projects">Projects</a>
+        <a class="nav__link u-line" href="../index.html#experience">Experience</a>
+        <a class="nav__link u-line" href="../index.html#contact">Contact</a>
+        <a href="https://github.com/sjsiwat" target="_blank" rel="noopener" class="nav__github">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.08-.73.08-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .3z"/></svg>
+          GITHUB
+        </a>
+      </div>
+
+      <button class="lamp" id="lamp" type="button" aria-pressed="false"
+              aria-label="Turn the lights down">
+        <svg class="lamp__svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+             stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 1.6V4.9" />
+          <path class="lamp__shade" d="M3.2 13.8C3.2 8.9 7.1 4.9 12 4.9s8.8 4 8.8 8.9Z" />
+          <circle class="lamp__bulb" cx="12" cy="16.7" r="2.4" />
+          <g class="lamp__rays">
+            <path d="M6.4 18.4 4.1 22.0" />
+            <path d="M12 20.5V23.4" />
+            <path d="M17.6 18.4 19.9 22.0" />
+          </g>
+        </svg>
+      </button>
+      <button class="nav__burger" id="burger" aria-label="Toggle menu">
+        <svg id="iconMenu" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+        <svg id="iconClose" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24" style="display:none"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+      </button>
+    </div>
+
+    <div class="nav__mobile" id="mobileMenu">
+      <a href="../index.html#about">About</a>
+      <a href="../index.html#skills">Skills</a>
+      <a href="../index.html#projects">Projects</a>
+      <a href="../index.html#experience">Experience</a>
+      <a href="../index.html#contact">Contact</a>
+    </div>
+  </nav>
+
+
+  <main>
+
+    <!-- ════════════════════════════════════════════
+         CASE STUDY HERO
+    ════════════════════════════════════════════ -->
+    <header class="case-hero">
+      <div class="wrap">
+        <div class="section__body" style="grid-column: 1 / -1;">
+          <a class="case-back u-line" href="../index.html#projects">&larr; Selected work</a>
+
+          <p class="hero__kicker">Case Study</p>
+          <h1 class="section-title case-title">notify <span class="accent">— one page instead of five tabs</span></h1>
+          <p class="t-lead case-dek">
+            Gmail, Google Calendar, Slack, Discord and GitHub, pulled live into a single page —
+            with a login gate, because it reads all of it.
+          </p>
+          <p class="project__meta case-meta">
+            <span>Design + full-stack</span><span>Solo</span><span>2026</span><span>Live in production</span>
+          </p>
+          <div class="project__links">
+            <a class="btn" href="https://notify.siwat.me" target="_blank" rel="noopener">Live site <span class="btn__arrow">&#8599;</span></a>
+            <a class="btn btn--quiet" href="https://github.com/sjsiwat/myDashboard" target="_blank" rel="noopener">GitHub <span class="btn__arrow">&#8599;</span></a>
+          </div>
+
+          <div class="case-figure img-reveal reveal">
+            <img src="../project-images/notify_overview.png" alt="notify — the overview dashboard, pulling Gmail, Slack, Calendar and GitHub into one page" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </header>
+
+
+    <!-- ════════════════════════════════════════════
+         CONTEXT
+    ════════════════════════════════════════════ -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-label"><span>Context</span></div>
+        <div class="section__body">
+          <h2 class="section-title">What it's <span class="accent">for</span></h2>
+          <div class="reveal">
+            <p class="t-body">
+              I check the same five places every morning — Gmail, Google Calendar, Slack, Discord
+              and GitHub — and wanted one page that already knows what's worth reading, instead of
+              five tabs opened out of habit. notify pulls live from each account on every load;
+              nothing is cached in a database anywhere.
+            </p>
+            <p class="t-body" style="margin-top: 1.5rem;">
+              It started as a single vanilla-JS file. This year it got rebuilt into React and
+              Tailwind, and — because it was about to leave localhost for a public domain — it got
+              a login gate it never needed before.
+            </p>
+          </div>
+
+          <div class="case-gallery reveal">
+            <figure>
+              <div class="case-figure img-reveal">
+                <img src="../project-images/notify_mail.png" alt="notify — an inbox item open, flagged for follow-up" loading="lazy" />
+              </div>
+              <figcaption>Inbox — items flagged for follow-up, surfaced automatically</figcaption>
+            </figure>
+            <figure>
+              <div class="case-figure img-reveal">
+                <img src="../project-images/notify_slack.png" alt="notify — Slack direct messages across workspaces (names blurred)" loading="lazy" />
+              </div>
+              <figcaption>Slack — direct messages across every workspace it's connected to</figcaption>
+            </figure>
+            <figure>
+              <div class="case-figure img-reveal">
+                <img src="../project-images/notify_github.png" alt="notify — GitHub contribution calendar and latest commits" loading="lazy" />
+              </div>
+              <figcaption>GitHub — contribution calendar and latest commits, pulled live via GraphQL</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════
+         CONSTRAINTS
+    ════════════════════════════════════════════ -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-label"><span>Constraints</span></div>
+        <div class="section__body">
+          <h2 class="section-title">What it had <span class="accent">to survive</span></h2>
+          <div class="reveal">
+            <p class="t-body">
+              Four things shaped every decision below more than any single feature request did:
+            </p>
+            <ul class="tl-list" style="margin-top: 1.5rem;">
+              <li><strong>One account, one owner.</strong> Not a multi-tenant product — the login gate exists to keep it that way, not to grow into one.</li>
+              <li><strong>Free-tier infrastructure.</strong> A single Render web service and Cloudflare for DNS, not a fleet of anything.</li>
+              <li><strong>Other people's data, not just mine.</strong> Slack DMs and emails from coworkers pass through this page too — the privacy stakes are sharper than a tool that only ever showed my own records.</li>
+              <li><strong>A public URL, for the first time.</strong> Every assumption the original build made about only ever running on localhost had to be found and undone.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════
+         IMPLEMENTATION
+    ════════════════════════════════════════════ -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-label"><span>Implementation</span></div>
+        <div class="section__body">
+          <h2 class="section-title">Simpler the <span class="accent">second time</span></h2>
+          <div class="reveal">
+            <p class="t-body">
+              The rewrite this year went the opposite direction from the usual "add a framework"
+              story — it got simpler by deleting a whole mode, not by adding one.
+            </p>
+          </div>
+
+          <div class="timeline reveal" style="margin-top: clamp(32px, 4vh, 56px);">
+
+            <article class="tl-item">
+              <span class="tl-year">v1</span>
+              <div>
+                <h3 class="tl-role">Vanilla JS, dual-mode</h3>
+                <p class="tl-org">One HTML file that worked two different ways.</p>
+                <ul class="tl-list">
+                  <li>Ran either as a hosted page hitting its own API, or dropped into an artifact host calling the same data through a different transport — two adapters behind one interface.</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="tl-item is-current">
+              <span class="tl-year">v2</span>
+              <div>
+                <h3 class="tl-role">React + Vite + Tailwind</h3>
+                <p class="tl-org">Rebuilt once the dual-mode indirection stopped earning its keep.</p>
+                <ul class="tl-list">
+                  <li>Nobody was using the artifact mode anymore, so it was deleted outright rather than maintained alongside the real app.</li>
+                  <li>Redrew the visual language against a Figma community reference (layered "sticker" shadows on buttons), blended with the app's existing cream-and-red identity instead of replacing it.</li>
+                </ul>
+              </div>
+            </article>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════
+         DECISIONS
+    ════════════════════════════════════════════ -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-label"><span>Decisions</span></div>
+        <div class="section__body">
+          <h2 class="section-title">Four calls, and <span class="accent">what they cost</span></h2>
+
+          <div class="decision-list reveal">
+
+            <div class="decision">
+              <span class="decision__num t-micro">01</span>
+              <div>
+                <h3 class="decision__title">A login gate that's off until you turn it on</h3>
+                <p class="decision__why t-body">
+                  The original localhost-only build had no login at all — anyone with the URL saw
+                  everything. Making it opt-in behind two environment variables meant local
+                  development stayed frictionless while the public deploy could lock down to one
+                  email address, verified through its own separate Google OAuth flow.
+                </p>
+                <p class="decision__tradeoff"><span>Trade-off</span>It's binary — one allowed email per instance, not real multi-user auth. Sharing this with someone else means them running their own copy.</p>
+              </div>
+            </div>
+
+            <div class="decision">
+              <span class="decision__num t-micro">02</span>
+              <div>
+                <h3 class="decision__title">Read live from each API, cache for 60 seconds, store nothing</h3>
+                <p class="decision__why t-body">
+                  Simpler and safer than persisting Gmail or Slack content in a database — there's
+                  nothing to leak from a breach that isn't already reachable through the same OAuth
+                  tokens, and no schema to keep in sync with five providers' different data models.
+                </p>
+                <p class="decision__tradeoff"><span>Trade-off</span>Once the cache expires, the page pays every provider's round-trip on the same load — a slow provider is a slow page, not just a slow section of it.</p>
+              </div>
+            </div>
+
+            <div class="decision">
+              <span class="decision__num t-micro">03</span>
+              <div>
+                <h3 class="decision__title">Calendar edits write straight to Google, not a shadow copy</h3>
+                <p class="decision__why t-body">
+                  Adding, editing or deleting an event calls the real Google Calendar API each time,
+                  so what notify shows and what a phone's calendar app shows never drift apart —
+                  there's no separately-synced copy that could fall behind.
+                </p>
+                <p class="decision__tradeoff"><span>Trade-off</span>Every edit is a live network call. There's no offline drafting — losing connectivity mid-edit means the change didn't happen, not that it's queued.</p>
+              </div>
+            </div>
+
+            <div class="decision">
+              <span class="decision__num t-micro">04</span>
+              <div>
+                <h3 class="decision__title">A plain Node service on Render, not serverless</h3>
+                <p class="decision__why t-body">
+                  A persistent process suited the app better than a cold-starting function would —
+                  the 60-second cache and the Google/Slack/GitHub tokens both live in server memory
+                  and on disk between requests, not re-fetched fresh on every invocation.
+                </p>
+                <p class="decision__tradeoff"><span>Trade-off</span>One server means no automatic multi-region scaling — a ceiling that was never close for a single-owner dashboard, but a real one if that changed.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════
+         WHAT BROKE
+    ════════════════════════════════════════════ -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-label"><span>What broke</span></div>
+        <div class="section__body">
+          <h2 class="section-title">Two things that <span class="accent">only broke in production</span></h2>
+
+          <div class="reveal">
+            <div class="incident">
+              <span class="incident__label">A CSRF guard that had never left localhost</span>
+              <p class="t-body">
+                A same-origin check on every non-GET request only ever allowed <code>localhost</code>
+                or <code>127.0.0.1</code> as a valid origin — a holdover from when the app assumed
+                it would only run on its own developer's machine. Every "mark as read", delete,
+                calendar edit and logout call would have silently failed with a 403 the moment the
+                app left localhost for a real domain. Caught it by testing the production build
+                against a temporary deploy before pointing the real domain at it.
+              </p>
+              <p class="t-body">
+                The fix was to compare the request's <code>Origin</code> against its own
+                <code>Host</code> instead of a hardcoded pattern — one check that works for local
+                dev and the live domain without a special case for either.
+              </p>
+            </div>
+            <div class="incident">
+              <span class="incident__label">A production flag that broke its own build</span>
+              <p class="t-body">
+                Deploying to Render, a <code>NODE_ENV=production</code> variable — added so login
+                cookies would correctly get the <code>Secure</code> flag — also told npm to skip
+                <code>devDependencies</code> during install. Vite itself was a dev dependency, so it
+                wasn't installed by the time the build script tried to run it, and the build failed
+                with <code>vite: not found</code>.
+              </p>
+              <p class="t-body">
+                The fix was two-part: drop the environment variable, and derive the cookie's
+                <code>Secure</code> flag from the live request (<code>req.secure</code>, accurate
+                once <code>trust proxy</code> is set for the platform's reverse proxy) instead of an
+                environment flag that turned out to have a side effect it was never meant to have.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════
+         RESULT
+    ════════════════════════════════════════════ -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-label"><span>Result</span></div>
+        <div class="section__body">
+          <h2 class="section-title">Where it <span class="accent">landed</span></h2>
+          <div class="reveal">
+            <p class="t-body">
+              notify is live and is genuinely the first tab open every morning — the same real
+              inbox, calendar and Slack workspace the login gate exists to protect. It's deployed
+              on Render, with Cloudflare handling DNS for the custom domain, and login is required
+              for anyone who isn't the one allowed email address.
+            </p>
+            <p class="case-status">
+              <span class="status"><i class="status__dot" aria-hidden="true"></i>Live at notify.siwat.me</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════
+         WHAT I'D DO DIFFERENTLY
+    ════════════════════════════════════════════ -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-label"><span>Next time</span></div>
+        <div class="section__body">
+          <h2 class="section-title">What I'd do <span class="accent">differently</span></h2>
+          <div class="reveal">
+            <ul class="tl-list">
+              <li>Load each integration independently from the start, so a slow or rate-limited provider degrades just its own section instead of the whole page waiting on it.</li>
+              <li>Write the "does this survive leaving localhost" checklist before the first public deploy, not after hitting the bug live.</li>
+              <li>Keep the login gate's setup documented inline next to the code that enforces it, not only in a separate setup guide.</li>
+            </ul>
+          </div>
+
+          <div class="case-close reveal" style="margin-top: clamp(56px, 8vh, 88px); padding-top: clamp(32px, 4vh, 56px); border-top: 1px solid var(--line);">
+            <a class="case-back u-line" href="../index.html#projects">&larr; Back to selected work</a>
+            <a class="contact__action" href="mailto:sj.siwat@gmail.com">
+              <span class="contact__action-label">Get in touch</span>
+              <span class="contact__action-arrow" aria-hidden="true">&#8599;</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- ════════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════════ -->
+  <footer>
+    <div class="footer__inner">
+      <nav class="footer__links" aria-label="Elsewhere">
+        <a class="footer__link" href="https://github.com/sjsiwat" target="_blank" rel="noopener">
+          GitHub <span class="footer__arrow" aria-hidden="true">&#8599;</span>
+        </a>
+        <a class="footer__link" href="https://www.linkedin.com/in/siwat-jankam-9a340016a" target="_blank" rel="noopener">
+          LinkedIn <span class="footer__arrow" aria-hidden="true">&#8599;</span>
+        </a>
+        <a class="footer__link" href="https://www.instagram.com/yoksiwat/" target="_blank" rel="noopener">
+          Instagram <span class="footer__arrow" aria-hidden="true">&#8599;</span>
+        </a>
+      </nav>
+
+      <div class="footer__sign">
+        <span class="footer__mark">Siwat Jankam</span>
+        <span class="footer__year">&copy; 2026</span>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="../script.js"></script>
+
+</body>
+</html>
