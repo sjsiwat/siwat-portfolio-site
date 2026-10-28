@@ -1050,6 +1050,23 @@ main { position: relative; z-index: 10; flex: 1; }
   flex-direction: column;
 }
 
+/* An odd card out would sit alone on the last row with half of it empty.
+   Give it the whole row and put the picture and the words side by side, as
+   the featured entries do. Each half is still the width of a normal card,
+   so the prose keeps its measure. */
+@media (min-width: 900px) {
+  .projects > .project:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--gap);
+    align-content: start;
+  }
+  .projects > .project:last-child:nth-child(odd) .project__head   { grid-column: 1 / -1; }
+  .projects > .project:last-child:nth-child(odd) .project__figure { grid-column: 1; align-self: start; }
+  .projects > .project:last-child:nth-child(odd) .project__text   { grid-column: 2; align-self: start; }
+}
+
 /* ── The featured entry ────────────────────────────────────────
    Out of the track and across the whole panel: the picture and the words
    side by side, the way the entries read before they were a carousel. The
