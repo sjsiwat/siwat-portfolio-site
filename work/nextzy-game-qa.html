@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Points Game QA — Case Study | Siwat Jankam</title>
-  <meta name="description" content="How I tested my own points game: a test plan, 62 API tests and 16 browser tests, and the three defects they found, the worst a 500 when two rounds hit a brand-new player at once." />
+  <meta name="description" content="How I tested my own points game: a test plan, 63 API tests and 16 browser tests, and the three defects they found, the worst a 500 when two rounds hit a brand-new player at once, and how they were fixed and re-verified." />
   <link rel="stylesheet" href="../style.css" />
   <script>
     try {
@@ -94,8 +94,8 @@
           <p class="hero__kicker">Case Study</p>
           <h1 class="section-title case-title">Points Game QA <span class="accent">— testing my own game</span></h1>
           <p class="t-lead case-dek">
-            A test plan, 62 API tests and 16 browser tests for the game I built, written as if
-            someone else had built it. What held up, what broke, and what I couldn't check.
+            A test plan, 63 API tests and 16 browser tests for the game I built, written as if
+            someone else had built it. What held up, what broke, how it was fixed, and what I couldn't check.
           </p>
           <p class="project__meta case-meta">
             <span>QA + test automation</span><span>Solo</span><span>2026</span><span>Public repository</span>
@@ -190,7 +190,7 @@
                 <h3 class="decision__title">API tests first, browser tests second</h3>
                 <p class="decision__why t-body">
                   The server owns the rules (the draw, the 10,000 cap, claim-once), so most of the
-                  weight sits there: 62 fast tests with no dependencies. The 16 browser tests cover
+                  weight sits there: 63 fast tests with no dependencies. The 16 browser tests cover
                   the flows, and they check the screen against what the server says it drew.
                 </p>
                 <p class="decision__tradeoff"><span>Trade-off</span>Browser tests are slower (the round animation alone is several seconds) and depend on the live deployment being up.</p>
@@ -219,7 +219,7 @@
                   evidence, but it doesn't turn the suite red. When the bug is fixed the test
                   passes and the marker comes off.
                 </p>
-                <p class="decision__tradeoff"><span>Trade-off</span>It only works if someone reads the todo count. Nine todos for three bugs is written in the README so it can't drift quietly.</p>
+                <p class="decision__tradeoff"><span>Trade-off</span>It only works if someone reads the todo count. I wrote "nine todos for three bugs" in the README; when the fixes landed all nine flipped to passing and the markers came off.</p>
               </div>
             </div>
 
@@ -256,9 +256,11 @@
                 Measured it instead of describing it, then wrote the bug report: steps to
                 reproduce, expected and actual, the table of how often, who can actually hit it
                 (the web app locks the button during a round, so mostly API clients or two tabs),
-                and a suggested fix. My hypothesis is a race when two transactions both try to
-                create the player, hidden behind a generic 500. I had no server logs, so the report
-                says it is a hypothesis.
+                and a suggested fix. My hypothesis was a race when two transactions both try to
+                create the player, hidden behind a generic 500. Production gave me no logs, so
+                the report said it was a hypothesis, until I reproduced it against a local copy
+                of the original code and read the line it logged:
+                <code>Unique constraint failed on the constraint: Player_pkey</code>.
               </p>
             </div>
             <div class="incident">
@@ -267,8 +269,23 @@
                 The claim endpoint treats <code>5e3</code>, <code>0x1388</code> and
                 <code>+5000</code> as checkpoint 5000, although the contract says integer. And the
                 same UUID in upper case is a different player. Both low severity. I checked what
-                the first one could cost: a second claim through any spelling is still refused with
-                409, so claim-once holds.
+                the first one could cost: a second claim through any spelling was still refused
+                with 409, so claim-once held.
+              </p>
+            </div>
+            <div class="incident">
+              <span class="incident__label">The fix</span>
+              <p class="t-body">
+                The player was created with an upsert, which checks and then inserts, so two
+                simultaneous first rounds both tried to insert. It became one
+                <code>INSERT &hellip; ON CONFLICT DO NOTHING</code>. The claim endpoint now converts
+                the checkpoint only when it is exactly <code>5000</code>, <code>7500</code> or
+                <code>10000</code>, and the player id is lower-cased. The two input fixes came with
+                unit tests that fail on the old code; the race is covered by the API test. Re-running everything against the redeployed
+                production, the trial that failed <strong>30 of 30</strong> times now fails
+                <strong>0 of 30</strong>, and a burst of 25 went from 28 failed requests in 100 to
+                none. One of my own tests had asserted the old behaviour (a 409 for
+                <code>5e3</code>); it now asserts the correct 400, because the product changed.
               </p>
             </div>
             <div class="incident">
@@ -295,14 +312,15 @@
           <h2 class="section-title">Where it <span class="accent">landed</span></h2>
           <div class="reveal">
             <p class="t-body">
-              78 automated tests: 53 of 62 API tests pass and the other 9 are the open defects,
-              and all 16 browser tests pass. The rules that matter most held. A reward can't be
-              claimed twice, even by ten simultaneous requests. Parallel rounds for an existing
-              player never lost a point. The cap, reset and 100-row history limit all behave as
-              documented, and the screen agrees with the server.
+              79 automated tests, all passing: 63 API and 16 browser. The rules that mattered most
+              held from the first run. A reward can't be claimed twice, even by ten simultaneous
+              requests. Parallel rounds for an existing player never lost a point. The cap, reset
+              and 100-row history limit all behave as documented, and the screen agrees with the
+              server. The three defects it found were then fixed in the game and re-verified on
+              production.
             </p>
             <p class="case-status">
-              <span class="status"><i class="status__dot" aria-hidden="true"></i>Public repository &middot; 3 defects reported, none fixed yet</span>
+              <span class="status"><i class="status__dot" aria-hidden="true"></i>Public repository &middot; 3 defects found, fixed and verified on production</span>
             </p>
           </div>
 
@@ -317,7 +335,7 @@
               <div class="case-figure img-reveal">
                 <img src="../project-images/qa-bug.webp" alt="BUG-001 as rendered on GitHub: status, severity, component and summary" loading="lazy" />
               </div>
-              <figcaption>BUG-001, the worst of the three, written up for a developer to act on</figcaption>
+              <figcaption>BUG-001, the worst of the three: written up, then closed with the commit that fixed it</figcaption>
             </figure>
             <figure>
               <div class="case-figure img-reveal">
@@ -341,7 +359,7 @@
           <h2 class="section-title">What I'd do <span class="accent">differently</span></h2>
           <div class="reveal">
             <ul class="tl-list">
-              <li>Run the same suite against a local copy as well, so I can read the server logs and confirm the cause of the 500 instead of reporting a hypothesis.</li>
+              <li>Run the suite against a local copy from the start, not only after a failure. I read the server log and confirmed the cause of the 500 only once production had already shown me the symptom.</li>
               <li>Put the API tests on a schedule in CI, with a warm-up request first so the cold start doesn't look like a failure.</li>
               <li>Cover Safari and Firefox. Everything ran in Chrome, so the <code>&lt;dialog&gt;</code> behaviour and layout elsewhere are untested.</li>
               <li>Add a light load check on a local instance. I left it out of production on purpose, which also means it isn't covered at all.</li>

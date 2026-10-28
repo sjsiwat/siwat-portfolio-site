@@ -454,10 +454,11 @@
               <div class="project__text">
                 <p class="project__lead">I tested my own game as if someone else had built it.</p>
                 <p class="project__desc">
-                  A test plan, 62 API tests and 16 browser tests for the points game below, written
+                  A test plan, 63 API tests and 16 browser tests for the points game below, written
                   against its README and API contract. The rules that matter held; it also found
                   three defects, the worst a 500 when two rounds hit a brand-new player at once
-                  (30 of 30 trials). Each is written up with steps, impact and a suggested fix.
+                  (30 of 30 trials). I wrote each up, fixed them in the game, and re-ran everything
+                  on production: that trial now fails 0 of 30.
                 </p>
                 <p class="project__craft" aria-label="What I handled on this project">
                   <span>Test plan</span><span>Exploratory testing</span><span>API tests</span><span>End-to-end tests</span><span>Bug reports</span>
@@ -708,7 +709,7 @@
                     <li>Rebuilt a serverless visitor-counter API on <strong>Cloudflare Workers + D1</strong>, migrating off AWS Lambda + DynamoDB to cut cost and operational overhead.</li>
                     <li>Deployed <strong>siwat.me</strong> on AWS S3 + CloudFront + ACM, later moved to Cloudflare Pages with GitHub-triggered auto-deploy.</li>
                     <li>Built <strong>MDflow</strong>, a PDF-to-Markdown pipeline (n8n, Docker, Google Drive API, Gemini); bypassed a broken library node by calling the Drive API v3 directly over OAuth.</li>
-                    <li>Wrote a <strong>test plan, 62 API tests and 16 Playwright tests</strong> for my own points game and reported three defects, including a 500 on parallel first rounds that failed 30 of 30 trials.</li>
+                    <li>Wrote a <strong>test plan, 63 API tests and 16 Playwright tests</strong> for my own points game, reported three defects (including a 500 on parallel first rounds that failed 30 of 30 trials), then fixed them and verified the fix on production.</li>
                     </ul>
                   </div>
                 </article>
