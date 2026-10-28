@@ -91,7 +91,7 @@ this repo.
 
 ## Contact
 
-Chiang Mai, Thailand — open to junior full-stack / frontend roles & internships.
+Chiang Mai, Thailand — open to roles in software, analysis, QA, implementation & customer success.
 
 - [sj.siwat@gmail.com](mailto:sj.siwat@gmail.com)
 - [github.com/sjsiwat](https://github.com/sjsiwat)
