@@ -1174,6 +1174,14 @@ main { position: relative; z-index: 10; flex: 1; }
   margin-bottom: 1.5rem;
 }
 .project__meta span:not(:last-child)::after { content: " · "; }
+/* A line of fine print between the tags and the links, quiet on purpose */
+.project__note {
+  font-family: var(--sans);
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--mute);
+  margin: -0.5rem 0 1.5rem;
+}
 .project__links {
   display: flex;
   flex-wrap: wrap;
