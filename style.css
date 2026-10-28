@@ -797,6 +797,16 @@ main { position: relative; z-index: 10; flex: 1; }
 }
 .portrait.is-unmasked .portrait__real { opacity: 1; }
 
+/* Two photographs take turns: each time the frame is opened, the next
+   print is the one that shows. Only the print named by data-photo renders. */
+.portrait__print {
+  position: absolute;
+  inset: 0;
+  display: none;
+}
+.portrait[data-photo="0"] .portrait__print[data-print="0"],
+.portrait[data-photo="1"] .portrait__print[data-print="1"] { display: block; }
+
 /* Colour by day, the graded black-and-white by night — same crop, two
    prints stacked in the frame, only one ever rendered. */
 .portrait__real--bw { display: none; }

@@ -314,8 +314,18 @@ const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matc
   const toggle = document.querySelector("[data-portrait-toggle]");
   if (!frame || !toggle) return;
 
+  // Each time the frame opens, the next photograph takes its turn. The swap
+  // happens while it is still masked, so the fade-in already shows the new
+  // one and the fade-out never swaps under the viewer's eyes.
+  const prints = frame.querySelectorAll("[data-print]").length;
+  let turn = -1;
+
   const pin = () => {
     const on = !frame.classList.contains("is-unmasked");
+    if (on && prints) {
+      turn = (turn + 1) % prints;
+      frame.dataset.photo = String(turn);
+    }
     frame.classList.toggle("is-unmasked", on);
     toggle.setAttribute("aria-pressed", String(on));
   };
